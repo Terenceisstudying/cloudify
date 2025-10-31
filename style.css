@@ -1,0 +1,322 @@
+/* ======== GLOBAL STYLES ======== */
+:root {
+    --color-primary: #333333;  /* High-contrast dark charcoal */
+    --color-light-bg: #f4f7f6;
+    --color-dark-text: #333;
+    --color-light-text: #777;
+    --color-card-bg: #ffffff;
+    --color-risk-low: #4CAF50;
+    --color-risk-medium: #FFC107;
+    --color-risk-high: #F44336;
+    --border-radius: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--color-light-bg);
+    color: var(--color-dark-text);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* NEW: Increase base text size */
+    font-size: 1.1rem; 
+}
+
+.container {
+    padding: 0 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* ======== SCREEN MANAGEMENT ======== */
+.screen {
+    display: none; /* Hide screens by default */
+    min-height: 100vh;
+    padding-top: 20px;
+}
+
+.screen.active {
+    display: block; /* Show the active screen */
+}
+
+/* ======== ONBOARDING (SCREEN 1) ======== */
+#screen-onboarding h1 {
+    font-size: 2rem; /* INCREASED */
+    color: var(--color-primary);
+}
+
+.form-group {
+    margin: 20px 0;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.15rem; /* INCREASED */
+}
+
+input[type="number"], input[type="text"] {
+    width: calc(100% - 24px); /* Adjusted for padding */
+    padding: 12px; /* INCREASED */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1rem; /* INCREASED */
+}
+
+.radio-group {
+    display: flex;
+    gap: 10px;
+}
+.radio-group label {
+    font-weight: 500; /* Bolder */
+    padding: 15px; /* INCREASED */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1.1rem; /* INCREASED */
+}
+input[type="radio"] {
+    display: none;
+}
+input[type="radio"]:checked + label {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* ======== BUTTON STYLES ======== */
+button, .button {
+    display: inline-block;
+    width: 100%;
+    padding: 18px; /* INCREASED */
+    font-size: 1.25rem; /* INCREASED */
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.button-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+/* ======== GAME (SCREEN 2) ======== */
+.game-header {
+    padding: 10px 20px;
+}
+
+#risk-factor-bar {
+    width: 100%;
+    height: 12px; /* INCREASED */
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#risk-factor-progress {
+    width: 1%; /* Start at 1% */
+    height: 100%;
+    background-color: var(--color-risk-low);
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+#risk-factor-label {
+    text-align: center;
+    display: block;
+    font-weight: 700; /* Bolder */
+    margin-top: 8px; /* INCREASED */
+    font-size: 1.1rem; /* INCREASED */
+    color: var(--color-risk-low);
+}
+
+#card-container {
+    position: relative;
+    width: 90vw;
+    max-width: 450px;
+    height: 60vh;
+    margin: 20px auto;
+    perspective: 1000px;
+    z-index: 2; /* NEW: Ensures card is above glow */
+}
+
+#question-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.75rem; /* INCREASED */
+    font-weight: 600;
+    line-height: 1.4; /* Added for readability */
+    padding: 20px;
+    background-color: var(--color-card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    user-select: none;
+    cursor: grab;
+    transition: transform 0.3s ease;
+}
+
+/* Card drag/swipe visual state */
+#question-card.dragging {
+    cursor: grabbing;
+    transition: none;
+}
+
+/* Feedback Overlays */
+.feedback-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2.2rem; /* INCREASED */
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    z-index: 10;
+}
+
+#feedback-correct {
+    color: var(--color-risk-low);
+    border: 4px solid var(--color-risk-low);
+    transform: rotate(-15deg);
+}
+
+#feedback-wrong {
+    color: var(--color-risk-high);
+    border: 4px solid var(--color-risk-high);
+    transform: rotate(15deg);
+    left: auto;
+    right: 20px;
+}
+
+/* Swipe animations */
+.swipe-left {
+    animation: swipeLeft 0.5s forwards;
+}
+.swipe-right {
+    animation: swipeRight 0.5s forwards;
+}
+.swipe-down {
+    animation: swipeDown 0.5s forwards;
+}
+
+@keyframes swipeLeft {
+    to { transform: translateX(-1000px) rotate(-30deg); opacity: 0; }
+}
+@keyframes swipeRight {
+    to { transform: translateX(1000px) rotate(30deg); opacity: 0; }
+}
+@keyframes swipeDown {
+    to { transform: translateY(1000px); opacity: 0; }
+}
+
+#progress-counter {
+    text-align: center;
+    font-size: 1.1rem; /* INCREASED */
+    color: var(--color-light-text);
+}
+
+#feedback-explanation {
+    text-align: center;
+    font-size: 1.2rem; /* INCREASED */
+    min-height: 4em;
+    font-weight: 500;
+    line-height: 1.5; /* Added for readability */
+}
+
+/* ======== RESULTS (SCREEN 3) ======== */
+#screen-results h2 {
+    font-size: 2rem; /* INCREASED */
+    text-align: center;
+}
+#screen-results h3 {
+    text-align: center;
+    font-size: 1.6rem; /* INCREASED */
+    margin-top: 0;
+}
+#results-summary {
+    text-align: center;
+    font-size: 1.2rem; /* INCREASED */
+    line-height: 1.5; /* Added for readability */
+    margin-bottom: 25px;
+}
+#results-form {
+    margin: 30px 0;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+#results-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 1.1rem; /* INCREASED */
+}
+.disclaimer {
+    font-size: 0.9rem; /* INCREASED */
+    color: var(--color-light-text);
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    margin-top: 30px;
+    line-height: 1.5; /* Added for readability */
+}
+
+/* NEW: Make the final 'Book Screening' button stand out with Red */
+#book-screening-btn {
+    background-color: var(--color-risk-high);
+    color: white;
+}
+
+/* ======== NEW: GLOW EFFECT ======== */
+#glow-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, var(--glow-color, transparent) 0%, transparent 70%);
+    opacity: 0;
+    z-index: 1; /* Sits behind the card */
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+
+/* ======== MEDIA QUERY FOR SMALL PHONES ======== */
+@media (max-width: 450px) {
+    
+    body {
+        font-size: 1.05rem; /* Adjust base size for small phones */
+    }
+
+    #card-container {
+        height: 55vh; 
+    }
+
+    #question-card {
+        font-size: 1.5rem; /* Adjust card font for small phones */
+    }
+
+    .feedback-overlay {
+        font-size: 1.8rem;
+    }
+}

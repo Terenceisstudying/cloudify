@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCS Interactive CRC Risk Assessment Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main id="screen-onboarding" class="screen active">
+        <div class="container">
+            <h1>CRC Risk Awareness by SCS</h1>
+            <p>Come, answer some questions, we check your risk level for you! Prizes to be won after completion!</p>
+            <form id="onboarding-form">
+                <div class="form-group">
+                    <label for="age">1. What is your age?</label>
+                    <input type="number" id="age" min="18" max="99" required>
+                </div>
+                <div class="form-group">
+                    <label>2. What is your sex at birth?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="sex-male" name="sex" value="Male" required>
+                        <label for="sex-male">Male</label>
+                        <input type="radio" id="sex-female" name="sex" value="Female" required>
+                        <label for="sex-female">Female</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>3. Has a close relative (parent, sibling, child) had colorectal cancer?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="family-history-yes" name="family-history" value="Yes" required>
+                        <label for="family-history-yes">Yes</label>
+                        <input type="radio" id="family-history-no" name="family-history" value="No" required>
+                        <label for="family-history-no">No</label>
+                        <input type="radio" id="family-history-unknown" name="family-history" value="Unknown" required>
+                        <label for="family-history-unknown">Don't Know</label>
+                    </div>
+                </div>
+                <button type="submit" id="start-game-btn" disabled>Start Assessment</button>
+            </form>
+        </div>
+    </main>
+
+    <main id="screen-game" class="screen">
+        
+        <div id="glow-overlay"></div>
+
+        <div class="game-header">
+            <div id="risk-factor-bar">
+                <div id="risk-factor-progress"></div>
+            </div>
+            <span id="risk-factor-label">LOW RISK</span>
+        </div>
+
+        <div id="card-container">
+            <div id="question-card">
+                <p id="question-text">This is where the question will go.</p>
+            </div>
+            <div id="feedback-correct" class="feedback-overlay">Steady! (NO)</div>
+            <div id="feedback-wrong" class="feedback-overlay">Aiyo! (YES)</div>
+        </div>
+        
+        <p id="progress-counter" class="container">1 / 15</p>
+
+        <div id="feedback-explanation" class="container">
+            <p></p>
+        </div>
+    </main>
+
+    <main id="screen-results" class="screen">
+        <div class="container">
+            <h2>Your Results</h2>
+            <h3 id="results-risk-level">MEDIUM RISK</h3>
+            <p id="results-summary">
+                Your answers show that your diet and family history are your biggest risk areas.
+            </p>
+
+            <a href="#" id="book-screening-btn" class="button">Book Your Cancer Screening Appointment With Us Today!</a>
+
+            <form id="results-form">
+                <label for="email-phone">Enter your email or phone number to receive your detailed results and action plan.</label>
+                <input type="text" id="email-phone" placeholder="Email / Phone Number">
+                <button type="submit" class="button">Submit</button>
+            </form>
+
+            <button id="play-again-btn" class="button button-secondary">Play Again?</button>
+
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This game is for educational purposes only and is not medical advice. The result is based on your self-reported answers to common risk factors. Please consult a doctor for a personal health assessment.
+            </p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
