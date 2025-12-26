@@ -3,9 +3,16 @@ export class DOMElements {
     constructor() {
         // Screens
         this.screens = {
+            landing: document.getElementById('screen-landing'),
             onboarding: document.getElementById('screen-onboarding'),
             game: document.getElementById('screen-game'),
             results: document.getElementById('screen-results')
+        };
+
+        // Landing elements
+        this.landing = {
+            assessmentCards: document.querySelectorAll('.assessment-card'),
+            cardButtons: document.querySelectorAll('.card-btn')
         };
 
         // Onboarding elements
@@ -14,8 +21,15 @@ export class DOMElements {
             ageInput: document.getElementById('age-input'),
             ageSlider: document.getElementById('age-slider'),
             sexInputs: document.querySelectorAll('input[name="sex"]'),
+            ethnicityInputs: document.querySelectorAll('input[name="ethnicity"]'),
+            ethnicityOthersContainer: document.getElementById('ethnicity-others-container'),
+            ethnicityOthersInput: document.getElementById('ethnicity-others-input'),
             familyHistoryInputs: document.querySelectorAll('input[name="family-history"]'),
-            startButton: document.getElementById('start-game-btn')
+            startButton: document.getElementById('start-game-btn'),
+            backButton: document.getElementById('back-to-landing'),
+            assessmentTitle: document.getElementById('assessment-title'),
+            assessmentSubtitle: document.getElementById('assessment-subtitle'),
+            familyHistoryLabel: document.getElementById('family-history-label')
         };
 
         // Game elements
@@ -43,6 +57,7 @@ export class DOMElements {
             recommendationsContainer: document.getElementById('recommendations-container'),
             resultsForm: document.getElementById('results-form'),
             emailPhone: document.getElementById('email-phone'),
+            formMessage: document.getElementById('results-form-message'),
             playAgainBtn: document.getElementById('play-again-btn')
         };
 

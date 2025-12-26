@@ -5,6 +5,7 @@ import { UIController } from './uiController.js';
 import { RISK_WEIGHTS } from './constants.js';
 import { QUESTIONS } from './questions.js';
 import { getRecommendations } from './recommendations.js';
+import { ApiService } from './apiService.js';
 
 /**
  * Main Application Controller
@@ -16,6 +17,9 @@ class RiskAssessmentApp {
         this.state = new GameState();
         this.mascot = new MascotController(this.dom.mascot);
         this.ui = new UIController(this.dom);
+        this.answers = []; // Track answers for API submission
+        this.useBackend = true; // Toggle to use API or fallback to local
+        this.selectedAssessment = 'colorectal'; // Default assessment type
 
         this.initialize();
     }
@@ -28,6 +32,7 @@ class RiskAssessmentApp {
         }
 
         // Setup event listeners
+        this._setupLandingListeners();
         this._setupOnboardingListeners();
         this._setupGameListeners();
         this._setupResultsListeners();
@@ -35,8 +40,73 @@ class RiskAssessmentApp {
         console.log('Risk Assessment App Initialized');
     }
 
+    // Landing Phase
+    _setupLandingListeners() {
+        // Assessment card buttons
+        this.dom.landing.cardButtons?.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const assessmentType = e.target.dataset.assessment;
+                this._selectAssessment(assessmentType);
+            });
+        });
+
+        // Assessment cards (click anywhere on card)
+        this.dom.landing.assessmentCards?.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Only trigger if clicking on card, not on button
+                if (!e.target.classList.contains('card-btn')) {
+                    const assessmentType = card.dataset.assessment;
+                    this._selectAssessment(assessmentType);
+                }
+            });
+        });
+    }
+
+    _selectAssessment(assessmentType) {
+        this.selectedAssessment = assessmentType;
+        this._updateOnboardingForAssessment(assessmentType);
+        this.dom.switchScreen('onboarding');
+    }
+
+    _updateOnboardingForAssessment(assessmentType) {
+        const titles = {
+            colorectal: {
+                title: 'Colorectal Cancer Risk Assessment',
+                subtitle: 'Answer a few questions to get your personalized risk assessment and prevention plan.',
+                familyLabel: 'Has a close relative (parent, sibling, child) had colorectal cancer?'
+            },
+            breast: {
+                title: 'Breast Cancer Risk Assessment',
+                subtitle: 'Answer a few questions to get your personalized breast cancer risk assessment and prevention plan.',
+                familyLabel: 'Has a close relative (parent, sibling, child) had breast cancer?'
+            },
+            cervical: {
+                title: 'Cervical Cancer Risk Assessment',
+                subtitle: 'Answer a few questions to get your personalized cervical cancer risk assessment and prevention plan.',
+                familyLabel: 'Has a close relative (parent, sibling, child) had cervical cancer?'
+            }
+        };
+
+        const config = titles[assessmentType] || titles.colorectal;
+
+        if (this.dom.onboarding.assessmentTitle) {
+            this.dom.onboarding.assessmentTitle.textContent = config.title;
+        }
+        if (this.dom.onboarding.assessmentSubtitle) {
+            this.dom.onboarding.assessmentSubtitle.textContent = config.subtitle;
+        }
+        if (this.dom.onboarding.familyHistoryLabel) {
+            this.dom.onboarding.familyHistoryLabel.textContent = `4. ${config.familyLabel} *`;
+        }
+    }
+
     // Onboarding Phase
     _setupOnboardingListeners() {
+        // Back to landing button
+        this.dom.onboarding.backButton?.addEventListener('click', () => {
+            this.dom.switchScreen('landing');
+        });
+
         // Age input/slider sync
         this.dom.onboarding.ageInput?.addEventListener('input', (e) => {
             if (this.dom.onboarding.ageSlider) {
@@ -60,6 +130,22 @@ class RiskAssessmentApp {
             });
         });
 
+        // Ethnicity selection
+        this.dom.onboarding.ethnicityInputs?.forEach(input => {
+            input.addEventListener('change', (e) => {
+                if (e.target.value === 'Others') {
+                    this.dom.onboarding.ethnicityOthersContainer?.classList.remove('hidden');
+                } else {
+                    this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
+                }
+                this._checkFormValidity();
+            });
+        });
+
+        this.dom.onboarding.ethnicityOthersInput?.addEventListener('input', () => {
+            this._checkFormValidity();
+        });
+
         // Family history
         this.dom.onboarding.familyHistoryInputs?.forEach(input => {
             input.addEventListener('change', () => {
@@ -79,22 +165,54 @@ class RiskAssessmentApp {
         const sex = document.querySelector('input[name="sex"]:checked');
         const familyHistory = document.querySelector('input[name="family-history"]:checked');
 
-        const isValid = age && sex && familyHistory;
+        let ethnicityValid = false;
+        const selectedEthnicity = document.querySelector('input[name="ethnicity"]:checked');
+        if (selectedEthnicity) {
+            if (selectedEthnicity.value === 'Others') {
+                ethnicityValid = this.dom.onboarding.ethnicityOthersInput?.value.trim() !== '';
+            } else {
+                ethnicityValid = true;
+            }
+        }
+
+        const isValid = age && sex && familyHistory && ethnicityValid;
 
         if (this.dom.onboarding.startButton) {
             this.dom.onboarding.startButton.disabled = !isValid;
+            this.dom.onboarding.startButton.setAttribute('aria-disabled', !isValid);
         }
     }
 
-    _startAssessment() {
+    async _startAssessment() {
         // Collect user data
-        const age = this.dom.onboarding.ageInput?.value;
+        const age = parseInt(this.dom.onboarding.ageInput?.value);
         const sex = document.querySelector('input[name="sex"]:checked')?.value;
         const familyHistory = document.querySelector('input[name="family-history"]:checked')?.value;
 
-        // Update state
-        this.state.setUserData(age, sex, familyHistory);
-        this.state.setQuestions(QUESTIONS);
+        const eth = document.querySelector('input[name="ethnicity"]:checked')?.value;
+        const ethnicity = (eth === 'Others') ? this.dom.onboarding.ethnicityOthersInput?.value.trim() : eth;
+
+        // Update state with assessment type
+        this.state.setUserData(age, sex, familyHistory, ethnicity, this.selectedAssessment);
+        this.answers = []; // Reset answers array
+
+        // Fetch questions from API or use local fallback
+        let questions = [];
+        if (this.useBackend) {
+            try {
+                // For now, use local questions based on assessment type
+                // In production, this would call different API endpoints
+                questions = this._getQuestionsForAssessment(this.selectedAssessment);
+                console.log(`Questions loaded for ${this.selectedAssessment} assessment`);
+            } catch (error) {
+                console.warn('Using local questions:', error);
+                questions = this._getQuestionsForAssessment(this.selectedAssessment);
+            }
+        } else {
+            questions = this._getQuestionsForAssessment(this.selectedAssessment);
+        }
+
+        this.state.setQuestions(questions);
 
         // Add family history risk if applicable
         if (familyHistory === 'Yes') {
@@ -105,6 +223,12 @@ class RiskAssessmentApp {
         // Switch to game screen
         this.dom.switchScreen('game');
         this._showNextQuestion();
+    }
+
+    _getQuestionsForAssessment(assessmentType) {
+        // For now, return colorectal questions for all types
+        // In production, you'd have different question sets for each cancer type
+        return QUESTIONS;
     }
 
     // Game Phase
@@ -175,7 +299,7 @@ class RiskAssessmentApp {
             return;
         }
 
-        this.ui.showQuestion(question.question);
+        this.ui.showQuestion(question.prompt || question.question);
         const progress = this.state.getProgress();
         this.ui.updateProgress(progress.current, progress.total);
         this.ui.hideExplanation();
@@ -187,6 +311,14 @@ class RiskAssessmentApp {
 
         const isRisk = (direction === 'left' && question.correctAnswer === 'No') ||
             (direction === 'right' && question.correctAnswer === 'Yes');
+
+        // Track answer for API submission
+        this.answers.push({
+            questionId: question.id,
+            isRisk: isRisk,
+            risk: question.risk,
+            category: question.category
+        });
 
         // Update UI feedback
         this.ui.showFeedback(direction === 'left');
@@ -224,11 +356,24 @@ class RiskAssessmentApp {
 
         this.dom.results.resultsForm?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Thank you! Results would be sent to: ' + this.dom.results.emailPhone?.value);
+
+            const value = this.dom.results.emailPhone?.value.trim();
+            const messageEl = this.dom.results.formMessage;
+            if (!messageEl) return;
+
+            if (value) {
+                messageEl.textContent = `Thank you! Your results would be sent to: ${value}`;
+                messageEl.classList.remove('error');
+                messageEl.classList.add('success');
+            } else {
+                messageEl.textContent = 'You did not enter any contact details. You can still review your results on this page.';
+                messageEl.classList.remove('success');
+                messageEl.classList.add('error');
+            }
         });
     }
 
-    _showResults() {
+    async _showResults() {
         this.dom.switchScreen('results');
 
         // Display results
@@ -239,6 +384,18 @@ class RiskAssessmentApp {
         const answerCounts = this.state.getAnswerCounts();
         this.ui.renderRiskBreakdown(categoryRisks, answerCounts);
 
+        // Submit assessment to backend (if enabled)
+        if (this.useBackend) {
+            try {
+                const userData = this.state.getUserData();
+                await ApiService.submitAssessment(userData, this.answers);
+                console.log('Assessment submitted to backend');
+            } catch (error) {
+                console.warn('Failed to submit assessment to backend:', error);
+                // Continue anyway - results still shown
+            }
+        }
+
         // Generate and show recommendations
         const recommendations = getRecommendations(this.state);
         this.ui.renderRecommendations(recommendations);
@@ -247,9 +404,12 @@ class RiskAssessmentApp {
     _resetApp() {
         this.state.reset();
         this.mascot.hide();
-        this.dom.switchScreen('onboarding');
+        this.selectedAssessment = 'colorectal'; // Reset to default
+        this.dom.switchScreen('landing');
         this.dom.onboarding.form?.reset();
-        this._checkFormValidity();
+        this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
+        if (this.dom.onboarding.ageSlider) this.dom.onboarding.ageSlider.value = 18;
+        // Don't call _checkFormValidity() on landing screen
     }
 }
 

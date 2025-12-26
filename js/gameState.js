@@ -13,6 +13,8 @@ export class GameState {
         this.userAge = 0;
         this.userSex = '';
         this.userFamilyHistory = '';
+        this.userEthnicity = '';
+        this.userAssessmentType = 'colorectal';
         this.currentQuestionIndex = 0;
         this.riskScore = 0;
         this.questions = [];
@@ -33,17 +35,21 @@ export class GameState {
     }
 
     // User Data
-    setUserData(age, sex, familyHistory) {
+    setUserData(age, sex, familyHistory, ethnicity, assessmentType = 'colorectal') {
         this.userAge = parseInt(age);
         this.userSex = sex;
         this.userFamilyHistory = familyHistory;
+        this.userEthnicity = ethnicity;
+        this.userAssessmentType = assessmentType;
     }
 
     getUserData() {
         return {
             age: this.userAge,
             sex: this.userSex,
-            familyHistory: this.userFamilyHistory
+            familyHistory: this.userFamilyHistory,
+            ethnicity: this.userEthnicity,
+            assessmentType: this.userAssessmentType
         };
     }
 

@@ -4,16 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCS Interactive CRC Risk Assessment Tool</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SCS Cancer Risk Assessment</title>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/onboarding.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/results.css">
+    <link rel="stylesheet" href="css/mascot.css">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
 
 <body>
 
-    <main id="screen-onboarding" class="screen active">
+    <!-- LANDING PAGE -->
+    <main id="screen-landing" class="screen active">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>Cancer Risk Assessment</h1>
+                <p>Take control of your health. Choose your assessment to get personalized risk insights and prevention guidance.</p>
+                <div class="assessment-cards">
+                    <div class="assessment-card" data-assessment="breast">
+                        <div class="card-icon">🎀</div>
+                        <h3>Breast Cancer</h3>
+                        <p>Assess your risk factors for breast cancer and learn prevention strategies.</p>
+                        <button class="card-btn" data-assessment="breast">Start Assessment</button>
+                    </div>
+                    <div class="assessment-card" data-assessment="cervical">
+                        <div class="card-icon">🌸</div>
+                        <h3>Cervical Cancer</h3>
+                        <p>Evaluate your risk for cervical cancer and discover screening options.</p>
+                        <button class="card-btn" data-assessment="cervical">Start Assessment</button>
+                    </div>
+                    <div class="assessment-card" data-assessment="colorectal">
+                        <div class="card-icon">🩺</div>
+                        <h3>Colorectal Cancer</h3>
+                        <p>Check your colorectal cancer risk and get personalized recommendations.</p>
+                        <button class="card-btn" data-assessment="colorectal">Start Assessment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ONBOARDING PAGE -->
+    <main id="screen-onboarding" class="screen">
         <div class="container">
-            <h1>CRC Risk Awareness by SCS</h1>
-            <p>Come, answer some questions, we check your risk level for you! Prizes to be won after completion!</p>
+            <div class="assessment-header">
+                <h1 id="assessment-title">Colorectal Cancer Risk Assessment</h1>
+                <p id="assessment-subtitle">Answer a few questions to get your personalized risk assessment and prevention plan.</p>
+            </div>
+
             <form id="onboarding-form">
                 <!-- 1. Age Selection (Input + Slider) -->
                 <div class="form-group">
@@ -29,6 +72,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- 2. Sex Selection -->
                 <div class="form-group">
                     <label>2. What is your sex at birth? <span class="required">*</span></label>
@@ -40,9 +84,30 @@
                     </div>
                 </div>
 
-                <!-- 3. Family History -->
+                <!-- 3. Ethnicity Selection -->
                 <div class="form-group">
-                    <label>3. Has a close relative (parent, sibling, child) had colorectal cancer? <span
+                    <label>3. What is your ethnicity? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <input type="radio" id="ethnicity-chinese" name="ethnicity" value="Chinese" required>
+                        <label for="ethnicity-chinese">Chinese</label>
+                        <input type="radio" id="ethnicity-malay" name="ethnicity" value="Malay" required>
+                        <label for="ethnicity-malay">Malay</label>
+                        <input type="radio" id="ethnicity-indian" name="ethnicity" value="Indian" required>
+                        <label for="ethnicity-indian">Indian</label>
+                        <input type="radio" id="ethnicity-caucasian" name="ethnicity" value="Caucasian" required>
+                        <label for="ethnicity-caucasian">Caucasian</label>
+                        <input type="radio" id="ethnicity-others" name="ethnicity" value="Others" required>
+                        <label for="ethnicity-others">Others</label>
+                    </div>
+                    <!-- Others input field -->
+                    <div id="ethnicity-others-container" class="hidden">
+                        <input type="text" id="ethnicity-others-input" placeholder="Please specify your ethnicity" maxlength="50">
+                    </div>
+                </div>
+
+                <!-- 4. Family History -->
+                <div class="form-group">
+                    <label id="family-history-label">4. Has a close relative (parent, sibling, child) had colorectal cancer? <span
                             class="required">*</span></label>
                     <div class="radio-group">
                         <input type="radio" id="family-history-yes" name="family-history" value="Yes" required>
@@ -53,7 +118,11 @@
                         <label for="family-history-unknown">Don't Know</label>
                     </div>
                 </div>
-                <button type="submit" id="start-game-btn" disabled>Start Assessment</button>
+
+                <div class="form-actions">
+                    <button type="button" id="back-to-landing" class="button button-secondary">← Back</button>
+                    <button type="submit" id="start-game-btn" disabled>Start Assessment</button>
+                </div>
             </form>
         </div>
     </main>
@@ -132,6 +201,7 @@
                     plan.</label>
                 <input type="text" id="email-phone" placeholder="Email / Phone Number">
                 <button type="submit" class="button">Submit</button>
+                <p id="results-form-message" class="form-message" aria-live="polite"></p>
             </form>
 
             <button id="play-again-btn" class="button button-secondary">Play Again?</button>
@@ -153,6 +223,7 @@
         <img id="mascot-img" src="" alt="Mascot Character">
     </div>
 
+    <script src="touch-trail.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 

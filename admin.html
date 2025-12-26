@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SCS Risk Assessment</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <style>
+        body {
+            padding: 20px;
+            background: var(--color-background);
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .admin-header h1 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .tab.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+        .stat-label {
+            color: var(--color-light-text);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--color-dark-text);
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .badge-high {
+            background: #ffe5e5;
+            color: var(--color-risk-high);
+        }
+        .badge-medium {
+            background: #fff4e5;
+            color: #f57c00;
+        }
+        .badge-low {
+            background: #e8f5e9;
+            color: var(--color-risk-low);
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--color-light-text);
+        }
+        .error {
+            background: #ffe5e5;
+            color: var(--color-risk-high);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .refresh-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .refresh-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🔐 SCS Risk Assessment - Admin Panel</h1>
+            <p>Manage questions and view assessment analytics</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="questions">Questions</button>
+            <button class="tab" data-tab="assessments">Assessments</button>
+            <button class="tab" data-tab="statistics">Statistics</button>
+        </div>
+
+        <!-- Questions Tab -->
+        <div id="questions-tab" class="tab-content active">
+            <div class="card">
+                <h2>Question Database</h2>
+                <button class="refresh-btn" onclick="loadQuestions()">🔄 Refresh</button>
+                <div id="questions-loading" class="loading">Loading questions...</div>
+                <div id="questions-error" class="error" style="display: none;"></div>
+                <table id="questions-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Question</th>
+                            <th>Risk Level</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody id="questions-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Assessments Tab -->
+        <div id="assessments-tab" class="tab-content">
+            <div class="card">
+                <h2>Assessment Results</h2>
+                <button class="refresh-btn" onclick="loadAssessments()">🔄 Refresh</button>
+                <div id="assessments-loading" class="loading">Loading assessments...</div>
+                <div id="assessments-error" class="error" style="display: none;"></div>
+                <table id="assessments-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Age Range</th>
+                            <th>Sex</th>
+                            <th>Family History</th>
+                            <th>Risk Score</th>
+                            <th>Risk Level</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assessments-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div id="statistics-tab" class="tab-content">
+            <div class="card">
+                <h2>Analytics Dashboard</h2>
+                <button class="refresh-btn" onclick="loadStatistics()">🔄 Refresh</button>
+                <div id="stats-loading" class="loading">Loading statistics...</div>
+                <div id="stats-error" class="error" style="display: none;"></div>
+                <div id="stats-content" style="display: none;">
+                    <div class="stats-grid" id="stats-grid"></div>
+                    <h3>Risk Level Distribution</h3>
+                    <table id="risk-distribution-table"></table>
+                    <h3>Age Range Distribution</h3>
+                    <table id="age-distribution-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const API_BASE = window.location.origin.includes('localhost') 
+            ? 'http://localhost:3000/api' 
+            : '/api';
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+                
+                // Load data when switching tabs
+                if (tabName === 'questions') loadQuestions();
+                if (tabName === 'assessments') loadAssessments();
+                if (tabName === 'statistics') loadStatistics();
+            });
+        });
+
+        // Load Questions
+        window.loadQuestions = async function() {
+            const loading = document.getElementById('questions-loading');
+            const error = document.getElementById('questions-error');
+            const table = document.getElementById('questions-table');
+            const tbody = document.getElementById('questions-tbody');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            table.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/questions`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                tbody.innerHTML = result.data.map(q => `
+                    <tr>
+                        <td><code>${q.id}</code></td>
+                        <td>${q.prompt || q.question}</td>
+                        <td><span class="badge badge-${q.risk.toLowerCase()}">${q.risk}</span></td>
+                        <td>${q.category}</td>
+                    </tr>
+                `).join('');
+
+                loading.style.display = 'none';
+                table.style.display = 'table';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        // Load Assessments
+        window.loadAssessments = async function() {
+            const loading = document.getElementById('assessments-loading');
+            const error = document.getElementById('assessments-error');
+            const table = document.getElementById('assessments-table');
+            const tbody = document.getElementById('assessments-tbody');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            table.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/assessments`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                if (result.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">No assessments yet</td></tr>';
+                } else {
+                    tbody.innerHTML = result.data.map(a => {
+                        const date = new Date(a.timestamp).toLocaleString();
+                        return `
+                            <tr>
+                                <td><code>${a.id.substring(0, 20)}...</code></td>
+                                <td>${a.ageRange || 'N/A'}</td>
+                                <td>${a.sex || 'N/A'}</td>
+                                <td>${a.familyHistory || 'N/A'}</td>
+                                <td><strong>${a.riskScore}</strong></td>
+                                <td><span class="badge badge-${a.riskLevel.toLowerCase()}">${a.riskLevel}</span></td>
+                                <td>${date}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                loading.style.display = 'none';
+                table.style.display = 'table';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        // Load Statistics
+        window.loadStatistics = async function() {
+            const loading = document.getElementById('stats-loading');
+            const error = document.getElementById('stats-error');
+            const content = document.getElementById('stats-content');
+            const grid = document.getElementById('stats-grid');
+            const riskTable = document.getElementById('risk-distribution-table');
+            const ageTable = document.getElementById('age-distribution-table');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            content.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/assessments/stats`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                const stats = result.data;
+
+                // Stats grid
+                grid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total Assessments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.averageRiskScore}</div>
+                        <div class="stat-label">Avg Risk Score</div>
+                    </div>
+                `;
+
+                // Risk distribution
+                riskTable.innerHTML = `
+                    <thead><tr><th>Risk Level</th><th>Count</th><th>Percentage</th></tr></thead>
+                    <tbody>
+                        ${Object.entries(stats.riskLevelDistribution || {}).map(([level, count]) => `
+                            <tr>
+                                <td><span class="badge badge-${level.toLowerCase()}">${level}</span></td>
+                                <td>${count}</td>
+                                <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                // Age distribution
+                ageTable.innerHTML = `
+                    <thead><tr><th>Age Range</th><th>Count</th><th>Percentage</th></tr></thead>
+                    <tbody>
+                        ${Object.entries(stats.ageRangeDistribution || {}).map(([range, count]) => `
+                            <tr>
+                                <td>${range}</td>
+                                <td>${count}</td>
+                                <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        // Load initial data
+        loadQuestions();
+    </script>
+</body>
+</html>
+
