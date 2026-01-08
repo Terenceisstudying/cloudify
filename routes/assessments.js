@@ -26,12 +26,13 @@ router.post('/', async (req, res) => {
 
         // Store assessment (anonymous - no PII)
         const assessment = await assessmentModel.createAssessment({
-            ageRange: userData.ageRange || `${userData.age}-${userData.age}`,
-            sex: userData.sex,
+            age: userData.age,
+            gender: userData.gender,
             familyHistory: userData.familyHistory,
             riskScore: riskResult.totalScore,
             riskLevel: riskResult.riskLevel,
             categoryRisks: riskResult.categoryRisks,
+            questionsAnswers: answers, // Store detailed questions and answers as JSON
             timestamp: new Date().toISOString()
         });
 

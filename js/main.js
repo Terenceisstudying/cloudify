@@ -123,7 +123,7 @@ class RiskAssessmentApp {
         });
 
         // Gender selection
-        this.dom.onboarding.sexInputs?.forEach(input => {
+        this.dom.onboarding.genderInputs?.forEach(input => {
             input.addEventListener('change', (e) => {
                 this.mascot.selectMascot(e.target.value);
                 this._checkFormValidity();
@@ -162,7 +162,7 @@ class RiskAssessmentApp {
 
     _checkFormValidity() {
         const age = this.dom.onboarding.ageInput?.value;
-        const sex = document.querySelector('input[name="sex"]:checked');
+        const gender = document.querySelector('input[name="gender"]:checked');
         const familyHistory = document.querySelector('input[name="family-history"]:checked');
 
         let ethnicityValid = false;
@@ -175,7 +175,7 @@ class RiskAssessmentApp {
             }
         }
 
-        const isValid = age && sex && familyHistory && ethnicityValid;
+        const isValid = age && gender && familyHistory && ethnicityValid;
 
         if (this.dom.onboarding.startButton) {
             this.dom.onboarding.startButton.disabled = !isValid;
@@ -186,14 +186,14 @@ class RiskAssessmentApp {
     async _startAssessment() {
         // Collect user data
         const age = parseInt(this.dom.onboarding.ageInput?.value);
-        const sex = document.querySelector('input[name="sex"]:checked')?.value;
+        const gender = document.querySelector('input[name="gender"]:checked')?.value;
         const familyHistory = document.querySelector('input[name="family-history"]:checked')?.value;
 
         const eth = document.querySelector('input[name="ethnicity"]:checked')?.value;
         const ethnicity = (eth === 'Others') ? this.dom.onboarding.ethnicityOthersInput?.value.trim() : eth;
 
         // Update state with assessment type
-        this.state.setUserData(age, sex, familyHistory, ethnicity, this.selectedAssessment);
+        this.state.setUserData(age, gender, familyHistory, ethnicity, this.selectedAssessment);
         this.answers = []; // Reset answers array
 
         // Fetch questions from API or use local fallback
@@ -312,9 +312,14 @@ class RiskAssessmentApp {
         const isRisk = (direction === 'left' && question.correctAnswer === 'No') ||
             (direction === 'right' && question.correctAnswer === 'Yes');
 
-        // Track answer for API submission
+        // Track answer for API submission with full details
         this.answers.push({
             questionId: question.id,
+            questionText: question.prompt,
+            userAnswer: (direction === 'left') ? 'No' : 'Yes', // left = No (correct/safe), right = Yes (risk)
+            correctAnswer: question.correctAnswer,
+            isCorrect: (direction === 'left' && question.correctAnswer === 'No') ||
+                      (direction === 'right' && question.correctAnswer === 'Yes'),
             isRisk: isRisk,
             risk: question.risk,
             category: question.category

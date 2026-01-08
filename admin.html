@@ -194,11 +194,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Age Range</th>
-                            <th>Sex</th>
+                            <th>Age</th>
+                            <th>Gender</th>
                             <th>Family History</th>
                             <th>Risk Score</th>
                             <th>Risk Level</th>
+                            <th>Questions & Answers</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -218,7 +219,7 @@
                     <div class="stats-grid" id="stats-grid"></div>
                     <h3>Risk Level Distribution</h3>
                     <table id="risk-distribution-table"></table>
-                    <h3>Age Range Distribution</h3>
+                    <h3>Age Distribution</h3>
                     <table id="age-distribution-table"></table>
                 </div>
             </div>
@@ -299,18 +300,24 @@
                 if (!result.success) throw new Error(result.error);
 
                 if (result.data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">No assessments yet</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">No assessments yet</td></tr>';
                 } else {
                     tbody.innerHTML = result.data.map(a => {
                         const date = new Date(a.timestamp).toLocaleString();
+                        // questionsAnswers is already parsed by the backend model
+                        const questionsAnswers = Array.isArray(a.questionsAnswers) ? a.questionsAnswers : [];
+                        const qaSummary = questionsAnswers.length > 0 ?
+                            `${questionsAnswers.length} questions answered` :
+                            'N/A';
                         return `
                             <tr>
                                 <td><code>${a.id.substring(0, 20)}...</code></td>
-                                <td>${a.ageRange || 'N/A'}</td>
-                                <td>${a.sex || 'N/A'}</td>
+                                <td>${a.age || 'N/A'}</td>
+                                <td>${a.gender || 'N/A'}</td>
                                 <td>${a.familyHistory || 'N/A'}</td>
                                 <td><strong>${a.riskScore}</strong></td>
                                 <td><span class="badge badge-${a.riskLevel.toLowerCase()}">${a.riskLevel}</span></td>
+                                <td><span title="${qaSummary}" style="cursor: help;">${qaSummary}</span></td>
                                 <td>${date}</td>
                             </tr>
                         `;
@@ -377,9 +384,9 @@
                 ageTable.innerHTML = `
                     <thead><tr><th>Age Range</th><th>Count</th><th>Percentage</th></tr></thead>
                     <tbody>
-                        ${Object.entries(stats.ageRangeDistribution || {}).map(([range, count]) => `
+                        ${Object.entries(stats.ageDistribution || {}).map(([age, count]) => `
                             <tr>
-                                <td>${range}</td>
+                                <td>${age}</td>
                                 <td>${count}</td>
                                 <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
                             </tr>

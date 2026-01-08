@@ -20,7 +20,7 @@ export class DOMElements {
             form: document.getElementById('onboarding-form'),
             ageInput: document.getElementById('age-input'),
             ageSlider: document.getElementById('age-slider'),
-            sexInputs: document.querySelectorAll('input[name="sex"]'),
+            genderInputs: document.querySelectorAll('input[name="gender"]'),
             ethnicityInputs: document.querySelectorAll('input[name="ethnicity"]'),
             ethnicityOthersContainer: document.getElementById('ethnicity-others-container'),
             ethnicityOthersInput: document.getElementById('ethnicity-others-input'),

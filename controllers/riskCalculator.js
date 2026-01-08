@@ -29,7 +29,7 @@ export function calculateRiskScore(userData, answers) {
     };
 
     // Base risk from demographics
-    if (userData.sex === 'Male') totalScore += 5;
+    if (userData.gender === 'Male') totalScore += 5;
     if (userData.familyHistory === 'Yes') {
         totalScore += RISK_WEIGHTS.HIGH;
         categoryRisks[RISK_CATEGORIES.FAMILY] += RISK_WEIGHTS.HIGH;

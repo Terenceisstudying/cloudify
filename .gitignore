@@ -5,6 +5,7 @@ package-lock.json
 # Data files (may contain sensitive info)
 data/*.csv
 !data/.gitkeep
+docs/
 
 # Environment variables
 .env

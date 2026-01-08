@@ -17,6 +17,68 @@ export class QuestionModel {
         this.loadQuestions();
     }
 
+    /**
+     * Properly escape a value for CSV according to RFC 4180
+     * @param {any} value - The value to escape
+     * @returns {string} - The properly escaped CSV field
+     */
+    escapeCSVField(value) {
+        // Convert to string if not already
+        let str = String(value);
+
+        // Escape quotes by doubling them
+        str = str.replace(/"/g, '""');
+
+        // Always quote fields containing commas, quotes, or newlines
+        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+            return `"${str}"`;
+        }
+
+        return str;
+    }
+
+    /**
+     * Parse a CSV line into fields, handling quoted values properly
+     * @param {string} line - The CSV line to parse
+     * @returns {string[]} - Array of parsed field values
+     */
+    parseCSVLine(line) {
+        const fields = [];
+        let current = '';
+        let inQuotes = false;
+        let i = 0;
+
+        while (i < line.length) {
+            const char = line[i];
+            const nextChar = line[i + 1];
+
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') {
+                    // Escaped quote (double quote)
+                    current += '"';
+                    i += 2; // Skip both quotes
+                } else {
+                    // Toggle quote state
+                    inQuotes = !inQuotes;
+                    i++;
+                }
+            } else if (char === ',' && !inQuotes) {
+                // Field separator
+                fields.push(current);
+                current = '';
+                i++;
+            } else {
+                current += char;
+                i++;
+            }
+        }
+
+        // Add the last field
+        fields.push(current);
+
+        return fields;
+    }
+
     async loadQuestions() {
         try {
             const data = await fs.readFile(DATA_FILE, 'utf-8');
@@ -38,23 +100,17 @@ export class QuestionModel {
         const lines = csvText.trim().split('\n');
         if (lines.length <= 1) return [];
 
-        const headers = lines[0].split(',');
+        const headers = this.parseCSVLine(lines[0]);
         const questions = [];
 
         for (let i = 1; i < lines.length; i++) {
-            const values = lines[i].split(',');
+            if (!lines[i].trim()) continue; // Skip empty lines
+
+            const values = this.parseCSVLine(lines[i]);
             if (values.length >= headers.length) {
                 const question = {};
                 headers.forEach((header, index) => {
                     let value = values[index] || '';
-                    // Parse numeric values
-                    if (header === 'risk' && value) {
-                        // Keep as string for now
-                    }
-                    // Unescape quotes
-                    if (value.startsWith('"') && value.endsWith('"')) {
-                        value = value.slice(1, -1).replace(/""/g, '"');
-                    }
                     question[header] = value;
                 });
                 questions.push(question);
@@ -74,11 +130,7 @@ export class QuestionModel {
         this.questions.forEach(question => {
             const values = headers.map(header => {
                 let value = question[header] || '';
-                // Escape commas and quotes in values
-                if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
-                    value = `"${value.replace(/"/g, '""')}"`;
-                }
-                return value;
+                return this.escapeCSVField(value);
             });
             csvLines.push(values.join(','));
         });

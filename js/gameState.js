@@ -11,7 +11,7 @@ export class GameState {
 
     reset() {
         this.userAge = 0;
-        this.userSex = '';
+        this.userGender = '';
         this.userFamilyHistory = '';
         this.userEthnicity = '';
         this.userAssessmentType = 'colorectal';
@@ -35,9 +35,9 @@ export class GameState {
     }
 
     // User Data
-    setUserData(age, sex, familyHistory, ethnicity, assessmentType = 'colorectal') {
+    setUserData(age, gender, familyHistory, ethnicity, assessmentType = 'colorectal') {
         this.userAge = parseInt(age);
-        this.userSex = sex;
+        this.userGender = gender;
         this.userFamilyHistory = familyHistory;
         this.userEthnicity = ethnicity;
         this.userAssessmentType = assessmentType;
@@ -46,7 +46,7 @@ export class GameState {
     getUserData() {
         return {
             age: this.userAge,
-            sex: this.userSex,
+            gender: this.userGender,
             familyHistory: this.userFamilyHistory,
             ethnicity: this.userEthnicity,
             assessmentType: this.userAssessmentType
@@ -114,6 +114,6 @@ export class GameState {
 
     // State Validation
     isReady() {
-        return this.userAge > 0 && this.userSex && this.userFamilyHistory;
+        return this.userAge > 0 && this.userGender && this.userFamilyHistory;
     }
 }

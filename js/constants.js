@@ -35,7 +35,7 @@ export const MASCOT_CONFIG = {
         folder: 'flatboy',
         frames: {
             IDLE: 15,
-            JUMP: 30
+            JUMP: 15
         }
     },
     FEMALE: {
