@@ -33,6 +33,28 @@ router.post('/questions', async (req, res) => {
 });
 
 /**
+ * POST /api/admin/questions/bulk
+ * Create multiple questions with duplicate detection and cancer type merging
+ */
+router.post('/questions/bulk', async (req, res) => {
+    try {
+        const { questions } = req.body;
+        
+        if (!Array.isArray(questions) || questions.length === 0) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Questions array is required and must not be empty' 
+            });
+        }
+
+        const result = await questionModel.bulkCreateQuestions(questions);
+        res.json({ success: true, data: result });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+/**
  * PUT /api/admin/questions/:id
  * Update a question
  */

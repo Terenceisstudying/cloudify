@@ -121,10 +121,10 @@ export class QuestionModel {
 
     questionsToCSV() {
         if (this.questions.length === 0) {
-            return 'id,prompt,risk,category,correctAnswer,explanation\n';
+            return 'id,prompt,risk,category,correctAnswer,explanation,cancerType,minAge\n';
         }
 
-        const headers = ['id', 'prompt', 'risk', 'category', 'correctAnswer', 'explanation'];
+        const headers = ['id', 'prompt', 'risk', 'category', 'correctAnswer', 'explanation', 'cancerType', 'minAge'];
         const csvLines = [headers.join(',')];
 
         this.questions.forEach(question => {
@@ -161,10 +161,22 @@ export class QuestionModel {
 
     async createQuestion(questionData) {
         await this.loadQuestions();
+        let questionId = questionData.id;
+        if (!questionId || questionId.startsWith('question-')) {
+            questionId = String(this.getNextQuestionId());
+        }
+
         const newQuestion = {
-            id: questionData.id || `question-${Date.now()}`,
-            ...questionData
+            id: questionId,
+            prompt: questionData.prompt,
+            risk: questionData.risk,
+            category: questionData.category,
+            correctAnswer: questionData.correctAnswer,
+            explanation: questionData.explanation,
+            cancerType: questionData.cancerType || '',
+            minAge: questionData.minAge || ''
         };
+
         this.questions.push(newQuestion);
         await this.saveQuestions();
         return newQuestion;
@@ -174,7 +186,7 @@ export class QuestionModel {
         await this.loadQuestions();
         const index = this.questions.findIndex(q => q.id === id);
         if (index === -1) throw new Error('Question not found');
-        
+
         this.questions[index] = { ...this.questions[index], ...updates };
         await this.saveQuestions();
         return this.questions[index];
@@ -184,6 +196,96 @@ export class QuestionModel {
         await this.loadQuestions();
         this.questions = this.questions.filter(q => q.id !== id);
         await this.saveQuestions();
+    }
+
+    /**
+     * Generate a unique question ID based on the highest existing numeric ID
+     * @returns {number} - Next available ID number
+     */
+    getNextQuestionId() {
+        // Get all numeric IDs from existing questions
+        const numericIds = this.questions
+            .map(q => parseInt(q.id))
+            .filter(id => !isNaN(id));
+    
+        // If no numeric IDs exist, start from 1
+        if (numericIds.length === 0) {
+            return 1;
+        }
+        // Return the highest ID + 1
+        return Math.max(...numericIds) + 1;
+    }
+
+    /**
+     * Bulk create questions with duplicate detection
+     * If a question with the same prompt exists, merge cancer types instead of creating duplicate
+     * @param {Array} newQuestions - Array of question objects to create
+     * @returns {Object} - Statistics about the operation (added, updated, duplicates)
+     */
+    async bulkCreateQuestions(newQuestions) {
+        await this.loadQuestions();
+
+        let added = 0;
+        let updated = 0;
+        let duplicates = 0;
+        let nextId = this.getNextQuestionId();
+
+        for (const newQuestion of newQuestions) {
+            // Normalize the prompt for comparison (trim and lowercase)
+            const normalizedNewPrompt = newQuestion.prompt.trim().toLowerCase();
+
+            // Find existing question with same prompt
+            const existingIndex = this.questions.findIndex(q =>
+                q.prompt.trim().toLowerCase() === normalizedNewPrompt
+            );
+
+            if (existingIndex !== -1) {
+                // Duplicate found - merge cancer types
+                duplicates++;
+                const existing = this.questions[existingIndex];
+
+                // Get existing cancer types as array
+                const existingTypes = existing.cancerType
+                    ? existing.cancerType.split(',').map(t => t.trim())
+                    : [];
+
+                // Get new cancer types as array
+                const newTypes = newQuestion.cancerType
+                    ? newQuestion.cancerType.split(',').map(t => t.trim())
+                    : [];
+
+                // Merge and deduplicate cancer types
+                const mergedTypes = [...new Set([...existingTypes, ...newTypes])];
+
+                // Update the existing question's cancer type
+                this.questions[existingIndex].cancerType = mergedTypes.join(', ');
+                updated++;
+            } else {
+                // No duplicate - add new question
+                const questionToAdd = {
+                    id: String(nextId),
+                    prompt: newQuestion.prompt,
+                    risk: newQuestion.risk,
+                    category: newQuestion.category,
+                    correctAnswer: newQuestion.correctAnswer,
+                    explanation: newQuestion.explanation,
+                    cancerType: newQuestion.cancerType || '',
+                    minAge: newQuestion.minAge || ''
+                };
+                this.questions.push(questionToAdd);
+                added++;
+                nextId++;
+            }
+        }
+
+        // Save all changes to CSV
+        await this.saveQuestions();
+        return {
+            added,
+            updated,
+            duplicates,
+            total: newQuestions.length
+        };
     }
 
     getDefaultQuestions() {
