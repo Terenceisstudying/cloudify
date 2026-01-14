@@ -493,13 +493,25 @@
         // Populate cancer type filter dropdown
         function populateCancerTypeFilter() {
             const filterSelect = document.getElementById('cancer-type-filter');
-            const cancerTypes = [...new Set(allQuestions.map(q => q.cancerType).filter(Boolean))];
+
+            // Collect all cancer types, splitting comma-separated values
+            const allCancerTypes = [];
+            allQuestions.forEach(q => {
+                if (q.cancerType) {
+                    // Split by comma and trim whitespace
+                    const types = q.cancerType.split(',').map(t => t.trim());
+                    allCancerTypes.push(...types);
+                }
+            });
+
+            // Get unique cancer types and sort them
+            const uniqueCancerTypes = [...new Set(allCancerTypes)].sort();
 
             // Clear existing options except "All"
             filterSelect.innerHTML = '<option value="all">All Cancer Types</option>';
 
-            // Add unique cancer types
-            cancerTypes.sort().forEach(type => {
+            // Add individual cancer types
+            uniqueCancerTypes.forEach(type => {
                 const option = document.createElement('option');
                 option.value = type;
                 option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
@@ -514,7 +526,15 @@
             if (filterValue === 'all') {
                 displayQuestions(allQuestions);
             } else {
-                const filtered = allQuestions.filter(q => q.cancerType === filterValue);
+                // Filter questions that have the selected cancer type
+                // Check if the cancer type exists in the comma-separated list
+                const filtered = allQuestions.filter(q => {
+                    if (!q.cancerType) return false;
+            
+                    // Split the cancerType field and check if it includes the filter value
+                    const types = q.cancerType.split(',').map(t => t.trim());
+                    return types.includes(filterValue);
+                });
                 displayQuestions(filtered);
             }
         };

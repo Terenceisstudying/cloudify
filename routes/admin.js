@@ -27,19 +27,6 @@ router.get('/questions', async (req, res) => {
 });
 
 /**
- * POST /api/admin/questions
- * Create a new question
- */
-router.post('/questions', async (req, res) => {
-    try {
-        const question = await questionModel.createQuestion(req.body);
-        res.json({ success: true, data: question });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-/**
  * POST /api/admin/questions/bulk
  * Create multiple questions with duplicate detection and cancer type merging
  */
@@ -56,6 +43,19 @@ router.post('/questions/bulk', async (req, res) => {
 
         const result = await questionModel.bulkCreateQuestions(questions);
         res.json({ success: true, data: result });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+/**
+ * POST /api/admin/questions
+ * Create a new question
+ */
+router.post('/questions', async (req, res) => {
+    try {
+        const question = await questionModel.createQuestion(req.body);
+        res.json({ success: true, data: question });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
