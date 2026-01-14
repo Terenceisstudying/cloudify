@@ -3,7 +3,9 @@ node_modules/
 package-lock.json
 
 # Data files (may contain sensitive info)
-data/assessments.csv
+data/*.csv
+!data/questions.csv
+!data/assessments.csv
 !data/.gitkeep
 docs/
 

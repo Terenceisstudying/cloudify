@@ -100,7 +100,28 @@ export class QuestionModel {
         const lines = csvText.trim().split('\n');
         if (lines.length <= 1) return [];
 
-        const headers = this.parseCSVLine(lines[0]);
+        const rawHeaders = this.parseCSVLine(lines[0]);
+        const normalizeHeader = (h) => String(h || '')
+            .replace(/^\uFEFF/, '')
+            .trim()
+            .toLowerCase();
+
+        const headerToCanonical = (h) => {
+            const key = normalizeHeader(h);
+
+            if (key === 'id' || key === 'qid' || key === 'questionid' || key === 'question_id') return 'id';
+            if (key === 'prompt' || key === 'question' || key === 'questiontext' || key === 'question_text') return 'prompt';
+            if (key === 'risk' || key === 'risklevel' || key === 'risk_level') return 'risk';
+            if (key === 'category' || key === 'section') return 'category';
+            if (key === 'correctanswer' || key === 'correct_answer' || key === 'answer') return 'correctAnswer';
+            if (key === 'explanation' || key === 'rationale') return 'explanation';
+            if (key === 'cancertype' || key === 'cancer_type') return 'cancerType';
+            if (key === 'minage' || key === 'min_age' || key === 'minimumage' || key === 'minimum_age') return 'minAge';
+
+            return key;
+        };
+
+        const headers = rawHeaders.map(headerToCanonical);
         const questions = [];
 
         for (let i = 1; i < lines.length; i++) {
@@ -110,12 +131,23 @@ export class QuestionModel {
             if (values.length >= headers.length) {
                 const question = {};
                 headers.forEach((header, index) => {
-                    let value = values[index] || '';
-                    question[header] = value;
+                    question[header] = values[index] ?? '';
                 });
+
+                // Ensure canonical keys exist for downstream code/UI
+                question.id = question.id ?? '';
+                question.prompt = question.prompt ?? '';
+                question.risk = question.risk ?? '';
+                question.category = question.category ?? '';
+                question.correctAnswer = question.correctAnswer ?? '';
+                question.explanation = question.explanation ?? '';
+                question.cancerType = question.cancerType ?? '';
+                question.minAge = question.minAge ?? '';
+
                 questions.push(question);
             }
         }
+
         return questions;
     }
 

@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - SCS Risk Assessment</title>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = '/login.html';
+            }
+        });
+    </script>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/utilities.css">
@@ -272,8 +281,11 @@
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>🔐 SCS Risk Assessment - Admin Panel</h1>
-            <p>Manage questions and view assessment analytics</p>
+            <div>
+                <h1>🔐 SCS Risk Assessment - Admin Panel</h1>
+                <p>Manage questions and view assessment analytics</p>
+            </div>
+            <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
 
         <div class="tabs">
@@ -441,6 +453,23 @@
         let allQuestions = [];
         let questionFormCounter = 0;
 
+        function getAdminAuthHeaders(extraHeaders = {}) {
+            const token = localStorage.getItem('adminToken');
+            if (!token) return extraHeaders;
+            return { ...extraHeaders, Authorization: `Bearer ${token}` };
+        }
+
+        async function adminFetch(url, options = {}) {
+            const headers = getAdminAuthHeaders(options.headers || {});
+            const response = await fetch(url, { ...options, headers });
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('adminToken');
+                window.location.href = '/login.html';
+                throw new Error('Unauthorized');
+            }
+            return response;
+        }
+
         // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -528,7 +557,7 @@
             table.style.display = 'none';
 
             try {
-                const response = await fetch(`${API_BASE}/admin/questions`);
+                const response = await adminFetch(`${API_BASE}/admin/questions`);
                 const result = await response.json();
 
                 if (!result.success) throw new Error(result.error);
@@ -551,7 +580,7 @@
             document.getElementById('modal-title').textContent = 'Edit Question';
 
             try {
-                const response = await fetch(`${API_BASE}/admin/questions`);
+                const response = await adminFetch(`${API_BASE}/admin/questions`);
                 const result = await response.json();
                 const question = result.data.find(q => q.id === id);
 
@@ -589,7 +618,7 @@
 
             try {
                 let response;
-                response = await fetch(`${API_BASE}/admin/questions/${currentEditId}`, {
+                response = await adminFetch(`${API_BASE}/admin/questions/${currentEditId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(questionData)
@@ -612,7 +641,7 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE}/admin/questions/${id}`, {
+                const response = await adminFetch(`${API_BASE}/admin/questions/${id}`, {
                     method: 'DELETE'
                 });
                 const result = await response.json();
@@ -849,7 +878,7 @@
 
             try {
                 // Send questions to backend
-                const response = await fetch(`${API_BASE}/admin/questions/bulk`, {
+                const response = await adminFetch(`${API_BASE}/admin/questions/bulk`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ questions })
@@ -896,7 +925,7 @@
             table.style.display = 'none';
 
             try {
-                const response = await fetch(`${API_BASE}/admin/assessments`);
+                const response = await adminFetch(`${API_BASE}/admin/assessments`);
                 const result = await response.json();
 
                 if (!result.success) throw new Error(result.error);
@@ -1008,6 +1037,28 @@
         // Load initial data
         loadQuestions();
     </script>
+    <script src="/js/logout.js"></script>
+    <style>
+        .btn-logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-logout:hover {
+            background: #c82333;
+        }
+        .admin-header {
+            position: relative;
+            padding-right: 120px;
+        }
+    </style>
 </body>
 </html>
 
