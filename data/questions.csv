@@ -23,3 +23,4 @@ id,prompt,risk,category,correctAnswer,explanation,cancerType,minAge
 22,I am over 50 years old and have not been to any check up.,MEDIUM,Lifestyle,No,Everyone should go for a full body check up at least once per year.,Breast,50
 23,Have you ever been diagnosed with an HPV infection or genital warts?,MEDIUM,Lifestyle,No,"Infection by the HPV is the most important risk factor for cervical cancer. At least 15 of the HPV strains causes cervical cancer. It is a skin infection, spread through skin-to-skin contact",Cervical,
 24,I am a current smoker.,MEDIUM,Lifestyle,No,Smoking increases the risk of having lung cancer.,Lung,
+25,I drink alcohol everyday.,HIGH,Diet & Nutrition,No,"Drinking alcohol increases liver cancer risk primarily because the liver converts ethanol into acetaldehyde, a toxic chemical that damages DNA and proteins, while also causing oxidative stress, inflammation, and scarring (cirrhosis), creating an environment ripe for cancerous cell changes.",Liver,

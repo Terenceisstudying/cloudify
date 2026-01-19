@@ -3,9 +3,11 @@ import { GameState } from './gameState.js';
 import { MascotController } from './mascotController.js';
 import { UIController } from './uiController.js';
 import { RISK_WEIGHTS } from './constants.js';
-import { QUESTIONS } from './questions.js';
+// import { QUESTIONS } from './questions.js';
 import { getRecommendations } from './recommendations.js';
 import { ApiService } from './apiService.js';
+import { loadAssessments, getAssessmentById } from './assessmentConfig.js';
+import { QuestionLoader } from './questionLoader.js';
 
 /**
  * Main Application Controller
@@ -19,15 +21,32 @@ class RiskAssessmentApp {
         this.ui = new UIController(this.dom);
         this.answers = []; // Track answers for API submission
         this.useBackend = true; // Toggle to use API or fallback to local
-        this.selectedAssessment = 'colorectal'; // Default assessment type
+        this.selectedAssessment = null;
+        this.assessments = [];
 
         this.initialize();
     }
 
-    initialize() {
+    async initialize() {
         // Validate DOM
         if (!this.dom.validate()) {
             console.error('Critical DOM elements missing!');
+            return;
+        }
+
+        // Show loading state while loading assessments
+        this._showLandingLoadingState();
+
+        // Load assessments from CSV
+        try {
+            this.assessments = await loadAssessments();
+            console.log(`Loaded ${this.assessments.length} cancer assessment types`);
+            
+            // Render dynamic assessment cards
+            this._renderAssessmentCards();
+        } catch (error) {
+            console.error('Error loading assessments:', error);
+            this._showLandingError();
             return;
         }
 
@@ -40,63 +59,100 @@ class RiskAssessmentApp {
         console.log('Risk Assessment App Initialized');
     }
 
-    // Landing Phase
-    _setupLandingListeners() {
-        // Assessment card buttons
-        this.dom.landing.cardButtons?.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const assessmentType = e.target.dataset.assessment;
-                this._selectAssessment(assessmentType);
-            });
+    _showLandingLoadingState() {
+        const container = document.querySelector('.assessment-cards');
+        if (!container) return;
+        
+        container.innerHTML = '<p style="text-align: center; padding: 2rem; color: #666;">Loading assessments...</p>';
+    }
+
+    _showLandingError() {
+        const container = document.querySelector('.assessment-cards');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <p style="color: #d32f2f; margin-bottom: 1rem;">Failed to load cancer assessments.</p>
+                <button onclick="location.reload()" class="button">Reload Page</button>
+            </div>
+        `;
+    }
+
+    /**
+     * Dynamically render assessment cards from CSV data
+     */
+    _renderAssessmentCards() {
+        const container = document.querySelector('.assessment-cards');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        if (this.assessments.length === 0) {
+            container.innerHTML = '<p style="text-align: center; padding: 2rem; color: #666;">No assessments available.</p>';
+            return;
+        }
+
+        this.assessments.forEach(assessment => {
+            const card = document.createElement('div');
+            card.className = 'assessment-card';
+            card.dataset.assessment = assessment.id;
+            
+            card.innerHTML = `
+                <div class="card-icon">${assessment.icon}</div>
+                <h3>${assessment.name}</h3>
+                <p>${assessment.description}</p>
+                <button class="card-btn" data-assessment="${assessment.id}">Start Assessment</button>
+            `;
+            
+            container.appendChild(card);
         });
 
-        // Assessment cards (click anywhere on card)
-        this.dom.landing.assessmentCards?.forEach(card => {
-            card.addEventListener('click', (e) => {
-                // Only trigger if clicking on card, not on button
-                if (!e.target.classList.contains('card-btn')) {
-                    const assessmentType = card.dataset.assessment;
-                    this._selectAssessment(assessmentType);
-                }
-            });
+        // Re-cache DOM elements after rendering
+        this.dom.landing.assessmentCards = document.querySelectorAll('.assessment-card');
+        this.dom.landing.cardButtons = document.querySelectorAll('.card-btn');
+    }
+
+    // Landing Phase
+    _setupLandingListeners() {
+        // Use event delegation for dynamically created cards
+        const container = document.querySelector('.assessment-cards');
+        if (!container) return;
+
+        container.addEventListener('click', (e) => {
+            const button = e.target.closest('.card-btn');
+            const card = e.target.closest('.assessment-card');
+            
+            if (button) {
+                const assessmentType = button.dataset.assessment;
+                this._selectAssessment(assessmentType);
+            } else if (card) {
+                const assessmentType = card.dataset.assessment;
+                this._selectAssessment(assessmentType);
+            }
         });
     }
 
-    _selectAssessment(assessmentType) {
+    async _selectAssessment(assessmentType) {
         this.selectedAssessment = assessmentType;
         this._updateOnboardingForAssessment(assessmentType);
         this.dom.switchScreen('onboarding');
     }
 
-    _updateOnboardingForAssessment(assessmentType) {
-        const titles = {
-            colorectal: {
-                title: 'Colorectal Cancer Risk Assessment',
-                subtitle: 'Answer a few questions to get your personalized risk assessment and prevention plan.',
-                familyLabel: 'Has a close relative (parent, sibling, child) had colorectal cancer?'
-            },
-            breast: {
-                title: 'Breast Cancer Risk Assessment',
-                subtitle: 'Answer a few questions to get your personalized breast cancer risk assessment and prevention plan.',
-                familyLabel: 'Has a close relative (parent, sibling, child) had breast cancer?'
-            },
-            cervical: {
-                title: 'Cervical Cancer Risk Assessment',
-                subtitle: 'Answer a few questions to get your personalized cervical cancer risk assessment and prevention plan.',
-                familyLabel: 'Has a close relative (parent, sibling, child) had cervical cancer?'
-            }
-        };
-
-        const config = titles[assessmentType] || titles.colorectal;
+    async _updateOnboardingForAssessment(assessmentType) {
+        const assessment = await getAssessmentById(assessmentType);
+        if (!assessment) {
+            console.error('Assessment not found:', assessmentType);
+            return;
+        }
 
         if (this.dom.onboarding.assessmentTitle) {
-            this.dom.onboarding.assessmentTitle.textContent = config.title;
+            this.dom.onboarding.assessmentTitle.textContent = assessment.title;
         }
         if (this.dom.onboarding.assessmentSubtitle) {
-            this.dom.onboarding.assessmentSubtitle.textContent = config.subtitle;
+            this.dom.onboarding.assessmentSubtitle.textContent = assessment.subtitle;
         }
         if (this.dom.onboarding.familyHistoryLabel) {
-            this.dom.onboarding.familyHistoryLabel.textContent = `4. ${config.familyLabel} *`;
+            this.dom.onboarding.familyHistoryLabel.innerHTML = `4. ${assessment.familyLabel} <span class="required">*</span>`;
         }
     }
 
@@ -196,20 +252,25 @@ class RiskAssessmentApp {
         this.state.setUserData(age, gender, familyHistory, ethnicity, this.selectedAssessment);
         this.answers = []; // Reset answers array
 
-        // Fetch questions from API or use local fallback
+        // Show loading state
+        this._showLoadingState();
+
+        // Load questions from CSV for selected assessment type
+        // Pass user age to filter age-specific questions
         let questions = [];
-        if (this.useBackend) {
-            try {
-                // For now, use local questions based on assessment type
-                // In production, this would call different API endpoints
-                questions = this._getQuestionsForAssessment(this.selectedAssessment);
-                console.log(`Questions loaded for ${this.selectedAssessment} assessment`);
-            } catch (error) {
-                console.warn('Using local questions:', error);
-                questions = this._getQuestionsForAssessment(this.selectedAssessment);
+        try {
+            questions = await QuestionLoader.loadQuestions(this.selectedAssessment, age);
+            
+            if (questions.length === 0) {
+                throw new Error(`No questions found for ${this.selectedAssessment}`);
             }
-        } else {
-            questions = this._getQuestionsForAssessment(this.selectedAssessment);
+            
+            console.log(`Loaded ${questions.length} questions for ${this.selectedAssessment} assessment (age: ${age})`);
+        } catch (error) {
+            console.error('Error loading questions:', error);
+            alert(`Failed to load questions for ${this.selectedAssessment}. Please try again.`);
+            this.dom.switchScreen('onboarding');
+            return;
         }
 
         this.state.setQuestions(questions);
@@ -225,11 +286,16 @@ class RiskAssessmentApp {
         this._showNextQuestion();
     }
 
-    _getQuestionsForAssessment(assessmentType) {
-        // For now, return colorectal questions for all types
-        // In production, you'd have different question sets for each cancer type
-        return QUESTIONS;
+    _showLoadingState() {
+        // Optional: show a loading indicator
+        console.log('Loading questions...');
     }
+
+    // _getQuestionsForAssessment(assessmentType) {
+    //     // For now, return colorectal questions for all types
+    //     // In production, you'd have different question sets for each cancer type
+    //     return QUESTIONS;
+    // }
 
     // Game Phase
     _setupGameListeners() {
@@ -409,7 +475,7 @@ class RiskAssessmentApp {
     _resetApp() {
         this.state.reset();
         this.mascot.hide();
-        this.selectedAssessment = 'colorectal'; // Reset to default
+        this.selectedAssessment = null; // Reset to default
         this.dom.switchScreen('landing');
         this.dom.onboarding.form?.reset();
         this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
