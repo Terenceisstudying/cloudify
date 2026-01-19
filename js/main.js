@@ -409,12 +409,16 @@ class RiskAssessmentApp {
         // Mascot jump
         this.mascot.startAnimation('Jump');
 
+        // Check if this was the last question BEFORE animating
+        const hasMoreQuestions = this.state.nextQuestion();
+
         // Animate and move to next
         this.ui.animateCardSwipe(direction, () => {
-            if (this.state.nextQuestion()) {
+            if (hasMoreQuestions) {
                 this._showNextQuestion();
             } else {
-                setTimeout(() => this._showResults(), 500);
+                // Go directly to results without showing question again
+                this._showResults();
             }
         });
     }

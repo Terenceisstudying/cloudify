@@ -174,11 +174,18 @@ export class QuestionModel {
         await this.loadQuestions();
         let filtered = [...this.questions];
 
-        // Filter age-gated questions based on user age
+        // Filter age-gated questions based on user age and minAge field
         if (userAge !== null) {
             filtered = filtered.filter(q => {
-                if (q.id === 'age-gate-over-45') return userAge >= 45;
-                if (q.id === 'age-gate-under-45') return userAge < 45;
+                // Check if question has a minAge requirement
+                if (q.minAge && q.minAge.trim() !== '') {
+                    const minAge = parseInt(q.minAge);
+                    // Only include question if user meets minimum age requirement
+                    if (!isNaN(minAge) && userAge < minAge) {
+                        return false; // User doesn't meet age requirement
+                    }
+                }
+                // Keep question if no minAge or user meets requirement
                 return true;
             });
         }
