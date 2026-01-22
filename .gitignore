@@ -3,11 +3,8 @@ node_modules/
 package-lock.json
 
 # Data files (may contain sensitive info)
-data/*.csv
-!data/questions.csv
 !data/assessments.csv
-!data/.gitkeep
-docs/
+!docs/*.md
 
 # Environment variables
 .env
