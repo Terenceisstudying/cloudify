@@ -10,6 +10,15 @@ const DATA_FILE = path.join(__dirname, '..', 'data', 'questions.csv');
  * Question Model (MVC Pattern)
  * Handles all question data operations
  * Uses CSV format for better version control and human readability
+ * 
+ * Multi-Language Schema:
+ * - prompt_en/zh/ms/ta: Question text in each language
+ * - explanation_en/zh/ms/ta: Explanation text in each language
+ * 
+ * Scoring Schema (Percentage-Based Weighting):
+ * - weight: Percentage contribution of this question to total risk (0-100)
+ * - yesValue: Percentage of weight added when answering Yes (0-100)
+ * - noValue: Percentage of weight added when answering No (0-100)
  */
 export class QuestionModel {
     constructor() {
@@ -19,28 +28,18 @@ export class QuestionModel {
 
     /**
      * Properly escape a value for CSV according to RFC 4180
-     * @param {any} value - The value to escape
-     * @returns {string} - The properly escaped CSV field
      */
     escapeCSVField(value) {
-        // Convert to string if not already
-        let str = String(value);
-
-        // Escape quotes by doubling them
+        let str = String(value || '');
         str = str.replace(/"/g, '""');
-
-        // Always quote fields containing commas, quotes, or newlines
         if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
             return `"${str}"`;
         }
-
         return str;
     }
 
     /**
      * Parse a CSV line into fields, handling quoted values properly
-     * @param {string} line - The CSV line to parse
-     * @returns {string[]} - Array of parsed field values
      */
     parseCSVLine(line) {
         const fields = [];
@@ -54,16 +53,13 @@ export class QuestionModel {
 
             if (char === '"') {
                 if (inQuotes && nextChar === '"') {
-                    // Escaped quote (double quote)
                     current += '"';
-                    i += 2; // Skip both quotes
+                    i += 2;
                 } else {
-                    // Toggle quote state
                     inQuotes = !inQuotes;
                     i++;
                 }
             } else if (char === ',' && !inQuotes) {
-                // Field separator
                 fields.push(current);
                 current = '';
                 i++;
@@ -72,10 +68,7 @@ export class QuestionModel {
                 i++;
             }
         }
-
-        // Add the last field
         fields.push(current);
-
         return fields;
     }
 
@@ -84,7 +77,6 @@ export class QuestionModel {
             const data = await fs.readFile(DATA_FILE, 'utf-8');
             this.questions = this.parseCSV(data);
         } catch (error) {
-            // If file doesn't exist, initialize with default questions
             this.questions = this.getDefaultQuestions();
             await this.saveQuestions();
         }
@@ -103,29 +95,46 @@ export class QuestionModel {
         const rawHeaders = this.parseCSVLine(lines[0]);
         const normalizeHeader = (h) => String(h || '')
             .replace(/^\uFEFF/, '')
-            .trim()
-            .toLowerCase();
+            .trim();
 
         const headerToCanonical = (h) => {
-            const key = normalizeHeader(h);
+            const key = normalizeHeader(h).toLowerCase();
 
+            // ID mappings
             if (key === 'id' || key === 'qid' || key === 'questionid' || key === 'question_id') return 'id';
-            if (key === 'prompt' || key === 'question' || key === 'questiontext' || key === 'question_text') return 'prompt';
-            if (key === 'risk' || key === 'risklevel' || key === 'risk_level') return 'risk';
+            
+            // Multi-language prompt mappings
+            if (key === 'prompt' || key === 'prompt_en' || key === 'question' || key === 'questiontext' || key === 'question_text') return 'prompt_en';
+            if (key === 'prompt_zh') return 'prompt_zh';
+            if (key === 'prompt_ms') return 'prompt_ms';
+            if (key === 'prompt_ta') return 'prompt_ta';
+            
+            // Scoring fields
+            if (key === 'weight' || key === 'questionweight' || key === 'question_weight') return 'weight';
+            if (key === 'yesvalue' || key === 'yes_value' || key === 'yesrisk') return 'yesValue';
+            if (key === 'novalue' || key === 'no_value' || key === 'norisk') return 'noValue';
+            
+            // Category
             if (key === 'category' || key === 'section') return 'category';
-            if (key === 'correctanswer' || key === 'correct_answer' || key === 'answer') return 'correctAnswer';
-            if (key === 'explanation' || key === 'rationale') return 'explanation';
+            
+            // Multi-language explanation mappings
+            if (key === 'explanation' || key === 'explanation_en' || key === 'rationale') return 'explanation_en';
+            if (key === 'explanation_zh') return 'explanation_zh';
+            if (key === 'explanation_ms') return 'explanation_ms';
+            if (key === 'explanation_ta') return 'explanation_ta';
+            
+            // Cancer type and age
             if (key === 'cancertype' || key === 'cancer_type') return 'cancerType';
             if (key === 'minage' || key === 'min_age' || key === 'minimumage' || key === 'minimum_age') return 'minAge';
 
-            return key;
+            return normalizeHeader(h);
         };
 
         const headers = rawHeaders.map(headerToCanonical);
         const questions = [];
 
         for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue; // Skip empty lines
+            if (!lines[i].trim()) continue;
 
             const values = this.parseCSVLine(lines[i]);
             if (values.length >= headers.length) {
@@ -134,13 +143,20 @@ export class QuestionModel {
                     question[header] = values[index] ?? '';
                 });
 
-                // Ensure canonical keys exist for downstream code/UI
+                // Ensure canonical keys exist
                 question.id = question.id ?? '';
-                question.prompt = question.prompt ?? '';
-                question.risk = question.risk ?? '';
+                question.prompt_en = question.prompt_en ?? '';
+                question.prompt_zh = question.prompt_zh ?? '';
+                question.prompt_ms = question.prompt_ms ?? '';
+                question.prompt_ta = question.prompt_ta ?? '';
+                question.weight = question.weight ?? '';
+                question.yesValue = question.yesValue ?? '';
+                question.noValue = question.noValue ?? '';
                 question.category = question.category ?? '';
-                question.correctAnswer = question.correctAnswer ?? '';
-                question.explanation = question.explanation ?? '';
+                question.explanation_en = question.explanation_en ?? '';
+                question.explanation_zh = question.explanation_zh ?? '';
+                question.explanation_ms = question.explanation_ms ?? '';
+                question.explanation_ta = question.explanation_ta ?? '';
                 question.cancerType = question.cancerType ?? '';
                 question.minAge = question.minAge ?? '';
 
@@ -152,11 +168,19 @@ export class QuestionModel {
     }
 
     questionsToCSV() {
+        const headers = [
+            'id', 
+            'prompt_en', 'prompt_zh', 'prompt_ms', 'prompt_ta',
+            'weight', 'yesValue', 'noValue', 
+            'category', 
+            'explanation_en', 'explanation_zh', 'explanation_ms', 'explanation_ta',
+            'cancerType', 'minAge'
+        ];
+
         if (this.questions.length === 0) {
-            return 'id,prompt,risk,category,correctAnswer,explanation,cancerType,minAge\n';
+            return headers.join(',') + '\n';
         }
 
-        const headers = ['id', 'prompt', 'risk', 'category', 'correctAnswer', 'explanation', 'cancerType', 'minAge'];
         const csvLines = [headers.join(',')];
 
         this.questions.forEach(question => {
@@ -170,27 +194,58 @@ export class QuestionModel {
         return csvLines.join('\n') + '\n';
     }
 
+    /**
+     * Get all questions, optionally filtered by user age
+     * Returns questions with all language fields
+     */
     async getAllQuestions(userAge = null) {
         await this.loadQuestions();
         let filtered = [...this.questions];
 
-        // Filter age-gated questions based on user age and minAge field
         if (userAge !== null) {
             filtered = filtered.filter(q => {
-                // Check if question has a minAge requirement
                 if (q.minAge && q.minAge.trim() !== '') {
                     const minAge = parseInt(q.minAge);
-                    // Only include question if user meets minimum age requirement
                     if (!isNaN(minAge) && userAge < minAge) {
-                        return false; // User doesn't meet age requirement
+                        return false;
                     }
                 }
-                // Keep question if no minAge or user meets requirement
                 return true;
             });
         }
 
         return filtered;
+    }
+
+    /**
+     * Get all questions for a specific cancer type
+     */
+    async getQuestionsByCancerType(cancerType, userAge = null) {
+        const allQuestions = await this.getAllQuestions(userAge);
+        return allQuestions.filter(q => 
+            q.cancerType && q.cancerType.toLowerCase() === cancerType.toLowerCase()
+        );
+    }
+
+    /**
+     * Get questions with localized fields for a specific language
+     */
+    async getQuestionsLocalized(cancerType = null, lang = 'en', userAge = null) {
+        let questions = cancerType 
+            ? await this.getQuestionsByCancerType(cancerType, userAge)
+            : await this.getAllQuestions(userAge);
+
+        return questions.map(q => ({
+            id: q.id,
+            prompt: q[`prompt_${lang}`] || q.prompt_en,
+            weight: q.weight,
+            yesValue: q.yesValue,
+            noValue: q.noValue,
+            category: q.category,
+            explanation: q[`explanation_${lang}`] || q.explanation_en,
+            cancerType: q.cancerType,
+            minAge: q.minAge
+        }));
     }
 
     async getQuestionById(id) {
@@ -207,11 +262,18 @@ export class QuestionModel {
 
         const newQuestion = {
             id: questionId,
-            prompt: questionData.prompt,
-            risk: questionData.risk,
-            category: questionData.category,
-            correctAnswer: questionData.correctAnswer,
-            explanation: questionData.explanation,
+            prompt_en: questionData.prompt_en || questionData.prompt || '',
+            prompt_zh: questionData.prompt_zh || '',
+            prompt_ms: questionData.prompt_ms || '',
+            prompt_ta: questionData.prompt_ta || '',
+            weight: questionData.weight || '',
+            yesValue: questionData.yesValue ?? '100',
+            noValue: questionData.noValue ?? '0',
+            category: questionData.category || '',
+            explanation_en: questionData.explanation_en || questionData.explanation || '',
+            explanation_zh: questionData.explanation_zh || '',
+            explanation_ms: questionData.explanation_ms || '',
+            explanation_ta: questionData.explanation_ta || '',
             cancerType: questionData.cancerType || '',
             minAge: questionData.minAge || ''
         };
@@ -226,6 +288,16 @@ export class QuestionModel {
         const index = this.questions.findIndex(q => q.id === id);
         if (index === -1) throw new Error('Question not found');
 
+        // Handle backward compatibility for prompt/explanation fields
+        if (updates.prompt && !updates.prompt_en) {
+            updates.prompt_en = updates.prompt;
+            delete updates.prompt;
+        }
+        if (updates.explanation && !updates.explanation_en) {
+            updates.explanation_en = updates.explanation;
+            delete updates.explanation;
+        }
+
         this.questions[index] = { ...this.questions[index], ...updates };
         await this.saveQuestions();
         return this.questions[index];
@@ -238,28 +310,29 @@ export class QuestionModel {
     }
 
     /**
-     * Generate a unique question ID based on the highest existing numeric ID
-     * @returns {number} - Next available ID number
+     * Delete all questions for a specific cancer type
      */
+    async deleteQuestionsByCancerType(cancerType) {
+        await this.loadQuestions();
+        this.questions = this.questions.filter(q => 
+            q.cancerType.toLowerCase() !== cancerType.toLowerCase()
+        );
+        await this.saveQuestions();
+    }
+
     getNextQuestionId() {
-        // Get all numeric IDs from existing questions
         const numericIds = this.questions
             .map(q => parseInt(q.id))
             .filter(id => !isNaN(id));
     
-        // If no numeric IDs exist, start from 1
         if (numericIds.length === 0) {
             return 1;
         }
-        // Return the highest ID + 1
         return Math.max(...numericIds) + 1;
     }
 
     /**
      * Bulk create questions with duplicate detection
-     * If a question with the same prompt exists, merge cancer types instead of creating duplicate
-     * @param {Array} newQuestions - Array of question objects to create
-     * @returns {Object} - Statistics about the operation (added, updated, duplicates)
      */
     async bulkCreateQuestions(newQuestions) {
         await this.loadQuestions();
@@ -270,12 +343,19 @@ export class QuestionModel {
         for (const newQuestion of newQuestions) {
             const questionToAdd = {
                 id: String(nextId),
-                prompt: newQuestion.prompt,
-                risk: newQuestion.risk,
-                category: newQuestion.category,
-                correctAnswer: newQuestion.correctAnswer,
-                explanation: newQuestion.explanation,
-                cancerType: newQuestion.cancerType,
+                prompt_en: newQuestion.prompt_en || newQuestion.prompt || '',
+                prompt_zh: newQuestion.prompt_zh || '',
+                prompt_ms: newQuestion.prompt_ms || '',
+                prompt_ta: newQuestion.prompt_ta || '',
+                weight: newQuestion.weight || '',
+                yesValue: newQuestion.yesValue ?? '100',
+                noValue: newQuestion.noValue ?? '0',
+                category: newQuestion.category || '',
+                explanation_en: newQuestion.explanation_en || newQuestion.explanation || '',
+                explanation_zh: newQuestion.explanation_zh || '',
+                explanation_ms: newQuestion.explanation_ms || '',
+                explanation_ta: newQuestion.explanation_ta || '',
+                cancerType: newQuestion.cancerType || '',
                 minAge: newQuestion.minAge || ''
             };
             this.questions.push(questionToAdd);
@@ -283,7 +363,6 @@ export class QuestionModel {
             nextId++;
         }
 
-        // Save all changes to CSV
         await this.saveQuestions();
         return {
             added,
@@ -291,137 +370,54 @@ export class QuestionModel {
         };
     }
 
+    /**
+     * Bulk update questions (used by cancer type editor)
+     */
+    async bulkUpdateQuestions(questionsToUpdate) {
+        await this.loadQuestions();
+        
+        let updated = 0;
+        for (const updateData of questionsToUpdate) {
+            const index = this.questions.findIndex(q => q.id === updateData.id);
+            if (index !== -1) {
+                // Handle backward compatibility
+                if (updateData.prompt && !updateData.prompt_en) {
+                    updateData.prompt_en = updateData.prompt;
+                    delete updateData.prompt;
+                }
+                if (updateData.explanation && !updateData.explanation_en) {
+                    updateData.explanation_en = updateData.explanation;
+                    delete updateData.explanation;
+                }
+                
+                this.questions[index] = { ...this.questions[index], ...updateData };
+                updated++;
+            }
+        }
+
+        await this.saveQuestions();
+        return { updated };
+    }
+
     getDefaultQuestions() {
         return [
             {
-                id: 'symptoms',
-                prompt: "I've seen blood in my stool or had a big change in bowel habits, but I haven't seen a doctor.",
-                risk: 'HIGH',
+                id: '1',
+                prompt_en: "I've seen blood in my stool or had a big change in bowel habits, but I haven't seen a doctor.",
+                prompt_zh: '我发现大便带血或排便习惯有很大变化，但我还没有去看医生。',
+                prompt_ms: "Saya melihat darah dalam najis atau perubahan besar dalam tabiat usus, tetapi saya belum berjumpa doktor.",
+                prompt_ta: 'மலத்தில் இரத்தம் அல்லது குடல் பழக்கங்களில் பெரிய மாற்றத்தைக் கண்டேன்- ஆனால் மருத்துவரை சந்திக்கவில்லை.',
+                weight: '10.14',
+                yesValue: '100',
+                noValue: '0',
                 category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "These are potential warning signs. You must see a doctor to get them checked out."
-            },
-            {
-                id: 'polyps',
-                prompt: "A doctor told me I had colon polyps in the past, but I've missed my follow-up appointment.",
-                risk: 'HIGH',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "Past polyps increase your risk. Regular follow-ups are critical for prevention."
-            },
-            {
-                id: 'ibd',
-                prompt: "I have been diagnosed with Inflammatory Bowel Disease (IBD), like Crohn's or colitis.",
-                risk: 'HIGH',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "IBD significantly increases your risk. Regular screening is essential."
-            },
-            {
-                id: 'screening-missed',
-                prompt: "I was given a take-home screening kit (like a FIT kit) but I haven't sent it back.",
-                risk: 'HIGH',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "The best test is the one that gets done! Screening is the #1 way to catch CRC early."
-            },
-            {
-                id: 'age-gate-over-45',
-                prompt: "I am 45 or older and have *not* had my first colorectal cancer screening.",
-                risk: 'HIGH',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "Screening is recommended to start at age 45. It's the most effective way to prevent CRC."
-            },
-            {
-                id: 'smoking',
-                prompt: "I am a current smoker.",
-                risk: 'MEDIUM',
-                category: 'Lifestyle',
-                correctAnswer: 'No',
-                explanation: "Smoking increases the risk of many cancers, including colorectal cancer."
-            },
-            {
-                id: 'alcohol',
-                prompt: "I drink more than one alcoholic beverage per day on average.",
-                risk: 'MEDIUM',
-                category: 'Lifestyle',
-                correctAnswer: 'No',
-                explanation: "Heavy or regular alcohol use is a known risk factor for CRC."
-            },
-            {
-                id: 'processed-meat',
-                prompt: "I eat processed meats (like hot dogs, bacon, or ham) most weeks.",
-                risk: 'MEDIUM',
-                category: 'Diet & Nutrition',
-                correctAnswer: 'No',
-                explanation: "Processed meats are strongly linked to an increased risk of colorectal cancer."
-            },
-            {
-                id: 'red-meat',
-                prompt: "I eat red meat (like beef or lamb) more than 3 times per week.",
-                risk: 'MEDIUM',
-                category: 'Diet & Nutrition',
-                correctAnswer: 'No',
-                explanation: "High red meat consumption can increase your risk. Try swapping in fish or chicken."
-            },
-            {
-                id: 'sedentary',
-                prompt: "I am mostly sedentary and get less than 30 minutes of intentional exercise most days.",
-                risk: 'MEDIUM',
-                category: 'Lifestyle',
-                correctAnswer: 'No',
-                explanation: "A sedentary lifestyle is a key risk factor. Regular activity helps keep your colon healthy."
-            },
-            {
-                id: 'fiber',
-                prompt: "I rarely eat high-fiber foods like fruits, vegetables, or whole grains.",
-                risk: 'MEDIUM',
-                category: 'Diet & Nutrition',
-                correctAnswer: 'No',
-                explanation: "Fiber is crucial for a healthy colon. It helps move waste through your system."
-            },
-            {
-                id: 'weight',
-                prompt: "I am currently overweight.",
-                risk: 'MEDIUM',
-                category: 'Lifestyle',
-                correctAnswer: 'No',
-                explanation: "Being overweight or obese increases your risk of developing colorectal cancer."
-            },
-            {
-                id: 'diabetes',
-                prompt: "I have been diagnosed with Type 2 diabetes.",
-                risk: 'MEDIUM',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "Type 2 diabetes has been linked to an increased risk of colorectal cancer."
-            },
-            {
-                id: 'grains',
-                prompt: "I usually choose white bread and white rice over whole-grain options.",
-                risk: 'LOW',
-                category: 'Diet & Nutrition',
-                correctAnswer: 'No',
-                explanation: "Whole grains contain more fiber, which is important for colon health."
-            },
-            {
-                id: 'cooking',
-                prompt: "I often cook my food using high-heat methods like charring, grilling, or barbecuing.",
-                risk: 'LOW',
-                category: 'Diet & Nutrition',
-                correctAnswer: 'No',
-                explanation: "Some studies suggest high-heat cooking may create chemicals linked to cancer risk."
-            },
-            {
-                id: 'age-gate-under-45',
-                prompt: "I am under 45, and I have *never* discussed my personal CRC risk with a doctor.",
-                risk: 'LOW',
-                category: 'Medical History',
-                correctAnswer: 'No',
-                explanation: "It's never too early to know your risk, especially if you have a family history."
+                explanation_en: "These are potential warning signs. You must see a doctor to get them checked out.",
+                explanation_zh: '这些是潜在的警告信号。您必须去看医生进行检查。',
+                explanation_ms: "Ini adalah tanda amaran yang berpotensi. Anda mesti berjumpa doktor untuk memeriksanya.",
+                explanation_ta: 'இவை சாத்தியமான எச்சரிக்கை அறிகுறிகள். நீங்கள் மருத்துவரிடம் பரிசோதிக்க வேண்டும்.',
+                cancerType: 'Colorectal',
+                minAge: ''
             }
         ];
     }
 }
-

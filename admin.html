@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - SCS Risk Assessment</title>
     <script>
-        // Check if user is authenticated
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('adminToken');
             if (!token) {
@@ -16,325 +15,39 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/utilities.css">
-    <style>
-        body {
-            padding: 20px;
-            background: var(--color-background);
-        }
-        .admin-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .admin-header {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .admin-header h1 {
-            margin: 0;
-            color: var(--color-primary);
-        }
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .tab {
-            padding: 12px 24px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .tab.active {
-            background: var(--color-primary);
-            color: white;
-            border-color: var(--color-primary);
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .card h2 {
-            margin-top: 0;
-            color: var(--color-primary);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--color-primary);
-        }
-        .stat-label {
-            color: var(--color-light-text);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: var(--color-dark-text);
-        }
-        tr:hover {
-            background: #f8f9fa;
-        }
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .badge-high {
-            background: #ffe5e5;
-            color: var(--color-risk-high);
-        }
-        .badge-medium {
-            background: #fff4e5;
-            color: #f57c00;
-        }
-        .badge-low {
-            background: #e8f5e9;
-            color: var(--color-risk-low);
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--color-light-text);
-        }
-        .success {
-            background: #e8f5e9;
-            color: var(--color-risk-low);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .error {
-            background: #ffe5e5;
-            color: var(--color-risk-high);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .refresh-btn {
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .refresh-btn:hover {
-            opacity: 0.9;
-        }
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 5px;
-            transition: opacity 0.2s;
-        }
-        .action-btn:hover {
-            opacity: 0.8;
-        }
-        .edit-btn {
-            background: #2196f3;
-            color: white;
-        }
-        .delete-btn {
-            background: #f44336;
-            color: white;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .modal-header h2 {
-            margin: 0;
-            color: var(--color-primary);
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: var(--color-dark-text);
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .btn-primary {
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-        }
-        .btn-secondary {
-            background: #999;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-        }
-        .btn-primary:hover,
-        .btn-secondary:hover {
-            opacity: 0.9;
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
             <div>
-                <h1>🔐 SCS Risk Assessment - Admin Panel</h1>
-                <p>Manage questions and view assessment analytics</p>
+                <h1>SCS Risk Assessment Admin</h1>
+                <p>Manage cancer types, questions, and view analytics</p>
             </div>
-            <button class="btn-logout" onclick="logout()">Logout</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
 
         <div class="tabs">
-            <button class="tab active" data-tab="questions">Questions</button>
+            <button class="tab active" data-tab="content">Content Management</button>
             <button class="tab" data-tab="assessments">Assessments</button>
             <button class="tab" data-tab="statistics">Statistics</button>
-            <button class="tab" data-tab="addQuestions">Add Questions</button>
         </div>
 
-        <!-- Questions Tab -->
-        <div id="questions-tab" class="tab-content active">
-            <div class="card">
-                <h2>Question Database</h2>
-                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-                    <button class="refresh-btn" onclick="loadQuestions()" style="margin-bottom: 0;">🔄 Refresh</button>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <label for="cancer-type-filter" style="font-weight: 600; color: var(--color-dark-text);">Filter by Cancer Type:</label>
-                        <select id="cancer-type-filter" onchange="filterQuestions()" style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                            <option value="all">All Cancer Types</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="questions-success" class="success" style="display: none;"></div>
-                <div id="questions-loading" class="loading">Loading questions...</div>
-                <div id="questions-error" class="error" style="display: none;"></div>
-                <table id="questions-table" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Question</th>
-                            <th>Risk Level</th>
-                            <th>Category</th>
-                            <th>Explanation</th>
-                            <th>Cancer Type(s)</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="questions-tbody"></tbody>
-                </table>
-            </div>
+        <!-- Content Management Tab -->
+        <div id="content-tab" class="tab-content active">
+            <div id="content-success" class="success" style="display: none;"></div>
+            <div id="content-error" class="error" style="display: none;"></div>
+            <div id="content-loading" class="loading">Loading cancer types...</div>
+            <div id="cancer-types-grid" class="cancer-types-grid" style="display: none;"></div>
         </div>
 
         <!-- Assessments Tab -->
         <div id="assessments-tab" class="tab-content">
             <div class="card">
                 <h2>Assessment Results</h2>
-                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-                    <button class="refresh-btn" onclick="loadAssessments()" style="margin-bottom: 0;">🔄 Refresh</button>
-                    <button class="refresh-btn" onclick="exportAssessmentsCSV()" style="margin-bottom: 0;">⬇️ Export CSV</button>
+                <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                    <button class="btn btn-primary" onclick="loadAssessments()">Refresh</button>
+                    <button class="btn btn-outline" onclick="exportAssessmentsCSV()">Export CSV</button>
                 </div>
                 <div id="assessments-loading" class="loading">Loading assessments...</div>
                 <div id="assessments-error" class="error" style="display: none;"></div>
@@ -347,7 +60,7 @@
                             <th>Family History</th>
                             <th>Risk Score</th>
                             <th>Risk Level</th>
-                            <th>Questions & Answers</th>
+                            <th>Questions</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -360,7 +73,7 @@
         <div id="statistics-tab" class="tab-content">
             <div class="card">
                 <h2>Analytics Dashboard</h2>
-                <button class="refresh-btn" onclick="loadStatistics()">🔄 Refresh</button>
+                <button class="btn btn-primary" onclick="loadStatistics()">Refresh</button>
                 <div id="stats-loading" class="loading">Loading statistics...</div>
                 <div id="stats-error" class="error" style="display: none;"></div>
                 <div id="stats-content" style="display: none;">
@@ -372,98 +85,296 @@
                 </div>
             </div>
         </div>
-
-        <!-- Add Questions Tab -->
-        <div id="addQuestions-tab" class="tab-content">
-            <div class="card">
-                <h2>Adding Questions</h2>
-                <div id="addQuestions-loading" class="loading">Loading Question Form...</div>
-                <div id="addQuestions-error" class="error" style="display: none;"></div>
-                <div id="addQuestions-content" style="display: none;">
-                   
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Edit Question Modal -->
-    <div id="question-modal" class="modal">
+    <!-- Cancer Type Edit Modal -->
+    <div id="cancer-type-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title">Edit Question</h2>
+                <h2 id="modal-title">Edit Cancer Type</h2>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
-            <form id="question-form" onsubmit="saveQuestion(event)">
-                <div class="form-group">
-                    <label for="question-id">ID *</label>
-                    <input type="text" id="question-id" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="question-prompt">Question Prompt *</label>
-                    <textarea id="question-prompt" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="question-risk">Risk Level *</label>
-                    <select id="question-risk" required>
-                        <option value="HIGH">High</option>
-                        <option value="MEDIUM">Medium</option>
-                        <option value="LOW">Low</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="question-category">Category *</label>
-                    <select id="question-category" required>
-                        <option value="Diet & Nutrition">Diet & Nutrition</option>
-                        <option value="Lifestyle">Lifestyle</option>
-                        <option value="Medical History">Medical History</option>
-                        <option value="Family & Genetics">Family & Genetics</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="question-answer">Correct Answer *</label>
-                    <select id="question-answer" required>
-                        <option value="No">No</option>
-                        <option value="Yes">Yes</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="question-explanation">Explanation *</label>
-                    <textarea id="question-explanation" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="question-cancer-type">Cancer Type</label>
-                    <input type="text" id="question-cancer-type" value="colorectal">
-                </div>
-                <div class="form-group">
-                    <label for="question-min-age">Minimum Age (optional)</label>
-                    <input type="number" id="question-min-age" placeholder="e.g., 45">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Question</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form id="cancer-type-form">
+                    <!-- Card Settings Section -->
+                    <div class="section-header">
+                        <h3>Card Settings</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ct-id">Cancer Type ID *</label>
+                        <input type="text" id="ct-id" placeholder="e.g., colorectal, breast" required>
+                        <small>Lowercase, no spaces. Used as unique identifier.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ct-icon">Icon (Emoji)</label>
+                        <input type="text" id="ct-icon" placeholder="e.g., 🩺" maxlength="4">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-en" placeholder="English name">
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-zh" placeholder="中文名称">
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-ms" placeholder="Nama Melayu">
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-ta" placeholder="தமிழ் பெயர்">
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="ct-desc-en" placeholder="English description" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-zh" placeholder="中文描述" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-ms" placeholder="Penerangan Melayu" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-ta" placeholder="தமிழ் விளக்கம்" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Family History Question Label</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="ct-family-en" placeholder="Has a close relative had [cancer] cancer?" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-zh" placeholder="是否有近亲患过此类癌症？" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-ms" placeholder="Adakah saudara terdekat pernah menghidap kanser ini?" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-ta" placeholder="நெருங்கிய உறவினர் இந்த புற்றுநோயால் பாதிக்கப்பட்டிருக்கிறார்களா?" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="max-width: 200px;">
+                        <label for="ct-family-weight">Family History Risk Weight (%)</label>
+                        <input type="number" id="ct-family-weight" step="0.01" min="0" max="100" value="10" placeholder="e.g., 10">
+                        <small>Risk weight applied when user has family history</small>
+                    </div>
+
+                    <!-- Demographic Risk Settings Section -->
+                    <div class="section-header" style="margin-top: 24px;">
+                        <h3>Demographic Risk Settings</h3>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="form-group">
+                            <label for="ct-gender-filter">Gender Filter</label>
+                            <select id="ct-gender-filter">
+                                <option value="all">All (Everyone)</option>
+                                <option value="female">Female Only</option>
+                                <option value="male">Male Only</option>
+                            </select>
+                            <small>Who can see this assessment</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ct-age-threshold">Age Risk Threshold</label>
+                            <input type="number" id="ct-age-threshold" min="0" max="120" placeholder="e.g., 50" value="0">
+                            <small>Age at which extra risk applies</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ct-age-weight">Age Risk Weight (%)</label>
+                            <input type="number" id="ct-age-weight" step="0.1" min="0" max="100" placeholder="e.g., 5" value="0">
+                            <small>Risk added if over age threshold</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ethnicity Risk Multipliers</label>
+                        <small style="display: block; margin-bottom: 8px;">1.0 = baseline risk, >1.0 = higher risk, <1.0 = lower risk</small>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                            <div>
+                                <label for="ct-eth-chinese" style="font-size: 0.85rem;">Chinese</label>
+                                <input type="number" id="ct-eth-chinese" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-malay" style="font-size: 0.85rem;">Malay</label>
+                                <input type="number" id="ct-eth-malay" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-indian" style="font-size: 0.85rem;">Indian</label>
+                                <input type="number" id="ct-eth-indian" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-caucasian" style="font-size: 0.85rem;">Caucasian</label>
+                                <input type="number" id="ct-eth-caucasian" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-others" style="font-size: 0.85rem;">Others</label>
+                                <input type="number" id="ct-eth-others" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Questions Section -->
+                    <div class="section-header" style="margin-top: 24px;">
+                        <h3>Questions (<span id="questions-count">0</span>)</h3>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="addQuestion()">+ Add Question</button>
+                    </div>
+
+                    <div id="questions-container"></div>
+
+                    <div class="weight-summary">
+                        <div>
+                            <div class="weight-value" id="total-weight">0.00%</div>
+                            <div class="weight-label">Total Weight</div>
+                        </div>
+                        <div id="weight-status" style="font-weight: 600;"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
+    <!-- Question Edit Modal -->
+    <div id="question-modal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>Edit Question</h2>
+                <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="question-form">
+                    <input type="hidden" id="q-index">
+                    
+                    <div class="form-group">
+                        <label>Question Prompt *</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="q-prompt-en" placeholder="Question in English" rows="3" required></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-zh" placeholder="中文问题" rows="3"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-ms" placeholder="Soalan dalam Bahasa Melayu" rows="3"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-ta" placeholder="தமிழில் கேள்வி" rows="3"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="form-group">
+                            <label for="q-weight">Weight % *</label>
+                            <input type="number" id="q-weight" step="0.01" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-yes">Yes Value *</label>
+                            <input type="number" id="q-yes" min="0" max="100" value="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-no">No Value *</label>
+                            <input type="number" id="q-no" min="0" max="100" value="0" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label for="q-category">Category *</label>
+                            <select id="q-category" required>
+                                <option value="Diet & Nutrition">Diet & Nutrition</option>
+                                <option value="Lifestyle">Lifestyle</option>
+                                <option value="Medical History">Medical History</option>
+                                <option value="Family & Genetics">Family & Genetics</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-minage">Min Age</label>
+                            <input type="number" id="q-minage" min="0" max="120" placeholder="Optional">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Explanation</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="q-exp-en" placeholder="Explanation in English" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-zh" placeholder="中文解释" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-ms" placeholder="Penjelasan dalam Bahasa Melayu" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-ta" placeholder="தமிழில் விளக்கம்" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeQuestionModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
         const API_BASE = window.location.origin.includes('localhost')
             ? 'http://localhost:3000/api'
             : '/api';
 
-        let currentEditId = null;
-        let allQuestions = [];
-        let questionFormCounter = 0;
+        let currentCancerType = null;
+        let currentQuestions = [];
+        let isNewCancerType = false;
 
-        function getAdminAuthHeaders(extraHeaders = {}) {
+        function getAuthHeaders(extraHeaders = {}) {
             const token = localStorage.getItem('adminToken');
             if (!token) return extraHeaders;
             return { ...extraHeaders, Authorization: `Bearer ${token}` };
         }
 
         async function adminFetch(url, options = {}) {
-            const headers = getAdminAuthHeaders(options.headers || {});
+            const headers = getAuthHeaders(options.headers || {});
             const response = await fetch(url, { ...options, headers });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('adminToken');
@@ -482,135 +393,32 @@
                 tab.classList.add('active');
                 document.getElementById(`${tabName}-tab`).classList.add('active');
 
-                // Load data when switching tabs
-                if (tabName === 'questions') loadQuestions();
+                if (tabName === 'content') loadCancerTypes();
                 if (tabName === 'assessments') loadAssessments();
                 if (tabName === 'statistics') loadStatistics();
-                if (tabName === 'addQuestions') loadQnForm();
             });
         });
 
-        // Populate cancer type filter dropdown
-        function populateCancerTypeFilter() {
-            const filterSelect = document.getElementById('cancer-type-filter');
+        // ==================== CANCER TYPES ====================
 
-            // Collect all cancer types, splitting comma-separated values
-            const allCancerTypes = [];
-            allQuestions.forEach(q => {
-                if (q.cancerType) {
-                    // Split by comma and trim whitespace
-                    const types = q.cancerType.split(',').map(t => t.trim());
-                    allCancerTypes.push(...types);
-                }
-            });
-
-            // Get unique cancer types and sort them
-            const uniqueCancerTypes = [...new Set(allCancerTypes)].sort();
-
-            // Clear existing options except "All"
-            filterSelect.innerHTML = '<option value="all">All Cancer Types</option>';
-
-            // Add individual cancer types
-            uniqueCancerTypes.forEach(type => {
-                const option = document.createElement('option');
-                option.value = type;
-                option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-                filterSelect.appendChild(option);
-            });
-        }
-
-        // Filter questions by cancer type
-        window.filterQuestions = function () {
-            const filterValue = document.getElementById('cancer-type-filter').value;
-
-            if (filterValue === 'all') {
-                displayQuestions(allQuestions);
-            } else {
-                // Filter questions that have the selected cancer type
-                // Check if the cancer type exists in the comma-separated list
-                const filtered = allQuestions.filter(q => {
-                    if (!q.cancerType) return false;
-            
-                    // Split the cancerType field and check if it includes the filter value
-                    const types = q.cancerType.split(',').map(t => t.trim());
-                    return types.includes(filterValue);
-                });
-                displayQuestions(filtered);
-            }
-        };
-
-        window.exportAssessmentsCSV = async function () {
-            try {
-                const response = await adminFetch(`${API_BASE}/admin/assessments/export`);
-                if (!response.ok) {
-                    throw new Error(`Export failed (${response.status})`);
-                }
-
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `assessments_${new Date().toISOString().slice(0, 10)}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-            } catch (err) {
-                alert('Error exporting assessments: ' + err.message);
-            }
-        };
-
-        // Display questions in the table
-        function displayQuestions(questions) {
-            const tbody = document.getElementById('questions-tbody');
-
-            if (questions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">No questions found</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = questions.map(q => `
-                <tr>
-                    <td><code>${q.id}</code></td>
-                    <td>${q.prompt}</td>
-                    <td><span class="badge badge-${q.risk.toLowerCase()}">${q.risk}</span></td>
-                    <td>${q.category}</td>
-                    <td>${q.explanation}</td>
-                    <td>${q.cancerType || 'N/A'}</td>
-                    <td style="white-space: nowrap;">
-                        <button class="action-btn edit-btn" onclick="editQuestion('${q.id}')">Edit</button>
-                        <button class="action-btn delete-btn" onclick="deleteQuestion('${q.id}')">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Load Questions
-        window.loadQuestions = async function (keepSuccessMessage = false) {
-            const loading = document.getElementById('questions-loading');
-            const error = document.getElementById('questions-error');
-            const success = document.getElementById('questions-success');
-            const table = document.getElementById('questions-table');
-            const tbody = document.getElementById('questions-tbody');
+        window.loadCancerTypes = async function() {
+            const loading = document.getElementById('content-loading');
+            const grid = document.getElementById('cancer-types-grid');
+            const error = document.getElementById('content-error');
 
             loading.style.display = 'block';
+            grid.style.display = 'none';
             error.style.display = 'none';
-            if (!keepSuccessMessage) {
-                success.style.display = 'none';
-            }
-            table.style.display = 'none';
 
             try {
-                const response = await adminFetch(`${API_BASE}/admin/questions`);
+                const response = await adminFetch(`${API_BASE}/admin/cancer-types`);
                 const result = await response.json();
 
                 if (!result.success) throw new Error(result.error);
 
-                allQuestions = result.data;        // Store all questions
-                populateCancerTypeFilter();        // Populate the filter dropdown
-                displayQuestions(allQuestions);    // Display all questions initially
+                renderCancerTypeCards(result.data);
                 loading.style.display = 'none';
-                table.style.display = 'table';
+                grid.style.display = 'grid';
             } catch (err) {
                 loading.style.display = 'none';
                 error.textContent = `Error: ${err.message}`;
@@ -618,344 +426,323 @@
             }
         };
 
-        // Edit Question
-        window.editQuestion = async function (id) {
-            currentEditId = id;
-            document.getElementById('modal-title').textContent = 'Edit Question';
+        function renderCancerTypeCards(cancerTypes) {
+            const grid = document.getElementById('cancer-types-grid');
+            
+            let html = cancerTypes.map(ct => `
+                <div class="cancer-type-card" onclick="openCancerTypeEditor('${ct.id}')">
+                    <div class="card-icon">${ct.icon || '🏥'}</div>
+                    <div class="card-title">${ct.name_en || ct.id}</div>
+                    <div class="card-stats">${ct.questionCount} questions · ${ct.totalWeight}% weight</div>
+                    <div class="card-status ${ct.isValid ? 'valid' : 'invalid'}">
+                        ${ct.isValid ? '✓ Valid' : '⚠ Needs adjustment'}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add "Add Cancer Type" card
+            html += `
+                <div class="cancer-type-card add-cancer-type-card" onclick="openNewCancerTypeEditor()">
+                    <div class="add-icon">+</div>
+                    <div class="add-text">Add Cancer Type</div>
+                </div>
+            `;
+
+            grid.innerHTML = html;
+        }
+
+        window.openNewCancerTypeEditor = function() {
+            isNewCancerType = true;
+            currentCancerType = null;
+            currentQuestions = [];
+
+            // Clear form
+            document.getElementById('ct-id').value = '';
+            document.getElementById('ct-id').disabled = false;
+            document.getElementById('ct-icon').value = '🏥';
+            document.getElementById('ct-name-en').value = '';
+            document.getElementById('ct-name-zh').value = '';
+            document.getElementById('ct-name-ms').value = '';
+            document.getElementById('ct-name-ta').value = '';
+            document.getElementById('ct-desc-en').value = '';
+            document.getElementById('ct-desc-zh').value = '';
+            document.getElementById('ct-desc-ms').value = '';
+            document.getElementById('ct-desc-ta').value = '';
+            document.getElementById('ct-family-en').value = '';
+            document.getElementById('ct-family-zh').value = '';
+            document.getElementById('ct-family-ms').value = '';
+            document.getElementById('ct-family-ta').value = '';
+            document.getElementById('ct-family-weight').value = '10';
+            document.getElementById('ct-gender-filter').value = 'all';
+            document.getElementById('ct-age-threshold').value = '0';
+            document.getElementById('ct-age-weight').value = '0';
+            document.getElementById('ct-eth-chinese').value = '1.0';
+            document.getElementById('ct-eth-malay').value = '1.0';
+            document.getElementById('ct-eth-indian').value = '1.0';
+            document.getElementById('ct-eth-caucasian').value = '1.0';
+            document.getElementById('ct-eth-others').value = '1.0';
+
+            document.getElementById('modal-title').textContent = 'Add Cancer Type';
+            document.getElementById('questions-container').innerHTML = '';
+            updateQuestionsCount();
+            updateTotalWeight();
+
+            document.getElementById('cancer-type-modal').classList.add('active');
+        };
+
+        window.openCancerTypeEditor = async function(id) {
+            isNewCancerType = false;
 
             try {
-                const response = await adminFetch(`${API_BASE}/admin/questions`);
+                const response = await adminFetch(`${API_BASE}/admin/cancer-types/${id}`);
                 const result = await response.json();
-                const question = result.data.find(q => q.id === id);
 
-                if (!question) throw new Error('Question not found');
+                if (!result.success) throw new Error(result.error);
 
-                document.getElementById('question-id').value = question.id;
-                document.getElementById('question-prompt').value = question.prompt;
-                document.getElementById('question-risk').value = question.risk;
-                document.getElementById('question-category').value = question.category;
-                document.getElementById('question-answer').value = question.correctAnswer;
-                document.getElementById('question-explanation').value = question.explanation;
-                document.getElementById('question-cancer-type').value = question.cancerType;
-                document.getElementById('question-min-age').value = question.minAge || '';
+                currentCancerType = result.data;
+                currentQuestions = result.data.questions || [];
 
-                document.getElementById('question-modal').classList.add('active');
+                // Populate form
+                document.getElementById('ct-id').value = currentCancerType.id;
+                document.getElementById('ct-id').disabled = true;
+                document.getElementById('ct-icon').value = currentCancerType.icon || '';
+                document.getElementById('ct-name-en').value = currentCancerType.name_en || '';
+                document.getElementById('ct-name-zh').value = currentCancerType.name_zh || '';
+                document.getElementById('ct-name-ms').value = currentCancerType.name_ms || '';
+                document.getElementById('ct-name-ta').value = currentCancerType.name_ta || '';
+                document.getElementById('ct-desc-en').value = currentCancerType.description_en || '';
+                document.getElementById('ct-desc-zh').value = currentCancerType.description_zh || '';
+                document.getElementById('ct-desc-ms').value = currentCancerType.description_ms || '';
+                document.getElementById('ct-desc-ta').value = currentCancerType.description_ta || '';
+                document.getElementById('ct-family-en').value = currentCancerType.familyLabel_en || '';
+                document.getElementById('ct-family-zh').value = currentCancerType.familyLabel_zh || '';
+                document.getElementById('ct-family-ms').value = currentCancerType.familyLabel_ms || '';
+                document.getElementById('ct-family-ta').value = currentCancerType.familyLabel_ta || '';
+                document.getElementById('ct-family-weight').value = currentCancerType.familyWeight || '10';
+                document.getElementById('ct-gender-filter').value = currentCancerType.genderFilter || 'all';
+                document.getElementById('ct-age-threshold').value = currentCancerType.ageRiskThreshold || '0';
+                document.getElementById('ct-age-weight').value = currentCancerType.ageRiskWeight || '0';
+                document.getElementById('ct-eth-chinese').value = currentCancerType.ethnicityRisk_chinese || '1.0';
+                document.getElementById('ct-eth-malay').value = currentCancerType.ethnicityRisk_malay || '1.0';
+                document.getElementById('ct-eth-indian').value = currentCancerType.ethnicityRisk_indian || '1.0';
+                document.getElementById('ct-eth-caucasian').value = currentCancerType.ethnicityRisk_caucasian || '1.0';
+                document.getElementById('ct-eth-others').value = currentCancerType.ethnicityRisk_others || '1.0';
+
+                document.getElementById('modal-title').textContent = `Edit: ${currentCancerType.name_en || currentCancerType.id}`;
+                
+                renderQuestionsList();
+                document.getElementById('cancer-type-modal').classList.add('active');
             } catch (err) {
-                alert('Error loading question: ' + err.message);
+                showError(err.message);
             }
         };
 
-        // Save Question
-        window.saveQuestion = async function (event) {
-            event.preventDefault();
+        function renderQuestionsList() {
+            const container = document.getElementById('questions-container');
+            
+            if (currentQuestions.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-light-text); text-align: center; padding: 20px;">No questions yet. Click "Add Question" to create one.</p>';
+            } else {
+                container.innerHTML = currentQuestions.map((q, index) => `
+                    <div class="question-editor-row">
+                        <div class="row-header">
+                            <span class="row-number">#${index + 1}</span>
+                            <div>
+                                <button type="button" class="action-btn edit-btn" onclick="editQuestion(${index})">Edit</button>
+                                <button type="button" class="action-btn delete-btn" onclick="deleteQuestion(${index})">Delete</button>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; margin-bottom: 8px;">${truncate(q.prompt_en || '', 100)}</div>
+                        <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--color-light-text);">
+                            <span>Weight: <strong>${q.weight || 0}%</strong></span>
+                            <span>Category: ${q.category || '-'}</span>
+                            <span>Yes: ${q.yesValue || 100}% / No: ${q.noValue || 0}%</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
 
-            const questionData = {
-                id: document.getElementById('question-id').value,
-                prompt: document.getElementById('question-prompt').value,
-                risk: document.getElementById('question-risk').value,
-                category: document.getElementById('question-category').value,
-                correctAnswer: document.getElementById('question-answer').value,
-                explanation: document.getElementById('question-explanation').value,
-                cancerType: document.getElementById('question-cancer-type').value,
-                minAge: document.getElementById('question-min-age').value || ''
+            updateQuestionsCount();
+            updateTotalWeight();
+        }
+
+        function truncate(str, len) {
+            return str.length > len ? str.substring(0, len) + '...' : str;
+        }
+
+        function updateQuestionsCount() {
+            document.getElementById('questions-count').textContent = currentQuestions.length;
+        }
+
+        function updateTotalWeight() {
+            const total = currentQuestions.reduce((sum, q) => sum + (parseFloat(q.weight) || 0), 0);
+            const weightEl = document.getElementById('total-weight');
+            const statusEl = document.getElementById('weight-status');
+            const isValid = Math.abs(total - 100) <= 1;
+
+            weightEl.textContent = total.toFixed(2) + '%';
+            weightEl.className = 'weight-value ' + (isValid ? 'valid' : 'invalid');
+
+            if (isValid) {
+                statusEl.textContent = '✓ Valid';
+                statusEl.style.color = 'var(--color-risk-low)';
+            } else {
+                const diff = (100 - total).toFixed(2);
+                statusEl.textContent = diff > 0 ? `Need ${diff}% more` : `Reduce by ${Math.abs(diff)}%`;
+                statusEl.style.color = 'var(--color-risk-high)';
+            }
+        }
+
+        window.addQuestion = function() {
+            currentQuestions.push({
+                prompt_en: '',
+                prompt_zh: '',
+                prompt_ms: '',
+                prompt_ta: '',
+                weight: '0',
+                yesValue: '100',
+                noValue: '0',
+                category: 'Medical History',
+                explanation_en: '',
+                explanation_zh: '',
+                explanation_ms: '',
+                explanation_ta: '',
+                minAge: ''
+            });
+            renderQuestionsList();
+            editQuestion(currentQuestions.length - 1);
+        };
+
+        window.editQuestion = function(index) {
+            const q = currentQuestions[index];
+            document.getElementById('q-index').value = index;
+            document.getElementById('q-prompt-en').value = q.prompt_en || '';
+            document.getElementById('q-prompt-zh').value = q.prompt_zh || '';
+            document.getElementById('q-prompt-ms').value = q.prompt_ms || '';
+            document.getElementById('q-prompt-ta').value = q.prompt_ta || '';
+            document.getElementById('q-weight').value = q.weight || '';
+            document.getElementById('q-yes').value = q.yesValue || 100;
+            document.getElementById('q-no').value = q.noValue || 0;
+            document.getElementById('q-category').value = q.category || 'Medical History';
+            document.getElementById('q-minage').value = q.minAge || '';
+            document.getElementById('q-exp-en').value = q.explanation_en || '';
+            document.getElementById('q-exp-zh').value = q.explanation_zh || '';
+            document.getElementById('q-exp-ms').value = q.explanation_ms || '';
+            document.getElementById('q-exp-ta').value = q.explanation_ta || '';
+
+            document.getElementById('question-modal').classList.add('active');
+        };
+
+        window.deleteQuestion = function(index) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                currentQuestions.splice(index, 1);
+                renderQuestionsList();
+            }
+        };
+
+        // Question form submit
+        document.getElementById('question-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('q-index').value);
+
+            currentQuestions[index] = {
+                ...currentQuestions[index],
+                prompt_en: document.getElementById('q-prompt-en').value,
+                prompt_zh: document.getElementById('q-prompt-zh').value,
+                prompt_ms: document.getElementById('q-prompt-ms').value,
+                prompt_ta: document.getElementById('q-prompt-ta').value,
+                weight: document.getElementById('q-weight').value,
+                yesValue: document.getElementById('q-yes').value,
+                noValue: document.getElementById('q-no').value,
+                category: document.getElementById('q-category').value,
+                minAge: document.getElementById('q-minage').value,
+                explanation_en: document.getElementById('q-exp-en').value,
+                explanation_zh: document.getElementById('q-exp-zh').value,
+                explanation_ms: document.getElementById('q-exp-ms').value,
+                explanation_ta: document.getElementById('q-exp-ta').value
+            };
+
+            closeQuestionModal();
+            renderQuestionsList();
+        });
+
+        window.closeQuestionModal = function() {
+            document.getElementById('question-modal').classList.remove('active');
+        };
+
+        // Cancer type form submit
+        document.getElementById('cancer-type-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const saveBtn = document.getElementById('save-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
+            const cancerTypeData = {
+                id: document.getElementById('ct-id').value.toLowerCase().trim(),
+                icon: document.getElementById('ct-icon').value,
+                name_en: document.getElementById('ct-name-en').value,
+                name_zh: document.getElementById('ct-name-zh').value,
+                name_ms: document.getElementById('ct-name-ms').value,
+                name_ta: document.getElementById('ct-name-ta').value,
+                description_en: document.getElementById('ct-desc-en').value,
+                description_zh: document.getElementById('ct-desc-zh').value,
+                description_ms: document.getElementById('ct-desc-ms').value,
+                description_ta: document.getElementById('ct-desc-ta').value,
+                familyLabel_en: document.getElementById('ct-family-en').value,
+                familyLabel_zh: document.getElementById('ct-family-zh').value,
+                familyLabel_ms: document.getElementById('ct-family-ms').value,
+                familyLabel_ta: document.getElementById('ct-family-ta').value,
+                familyWeight: document.getElementById('ct-family-weight').value || '10',
+                genderFilter: document.getElementById('ct-gender-filter').value || 'all',
+                ageRiskThreshold: document.getElementById('ct-age-threshold').value || '0',
+                ageRiskWeight: document.getElementById('ct-age-weight').value || '0',
+                ethnicityRisk_chinese: document.getElementById('ct-eth-chinese').value || '1.0',
+                ethnicityRisk_malay: document.getElementById('ct-eth-malay').value || '1.0',
+                ethnicityRisk_indian: document.getElementById('ct-eth-indian').value || '1.0',
+                ethnicityRisk_caucasian: document.getElementById('ct-eth-caucasian').value || '1.0',
+                ethnicityRisk_others: document.getElementById('ct-eth-others').value || '1.0',
+                questions: currentQuestions
             };
 
             try {
                 let response;
-                response = await adminFetch(`${API_BASE}/admin/questions/${currentEditId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(questionData)
-                });
+                if (isNewCancerType) {
+                    response = await adminFetch(`${API_BASE}/admin/cancer-types`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(cancerTypeData)
+                    });
+                } else {
+                    response = await adminFetch(`${API_BASE}/admin/cancer-types/${cancerTypeData.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(cancerTypeData)
+                    });
+                }
 
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error);
+
                 closeModal();
-                showSuccess('Question updated successfully!');
-                loadQuestions(true);
+                showSuccess(isNewCancerType ? 'Cancer type created successfully!' : 'Changes saved successfully!');
+                loadCancerTypes();
             } catch (err) {
-                alert('Error saving question: ' + err.message);
+                showError(err.message);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Changes';
             }
+        });
+
+        window.closeModal = function() {
+            document.getElementById('cancer-type-modal').classList.remove('active');
+            currentCancerType = null;
+            currentQuestions = [];
         };
 
-        // Delete Question
-        window.deleteQuestion = async function (id) {
-            if (!confirm('Are you sure you want to delete this question? This action cannot be undone.')) {
-                return;
-            }
+        // ==================== ASSESSMENTS ====================
 
-            try {
-                const response = await adminFetch(`${API_BASE}/admin/questions/${id}`, {
-                    method: 'DELETE'
-                });
-                const result = await response.json();
-                if (!result.success) throw new Error(result.error);
-                showSuccess('Question deleted successfully!');
-                loadQuestions(true);
-            } catch (err) {
-                alert('Error deleting question: ' + err.message);
-            }
-        };
-
-        // Close Modal
-        window.closeModal = function () {
-            document.getElementById('question-modal').classList.remove('active');
-            document.getElementById('question-form').reset();
-            currentEditId = null;
-        };
-
-        // Show Success Message
-        function showSuccess(message) {
-            const success = document.getElementById('questions-success');
-            success.textContent = message;
-            success.style.display = 'block';
-            setTimeout(() => {
-                success.style.display = 'none';
-            }, 3000);
-        }
-
-        // Load form for adding questions
-        window.loadQnForm = function () {
-            const loading = document.getElementById('addQuestions-loading');
-            const error = document.getElementById('addQuestions-error');
-            const success = document.getElementById('addQuestions-success');
-            const content = document.getElementById('addQuestions-content');
-
-            loading.style.display = 'none';
-            error.style.display = 'none';
-            content.style.display = 'block';
-
-            content.innerHTML = `
-                <div id="add-questions-success" class="success" style="display: none;"></div>
-                <div id="add-questions-error" class="error" style="display: none;"></div>
-        
-                <div class="form-group">
-                    <label for="bulk-cancer-type">Cancer Type for All Questions *</label>
-                        <input type="text" id="bulk-cancer-type" placeholder="e.g., Breast, Lung" 
-                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                        <small style="color: #666; display: block; margin-top: 5px;">
-                            This cancer type will be applied to all questions below
-                        </small>
-                </div>
-    
-                <div id="questions-container" style="margin-top: 20px;"></div>
-    
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button class="btn-secondary" onclick="addQuestionForm()" style="flex: 0 0 auto;">
-                        ➕ Add Another Question
-                    </button>
-                    <button class="btn-primary" onclick="submitAllQuestions()" style="flex: 1;">
-                        💾 Save All Questions
-                    </button>
-                </div>
-            `;
-
-            // Add the first question form by default
-            questionFormCounter = 0;
-            addQuestionForm();
-        }
-
-        // Add a new question form
-        window.addQuestionForm = function () {
-            questionFormCounter++;
-            const container = document.getElementById('questions-container');
-
-            const formHtml = `
-                <div class="card" id="question-form-${questionFormCounter}" style="position: relative; margin-bottom: 20px;">
-                    <button class="close-btn" onclick="removeQuestionForm(${questionFormCounter})" 
-                            style="position: absolute; top: 15px; right: 15px; background: #f44336; color: white; 
-                            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; 
-                            justify-content: center; font-size: 18px; border: none; cursor: pointer;"
-                            title="Remove this question">
-                        ×
-                    </button>
-                
-                    <h3 style="margin-top: 0; color: var(--color-primary);">Question ${questionFormCounter}</h3>
-    
-                    <div class="form-group">
-                        <label>Question Prompt *</label>
-                        <textarea id="qprompt-${questionFormCounter}" rows="3" 
-                            placeholder="Enter the question text here..."
-                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; resize: vertical;"></textarea>
-                    </div>
-    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label>Risk Level *</label>
-                            <select id="qrisk-${questionFormCounter}" 
-                                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                                <option value="">Select risk level</option>
-                                <option value="HIGH">High</option>
-                                <option value="MEDIUM">Medium</option>
-                                <option value="LOW">Low</option>
-                            </select>
-                        </div>
-    
-                        <div class="form-group">
-                            <label>Category *</label>
-                            <select id="qcategory-${questionFormCounter}" 
-                                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                                <option value="">Select category</option>
-                                <option value="Diet & Nutrition">Diet & Nutrition</option>
-                                <option value="Lifestyle">Lifestyle</option>
-                                <option value="Medical History">Medical History</option>
-                                <option value="Family & Genetics">Family & Genetics</option>
-                            </select>
-                        </div>
-                    </div>
-    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label>Correct Answer *</label>
-                            <select id="qanswer-${questionFormCounter}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                                <option value="">Select answer</option>
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                        </div>
-    
-                        <div class="form-group">
-                            <label>Minimum Age (optional)</label>
-                            <input type="number" id="qminage-${questionFormCounter}" placeholder="e.g., 45" 
-                                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                        </div>
-                    </div>
-    
-                    <div class="form-group">
-                        <label>Explanation *</label>
-                        <textarea id="qexplanation-${questionFormCounter}" rows="3" 
-                            placeholder="Explain why this is a risk factor..."
-                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; resize: vertical;"></textarea>
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', formHtml);
-            updateQuestionNumbers();
-        };
-
-        // Remove a question form
-        window.removeQuestionForm = function (id) {
-            const form = document.getElementById(`question-form-${id}`);
-            if (form) {
-                form.remove();
-            }
-
-            // If no forms left, add one
-            const container = document.getElementById('questions-container');
-            if (container.children.length === 0) {
-                addQuestionForm();
-            } else {
-                updateQuestionNumbers();
-            }
-        };
-
-        // Update question numbers 
-        function updateQuestionNumbers() {
-            const container = document.getElementById('questions-container');
-            const forms = container.querySelectorAll('.card');
-
-            forms.forEach((form, index) => {
-                const formId = form.id.split('-').pop();
-                const label = form.querySelector(`#question-label-${formId}`);
-                if (label) {
-                    label.textContent = index + 1;
-                }
-            });
-        }
-
-        // Submit all questions
-        window.submitAllQuestions = async function () {
-            const successDiv = document.getElementById('add-questions-success');
-            const errorDiv = document.getElementById('add-questions-error');
-
-            successDiv.style.display = 'none';
-            errorDiv.style.display = 'none';
-
-            // Get the bulk cancer type
-            const bulkCancerType = document.getElementById('bulk-cancer-type').value.trim();
-            if (!bulkCancerType) {
-                errorDiv.textContent = 'Please enter a cancer type for all questions.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            // Collect all question data
-            const container = document.getElementById('questions-container');
-            const forms = container.querySelectorAll('.card');
-            const questions = [];
-            let questionNumber = 1;
-
-            for (const form of forms) {
-                const formId = form.id.split('-').pop();
-
-                const prompt = document.getElementById(`qprompt-${formId}`)?.value.trim();
-                const risk = document.getElementById(`qrisk-${formId}`)?.value;
-                const category = document.getElementById(`qcategory-${formId}`)?.value;
-                const correctAnswer = document.getElementById(`qanswer-${formId}`)?.value;
-                const explanation = document.getElementById(`qexplanation-${formId}`)?.value.trim();
-                const minAge = document.getElementById(`qminage-${formId}`)?.value.trim();
-
-                // Validate required fields
-                if (!prompt || !risk || !category || !correctAnswer || !explanation) {
-                    errorDiv.textContent = `Please fill in all required fields for Question ${formId}.`;
-                    errorDiv.style.display = 'block';
-                    return;
-                }
-
-                questions.push({
-                    prompt,
-                    risk,
-                    category,
-                    correctAnswer,
-                    explanation,
-                    cancerType: bulkCancerType,
-                    minAge: minAge || ''
-                });
-                questionNumber++;
-            }
-
-            if (questions.length === 0) {
-                errorDiv.textContent = 'Please add at least one question.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            try {
-                // Send questions to backend
-                const response = await adminFetch(`${API_BASE}/admin/questions/bulk`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ questions })
-                });
-
-                const result = await response.json();
-
-                if (!result.success) {
-                    throw new Error(result.error);
-                }
-
-                // Show success message
-                successDiv.innerHTML = `
-                    <strong>Success!</strong><br>
-                    ${result.data.added} question(s) added<br>
-                `;
-                successDiv.style.display = 'block';
-
-                // Clear the form
-                document.getElementById('bulk-cancer-type').value = '';
-                document.getElementById('questions-container').innerHTML = '';
-                questionFormCounter = 0;
-                addQuestionForm();
-
-                // Scroll to success message
-                successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } catch (err) {
-                errorDiv.textContent = `Error: ${err.message}`;
-                errorDiv.style.display = 'block';
-            }
-        };
-
-        // Load Assessments
         window.loadAssessments = async function() {
             const loading = document.getElementById('assessments-loading');
             const error = document.getElementById('assessments-error');
@@ -977,20 +764,16 @@
                 } else {
                     tbody.innerHTML = result.data.map(a => {
                         const date = new Date(a.timestamp).toLocaleString();
-                        // questionsAnswers is already parsed by the backend model
                         const questionsAnswers = Array.isArray(a.questionsAnswers) ? a.questionsAnswers : [];
-                        const qaSummary = questionsAnswers.length > 0 ?
-                            `${questionsAnswers.length} questions answered` :
-                            'N/A';
                         return `
                             <tr>
-                                <td><code>${a.id.substring(0, 20)}...</code></td>
-                                <td>${a.age || 'N/A'}</td>
-                                <td>${a.gender || 'N/A'}</td>
-                                <td>${a.familyHistory || 'N/A'}</td>
+                                <td><code style="font-size: 0.75rem;">${a.id.substring(0, 16)}...</code></td>
+                                <td>${a.age || '-'}</td>
+                                <td>${a.gender || '-'}</td>
+                                <td>${a.familyHistory || '-'}</td>
                                 <td><strong>${a.riskScore}</strong></td>
                                 <td><span class="badge badge-${a.riskLevel.toLowerCase()}">${a.riskLevel}</span></td>
-                                <td><span title="${qaSummary}" style="cursor: help;">${qaSummary}</span></td>
+                                <td>${questionsAnswers.length} answered</td>
                                 <td>${date}</td>
                             </tr>
                         `;
@@ -1006,7 +789,27 @@
             }
         };
 
-        // Load Statistics
+        window.exportAssessmentsCSV = async function() {
+            try {
+                const response = await adminFetch(`${API_BASE}/admin/assessments/export`);
+                if (!response.ok) throw new Error(`Export failed (${response.status})`);
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `assessments_${new Date().toISOString().slice(0, 10)}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                showError(err.message);
+            }
+        };
+
+        // ==================== STATISTICS ====================
+
         window.loadStatistics = async function() {
             const loading = document.getElementById('stats-loading');
             const error = document.getElementById('stats-error');
@@ -1027,7 +830,6 @@
 
                 const stats = result.data;
 
-                // Stats grid
                 grid.innerHTML = `
                     <div class="stat-card">
                         <div class="stat-value">${stats.total}</div>
@@ -1039,7 +841,6 @@
                     </div>
                 `;
 
-                // Risk distribution
                 riskTable.innerHTML = `
                     <thead><tr><th>Risk Level</th><th>Count</th><th>Percentage</th></tr></thead>
                     <tbody>
@@ -1053,7 +854,6 @@
                     </tbody>
                 `;
 
-                // Age distribution
                 ageTable.innerHTML = `
                     <thead><tr><th>Age Range</th><th>Count</th><th>Percentage</th></tr></thead>
                     <tbody>
@@ -1076,31 +876,25 @@
             }
         };
 
-        // Load initial data
-        loadQuestions();
+        // ==================== HELPERS ====================
+
+        function showSuccess(message) {
+            const el = document.getElementById('content-success');
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        }
+
+        function showError(message) {
+            const el = document.getElementById('content-error');
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 5000);
+        }
+
+        // Initial load
+        loadCancerTypes();
     </script>
     <script src="/js/logout.js"></script>
-    <style>
-        .btn-logout {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .btn-logout:hover {
-            background: #c82333;
-        }
-        .admin-header {
-            position: relative;
-            padding-right: 120px;
-        }
-    </style>
 </body>
 </html>
-

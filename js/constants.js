@@ -1,8 +1,21 @@
 // Application Constants
+
+/**
+ * @deprecated Use percentage-based weights from question data instead.
+ * Kept for backward compatibility with old scoring system.
+ */
 export const RISK_WEIGHTS = {
     HIGH: 15,
     MEDIUM: 8,
     LOW: 3
+};
+
+/**
+ * Default values for answer options if not specified in question data
+ */
+export const DEFAULT_ANSWER_VALUES = {
+    YES: 100,  // Answering Yes contributes 100% of question weight
+    NO: 0      // Answering No contributes 0% of question weight
 };
 
 export const RISK_LEVELS = {

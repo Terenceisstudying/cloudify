@@ -3,6 +3,10 @@ import { RISK_CATEGORIES } from './constants.js';
 /**
  * Game State Management (Single Responsibility)
  * Manages all game state with clear getters/setters
+ * 
+ * Updated for percentage-based scoring:
+ * - riskScore is now a percentage (0-100)
+ * - Each question contributes based on its weight and answer value
  */
 export class GameState {
     constructor() {
@@ -16,7 +20,7 @@ export class GameState {
         this.userEthnicity = '';
         this.userAssessmentType = 'colorectal';
         this.currentQuestionIndex = 0;
-        this.riskScore = 0;
+        this.riskScore = 0; // Percentage-based score (0-100)
         this.questions = [];
 
         this.riskByCategory = {
