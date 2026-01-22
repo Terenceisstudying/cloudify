@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
             age: userData.age,
             gender: userData.gender,
             familyHistory: userData.familyHistory,
+            assessmentType: userData.assessmentType || 'colorectal', // Add cancer type
             riskScore: riskResult.totalScore,
             riskLevel: riskResult.riskLevel,
             categoryRisks: riskResult.categoryRisks,

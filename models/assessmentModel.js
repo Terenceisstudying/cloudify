@@ -110,7 +110,8 @@ export class AssessmentModel {
             if (values.length === headers.length) {
                 const assessment = {};
                 headers.forEach((header, index) => {
-                    let value = values[index];
+                    let value = values[index] || '';
+
                     // Parse JSON strings for complex objects
                     if ((header === 'categoryRisks' || header === 'questionsAnswers') && value) {
                         try {
@@ -129,14 +130,15 @@ export class AssessmentModel {
 
     assessmentsToCSV() {
         if (this.assessments.length === 0) {
-            return 'id,age,gender,familyHistory,riskScore,riskLevel,categoryRisks,questionsAnswers,timestamp\n';
+            return 'id,age,gender,familyHistory,assessmentType,riskScore,riskLevel,categoryRisks,questionsAnswers,timestamp\n';
         }
 
-        const headers = Object.keys(this.assessments[0]);
-        const csvLines = [headers.join(',')];
+        // Always include all expected headers, regardless of what's in the first assessment
+        const expectedHeaders = ['id', 'age', 'gender', 'familyHistory', 'assessmentType', 'riskScore', 'riskLevel', 'categoryRisks', 'questionsAnswers', 'timestamp'];
+        const csvLines = [expectedHeaders.join(',')];
 
         this.assessments.forEach(assessment => {
-            const values = headers.map(header => {
+            const values = expectedHeaders.map(header => {
                 let value = assessment[header] || '';
 
                 // Stringify complex objects for CSV storage
@@ -171,30 +173,70 @@ export class AssessmentModel {
 
     async getStatistics() {
         await this.loadAssessments();
-        
+
         const total = this.assessments.length;
         const riskLevels = { LOW: 0, MEDIUM: 0, HIGH: 0 };
         const ages = {};
-        const avgRiskScore = total > 0
-            ? this.assessments.reduce((sum, a) => sum + (a.riskScore || 0), 0) / total
-            : 0;
+        const assessmentTypes = {};
+
+        // Group statistics by assessment type
+        const typeStats = {};
 
         this.assessments.forEach(assessment => {
-            // Count risk levels
+            const assessmentType = assessment.assessmentType || 'colorectal'; // Default for legacy data
+
+            // Initialize type stats if not exists
+            if (!typeStats[assessmentType]) {
+                typeStats[assessmentType] = {
+                    count: 0,
+                    totalRiskScore: 0,
+                    riskLevels: { LOW: 0, MEDIUM: 0, HIGH: 0 },
+                    ages: {}
+                };
+            }
+
+            // Update type-specific stats
+            typeStats[assessmentType].count++;
+            typeStats[assessmentType].totalRiskScore += (parseFloat(assessment.riskScore) || 0);
+
+            if (assessment.riskLevel) {
+                typeStats[assessmentType].riskLevels[assessment.riskLevel] =
+                    (typeStats[assessmentType].riskLevels[assessment.riskLevel] || 0) + 1;
+            }
+
+            const age = assessment.age || 'unknown';
+            typeStats[assessmentType].ages[age] = (typeStats[assessmentType].ages[age] || 0) + 1;
+
+            // Update global stats
             if (assessment.riskLevel) {
                 riskLevels[assessment.riskLevel] = (riskLevels[assessment.riskLevel] || 0) + 1;
             }
-
-            // Count ages
-            const age = assessment.age || 'unknown';
             ages[age] = (ages[age] || 0) + 1;
+            assessmentTypes[assessmentType] = (assessmentTypes[assessmentType] || 0) + 1;
         });
+
+        // Calculate averages per type
+        const averageRiskScoreByType = {};
+        Object.keys(typeStats).forEach(type => {
+            const stats = typeStats[type];
+            averageRiskScoreByType[type] = stats.count > 0
+                ? Math.round((stats.totalRiskScore / stats.count) * 100) / 100
+                : 0;
+        });
+
+        // Overall average (weighted by assessment type distribution)
+        const avgRiskScore = total > 0
+            ? this.assessments.reduce((sum, a) => sum + (parseFloat(a.riskScore) || 0), 0) / total
+            : 0;
 
         return {
             total,
-            averageRiskScore: Math.round(avgRiskScore * 100) / 100,
+            averageRiskScore: Math.round(avgRiskScore * 100) / 100, // Keep for backward compatibility
+            averageRiskScoreByType,
             riskLevelDistribution: riskLevels,
-            ageDistribution: ages
+            ageDistribution: ages,
+            assessmentTypeDistribution: assessmentTypes,
+            typeStats // Detailed stats per type
         };
     }
 }

@@ -82,6 +82,8 @@
                     <table id="risk-distribution-table"></table>
                     <h3>Age Distribution</h3>
                     <table id="age-distribution-table"></table>
+                    <h3>Cancer Type Distribution</h3>
+                    <table id="cancer-type-distribution-table"></table>
                 </div>
             </div>
         </div>
@@ -830,16 +832,32 @@
 
                 const stats = result.data;
 
-                grid.innerHTML = `
+                let statsHtml = `
                     <div class="stat-card">
                         <div class="stat-value">${stats.total}</div>
                         <div class="stat-label">Total Assessments</div>
-                    </div>
+                    </div>`;
+
+                // Add average risk score per cancer type
+                if (stats.averageRiskScoreByType) {
+                    Object.entries(stats.averageRiskScoreByType).forEach(([type, avgScore]) => {
+                        const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
+                        statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-value">${avgScore}</div>
+                        <div class="stat-label">Avg Risk (${typeLabel})</div>
+                    </div>`;
+                    });
+                } else {
+                    // Fallback for old format
+                    statsHtml += `
                     <div class="stat-card">
                         <div class="stat-value">${stats.averageRiskScore}</div>
                         <div class="stat-label">Avg Risk Score</div>
-                    </div>
-                `;
+                    </div>`;
+                }
+
+                grid.innerHTML = statsHtml;
 
                 riskTable.innerHTML = `
                     <thead><tr><th>Risk Level</th><th>Count</th><th>Percentage</th></tr></thead>
@@ -860,6 +878,20 @@
                         ${Object.entries(stats.ageDistribution || {}).map(([age, count]) => `
                             <tr>
                                 <td>${age}</td>
+                                <td>${count}</td>
+                                <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                const cancerTypeTable = document.getElementById('cancer-type-distribution-table');
+                cancerTypeTable.innerHTML = `
+                    <thead><tr><th>Cancer Type</th><th>Count</th><th>Percentage</th></tr></thead>
+                    <tbody>
+                        ${Object.entries(stats.assessmentTypeDistribution || {}).map(([type, count]) => `
+                            <tr>
+                                <td>${type.charAt(0).toUpperCase() + type.slice(1)}</td>
                                 <td>${count}</td>
                                 <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
                             </tr>
