@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SCS Risk Assessment</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = '/login.html';
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h1>SCS Risk Assessment Admin</h1>
+                <p>Manage cancer types, questions, and view analytics</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="content">Content Management</button>
+            <button class="tab" data-tab="assessments">Assessments</button>
+            <button class="tab" data-tab="statistics">Statistics</button>
+        </div>
+
+        <!-- Content Management Tab -->
+        <div id="content-tab" class="tab-content active">
+            <div id="content-success" class="success" style="display: none;"></div>
+            <div id="content-error" class="error" style="display: none;"></div>
+            <div id="content-loading" class="loading">Loading cancer types...</div>
+            <div id="cancer-types-grid" class="cancer-types-grid" style="display: none;"></div>
+        </div>
+
+        <!-- Assessments Tab -->
+        <div id="assessments-tab" class="tab-content">
+            <div class="card">
+                <h2>Assessment Results</h2>
+                <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                    <button class="btn btn-primary" onclick="loadAssessments()">Refresh</button>
+                    <button class="btn btn-outline" onclick="exportAssessmentsCSV()">Export CSV</button>
+                </div>
+                <div id="assessments-loading" class="loading">Loading assessments...</div>
+                <div id="assessments-error" class="error" style="display: none;"></div>
+                <table id="assessments-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Family History</th>
+                            <th>Risk Score</th>
+                            <th>Risk Level</th>
+                            <th>Questions</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assessments-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div id="statistics-tab" class="tab-content">
+            <div class="card">
+                <h2>Analytics Dashboard</h2>
+                <button class="btn btn-primary" onclick="loadStatistics()">Refresh</button>
+                <div id="stats-loading" class="loading">Loading statistics...</div>
+                <div id="stats-error" class="error" style="display: none;"></div>
+                <div id="stats-content" style="display: none;">
+                    <div class="stats-grid" id="stats-grid"></div>
+                    <h3>Risk Level Distribution</h3>
+                    <table id="risk-distribution-table"></table>
+                    <h3>Age Distribution</h3>
+                    <table id="age-distribution-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancer Type Edit Modal -->
+    <div id="cancer-type-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Edit Cancer Type</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="cancer-type-form">
+                    <!-- Card Settings Section -->
+                    <div class="section-header">
+                        <h3>Card Settings</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ct-id">Cancer Type ID *</label>
+                        <input type="text" id="ct-id" placeholder="e.g., colorectal, breast" required>
+                        <small>Lowercase, no spaces. Used as unique identifier.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ct-icon">Icon (Emoji)</label>
+                        <input type="text" id="ct-icon" placeholder="e.g., 🩺" maxlength="4">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-en" placeholder="English name">
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-zh" placeholder="中文名称">
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-ms" placeholder="Nama Melayu">
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <input type="text" id="ct-name-ta" placeholder="தமிழ் பெயர்">
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="ct-desc-en" placeholder="English description" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-zh" placeholder="中文描述" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-ms" placeholder="Penerangan Melayu" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-desc-ta" placeholder="தமிழ் விளக்கம்" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Family History Question Label</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="ct-family-en" placeholder="Has a close relative had [cancer] cancer?" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-zh" placeholder="是否有近亲患过此类癌症？" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-ms" placeholder="Adakah saudara terdekat pernah menghidap kanser ini?" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="ct-family-ta" placeholder="நெருங்கிய உறவினர் இந்த புற்றுநோயால் பாதிக்கப்பட்டிருக்கிறார்களா?" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="max-width: 200px;">
+                        <label for="ct-family-weight">Family History Risk Weight (%)</label>
+                        <input type="number" id="ct-family-weight" step="0.01" min="0" max="100" value="10" placeholder="e.g., 10">
+                        <small>Risk weight applied when user has family history</small>
+                    </div>
+
+                    <!-- Demographic Risk Settings Section -->
+                    <div class="section-header" style="margin-top: 24px;">
+                        <h3>Demographic Risk Settings</h3>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="form-group">
+                            <label for="ct-gender-filter">Gender Filter</label>
+                            <select id="ct-gender-filter">
+                                <option value="all">All (Everyone)</option>
+                                <option value="female">Female Only</option>
+                                <option value="male">Male Only</option>
+                            </select>
+                            <small>Who can see this assessment</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ct-age-threshold">Age Risk Threshold</label>
+                            <input type="number" id="ct-age-threshold" min="0" max="120" placeholder="e.g., 50" value="0">
+                            <small>Age at which extra risk applies</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ct-age-weight">Age Risk Weight (%)</label>
+                            <input type="number" id="ct-age-weight" step="0.1" min="0" max="100" placeholder="e.g., 5" value="0">
+                            <small>Risk added if over age threshold</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ethnicity Risk Multipliers</label>
+                        <small style="display: block; margin-bottom: 8px;">1.0 = baseline risk, >1.0 = higher risk, <1.0 = lower risk</small>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+                            <div>
+                                <label for="ct-eth-chinese" style="font-size: 0.85rem;">Chinese</label>
+                                <input type="number" id="ct-eth-chinese" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-malay" style="font-size: 0.85rem;">Malay</label>
+                                <input type="number" id="ct-eth-malay" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-indian" style="font-size: 0.85rem;">Indian</label>
+                                <input type="number" id="ct-eth-indian" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-caucasian" style="font-size: 0.85rem;">Caucasian</label>
+                                <input type="number" id="ct-eth-caucasian" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                            <div>
+                                <label for="ct-eth-others" style="font-size: 0.85rem;">Others</label>
+                                <input type="number" id="ct-eth-others" step="0.1" min="0" max="5" value="1.0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Questions Section -->
+                    <div class="section-header" style="margin-top: 24px;">
+                        <h3>Questions (<span id="questions-count">0</span>)</h3>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-sm btn-outline" onclick="addQuestion()">+ Add Question</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('csv-file-input').click()">📁 Import CSV</button>
+                        </div>
+                    </div>
+
+                    <!-- CSV Import (hidden) -->
+                    <input type="file" id="csv-file-input" accept=".csv" style="display: none;" onchange="handleCSVImport(event)">
+                    
+                    <div id="csv-import-status" style="margin: 8px 0; padding: 8px; border-radius: 4px; display: none;"></div>
+
+                    <div id="questions-container"></div>
+
+                    <div class="weight-summary">
+                        <div>
+                            <div class="weight-value" id="total-weight">0.00%</div>
+                            <div class="weight-label">Total Weight</div>
+                        </div>
+                        <div id="weight-status" style="font-weight: 600;"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Edit Modal -->
+    <div id="question-modal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>Edit Question</h2>
+                <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="question-form">
+                    <input type="hidden" id="q-index">
+                    
+                    <div class="form-group">
+                        <label>Question Prompt *</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="q-prompt-en" placeholder="Question in English" rows="3" required></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-zh" placeholder="中文问题" rows="3"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-ms" placeholder="Soalan dalam Bahasa Melayu" rows="3"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-prompt-ta" placeholder="தமிழில் கேள்வி" rows="3"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="form-group">
+                            <label for="q-weight">Weight % *</label>
+                            <input type="number" id="q-weight" step="0.01" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-yes">Yes Value *</label>
+                            <input type="number" id="q-yes" min="0" max="100" value="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-no">No Value *</label>
+                            <input type="number" id="q-no" min="0" max="100" value="0" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label for="q-category">Category *</label>
+                            <select id="q-category" required>
+                                <option value="Diet & Nutrition">Diet & Nutrition</option>
+                                <option value="Lifestyle">Lifestyle</option>
+                                <option value="Medical History">Medical History</option>
+                                <option value="Family & Genetics">Family & Genetics</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-minage">Min Age</label>
+                            <input type="number" id="q-minage" min="0" max="120" placeholder="Optional">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Explanation</label>
+                        <div class="lang-fields-grid">
+                            <div class="lang-field">
+                                <textarea id="q-exp-en" placeholder="Explanation in English" rows="2"></textarea>
+                                <span class="lang-label">EN</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-zh" placeholder="中文解释" rows="2"></textarea>
+                                <span class="lang-label">中文</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-ms" placeholder="Penjelasan dalam Bahasa Melayu" rows="2"></textarea>
+                                <span class="lang-label">BM</span>
+                            </div>
+                            <div class="lang-field">
+                                <textarea id="q-exp-ta" placeholder="தமிழில் விளக்கம்" rows="2"></textarea>
+                                <span class="lang-label">தமிழ்</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeQuestionModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const API_BASE = window.location.origin.includes('localhost')
+            ? 'http://localhost:3000/api'
+            : '/api';
+
+        let currentCancerType = null;
+        let currentQuestions = [];
+        let isNewCancerType = false;
+
+        function getAuthHeaders(extraHeaders = {}) {
+            const token = localStorage.getItem('adminToken');
+            if (!token) return extraHeaders;
+            return { ...extraHeaders, Authorization: `Bearer ${token}` };
+        }
+
+        async function adminFetch(url, options = {}) {
+            const headers = getAuthHeaders(options.headers || {});
+            const response = await fetch(url, { ...options, headers });
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('adminToken');
+                window.location.href = '/login.html';
+                throw new Error('Unauthorized');
+            }
+            return response;
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                if (tabName === 'content') loadCancerTypes();
+                if (tabName === 'assessments') loadAssessments();
+                if (tabName === 'statistics') loadStatistics();
+            });
+        });
+
+        // ==================== CANCER TYPES ====================
+
+        window.loadCancerTypes = async function() {
+            const loading = document.getElementById('content-loading');
+            const grid = document.getElementById('cancer-types-grid');
+            const error = document.getElementById('content-error');
+
+            loading.style.display = 'block';
+            grid.style.display = 'none';
+            error.style.display = 'none';
+
+            try {
+                const response = await adminFetch(`${API_BASE}/admin/cancer-types`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                renderCancerTypeCards(result.data);
+                loading.style.display = 'none';
+                grid.style.display = 'grid';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        function renderCancerTypeCards(cancerTypes) {
+            const grid = document.getElementById('cancer-types-grid');
+            
+            let html = cancerTypes.map(ct => `
+                <div class="cancer-type-card" onclick="openCancerTypeEditor('${ct.id}')">
+                    <div class="card-icon">${ct.icon || '🏥'}</div>
+                    <div class="card-title">${ct.name_en || ct.id}</div>
+                    <div class="card-stats">${ct.questionCount} questions · ${ct.totalWeight}% weight</div>
+                    <div class="card-status ${ct.isValid ? 'valid' : 'invalid'}">
+                        ${ct.isValid ? '✓ Valid' : '⚠ Needs adjustment'}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add "Add Cancer Type" card
+            html += `
+                <div class="cancer-type-card add-cancer-type-card" onclick="openNewCancerTypeEditor()">
+                    <div class="add-icon">+</div>
+                    <div class="add-text">Add Cancer Type</div>
+                </div>
+            `;
+
+            grid.innerHTML = html;
+        }
+
+        window.openNewCancerTypeEditor = function() {
+            isNewCancerType = true;
+            currentCancerType = null;
+            currentQuestions = [];
+
+            // Clear form
+            document.getElementById('ct-id').value = '';
+            document.getElementById('ct-id').disabled = false;
+            document.getElementById('ct-icon').value = '🏥';
+            document.getElementById('ct-name-en').value = '';
+            document.getElementById('ct-name-zh').value = '';
+            document.getElementById('ct-name-ms').value = '';
+            document.getElementById('ct-name-ta').value = '';
+            document.getElementById('ct-desc-en').value = '';
+            document.getElementById('ct-desc-zh').value = '';
+            document.getElementById('ct-desc-ms').value = '';
+            document.getElementById('ct-desc-ta').value = '';
+            document.getElementById('ct-family-en').value = '';
+            document.getElementById('ct-family-zh').value = '';
+            document.getElementById('ct-family-ms').value = '';
+            document.getElementById('ct-family-ta').value = '';
+            document.getElementById('ct-family-weight').value = '10';
+            document.getElementById('ct-gender-filter').value = 'all';
+            document.getElementById('ct-age-threshold').value = '0';
+            document.getElementById('ct-age-weight').value = '0';
+            document.getElementById('ct-eth-chinese').value = '1.0';
+            document.getElementById('ct-eth-malay').value = '1.0';
+            document.getElementById('ct-eth-indian').value = '1.0';
+            document.getElementById('ct-eth-caucasian').value = '1.0';
+            document.getElementById('ct-eth-others').value = '1.0';
+
+            document.getElementById('modal-title').textContent = 'Add Cancer Type';
+            document.getElementById('questions-container').innerHTML = '';
+            updateQuestionsCount();
+            updateTotalWeight();
+
+            document.getElementById('cancer-type-modal').classList.add('active');
+        };
+
+        window.openCancerTypeEditor = async function(id) {
+            isNewCancerType = false;
+
+            try {
+                const response = await adminFetch(`${API_BASE}/admin/cancer-types/${id}`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                currentCancerType = result.data;
+                currentQuestions = result.data.questions || [];
+
+                // Populate form
+                document.getElementById('ct-id').value = currentCancerType.id;
+                document.getElementById('ct-id').disabled = true;
+                document.getElementById('ct-icon').value = currentCancerType.icon || '';
+                document.getElementById('ct-name-en').value = currentCancerType.name_en || '';
+                document.getElementById('ct-name-zh').value = currentCancerType.name_zh || '';
+                document.getElementById('ct-name-ms').value = currentCancerType.name_ms || '';
+                document.getElementById('ct-name-ta').value = currentCancerType.name_ta || '';
+                document.getElementById('ct-desc-en').value = currentCancerType.description_en || '';
+                document.getElementById('ct-desc-zh').value = currentCancerType.description_zh || '';
+                document.getElementById('ct-desc-ms').value = currentCancerType.description_ms || '';
+                document.getElementById('ct-desc-ta').value = currentCancerType.description_ta || '';
+                document.getElementById('ct-family-en').value = currentCancerType.familyLabel_en || '';
+                document.getElementById('ct-family-zh').value = currentCancerType.familyLabel_zh || '';
+                document.getElementById('ct-family-ms').value = currentCancerType.familyLabel_ms || '';
+                document.getElementById('ct-family-ta').value = currentCancerType.familyLabel_ta || '';
+                document.getElementById('ct-family-weight').value = currentCancerType.familyWeight || '10';
+                document.getElementById('ct-gender-filter').value = currentCancerType.genderFilter || 'all';
+                document.getElementById('ct-age-threshold').value = currentCancerType.ageRiskThreshold || '0';
+                document.getElementById('ct-age-weight').value = currentCancerType.ageRiskWeight || '0';
+                document.getElementById('ct-eth-chinese').value = currentCancerType.ethnicityRisk_chinese || '1.0';
+                document.getElementById('ct-eth-malay').value = currentCancerType.ethnicityRisk_malay || '1.0';
+                document.getElementById('ct-eth-indian').value = currentCancerType.ethnicityRisk_indian || '1.0';
+                document.getElementById('ct-eth-caucasian').value = currentCancerType.ethnicityRisk_caucasian || '1.0';
+                document.getElementById('ct-eth-others').value = currentCancerType.ethnicityRisk_others || '1.0';
+
+                document.getElementById('modal-title').textContent = `Edit: ${currentCancerType.name_en || currentCancerType.id}`;
+                
+                renderQuestionsList();
+                document.getElementById('cancer-type-modal').classList.add('active');
+            } catch (err) {
+                showError(err.message);
+            }
+        };
+
+        function renderQuestionsList() {
+            const container = document.getElementById('questions-container');
+            
+            if (currentQuestions.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-light-text); text-align: center; padding: 20px;">No questions yet. Click "Add Question" to create one.</p>';
+            } else {
+                container.innerHTML = currentQuestions.map((q, index) => `
+                    <div class="question-editor-row">
+                        <div class="row-header">
+                            <span class="row-number">#${index + 1}</span>
+                            <div>
+                                <button type="button" class="action-btn edit-btn" onclick="editQuestion(${index})">Edit</button>
+                                <button type="button" class="action-btn delete-btn" onclick="deleteQuestion(${index})">Delete</button>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; margin-bottom: 8px;">${truncate(q.prompt_en || '', 100)}</div>
+                        <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--color-light-text);">
+                            <span>Weight: <strong>${q.weight || 0}%</strong></span>
+                            <span>Category: ${q.category || '-'}</span>
+                            <span>Yes: ${q.yesValue || 100}% / No: ${q.noValue || 0}%</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateQuestionsCount();
+            updateTotalWeight();
+        }
+
+        function truncate(str, len) {
+            return str.length > len ? str.substring(0, len) + '...' : str;
+        }
+
+        function updateQuestionsCount() {
+            document.getElementById('questions-count').textContent = currentQuestions.length;
+        }
+
+        function updateTotalWeight() {
+            const total = currentQuestions.reduce((sum, q) => sum + (parseFloat(q.weight) || 0), 0);
+            const weightEl = document.getElementById('total-weight');
+            const statusEl = document.getElementById('weight-status');
+            const isValid = Math.abs(total - 100) <= 1;
+
+            weightEl.textContent = total.toFixed(2) + '%';
+            weightEl.className = 'weight-value ' + (isValid ? 'valid' : 'invalid');
+
+            if (isValid) {
+                statusEl.textContent = '✓ Valid';
+                statusEl.style.color = 'var(--color-risk-low)';
+            } else {
+                const diff = (100 - total).toFixed(2);
+                statusEl.textContent = diff > 0 ? `Need ${diff}% more` : `Reduce by ${Math.abs(diff)}%`;
+                statusEl.style.color = 'var(--color-risk-high)';
+            }
+        }
+
+        window.addQuestion = function() {
+            currentQuestions.push({
+                prompt_en: '',
+                prompt_zh: '',
+                prompt_ms: '',
+                prompt_ta: '',
+                weight: '0',
+                yesValue: '100',
+                noValue: '0',
+                category: 'Medical History',
+                explanation_en: '',
+                explanation_zh: '',
+                explanation_ms: '',
+                explanation_ta: '',
+                minAge: ''
+            });
+            renderQuestionsList();
+            editQuestion(currentQuestions.length - 1);
+        };
+
+        window.editQuestion = function(index) {
+            const q = currentQuestions[index];
+            document.getElementById('q-index').value = index;
+            document.getElementById('q-prompt-en').value = q.prompt_en || '';
+            document.getElementById('q-prompt-zh').value = q.prompt_zh || '';
+            document.getElementById('q-prompt-ms').value = q.prompt_ms || '';
+            document.getElementById('q-prompt-ta').value = q.prompt_ta || '';
+            document.getElementById('q-weight').value = q.weight || '';
+            document.getElementById('q-yes').value = q.yesValue || 100;
+            document.getElementById('q-no').value = q.noValue || 0;
+            document.getElementById('q-category').value = q.category || 'Medical History';
+            document.getElementById('q-minage').value = q.minAge || '';
+            document.getElementById('q-exp-en').value = q.explanation_en || '';
+            document.getElementById('q-exp-zh').value = q.explanation_zh || '';
+            document.getElementById('q-exp-ms').value = q.explanation_ms || '';
+            document.getElementById('q-exp-ta').value = q.explanation_ta || '';
+
+            document.getElementById('question-modal').classList.add('active');
+        };
+
+        window.deleteQuestion = function(index) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                currentQuestions.splice(index, 1);
+                renderQuestionsList();
+            }
+        };
+
+        // Question form submit
+        document.getElementById('question-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('q-index').value);
+
+            currentQuestions[index] = {
+                ...currentQuestions[index],
+                prompt_en: document.getElementById('q-prompt-en').value,
+                prompt_zh: document.getElementById('q-prompt-zh').value,
+                prompt_ms: document.getElementById('q-prompt-ms').value,
+                prompt_ta: document.getElementById('q-prompt-ta').value,
+                weight: document.getElementById('q-weight').value,
+                yesValue: document.getElementById('q-yes').value,
+                noValue: document.getElementById('q-no').value,
+                category: document.getElementById('q-category').value,
+                minAge: document.getElementById('q-minage').value,
+                explanation_en: document.getElementById('q-exp-en').value,
+                explanation_zh: document.getElementById('q-exp-zh').value,
+                explanation_ms: document.getElementById('q-exp-ms').value,
+                explanation_ta: document.getElementById('q-exp-ta').value
+            };
+
+            closeQuestionModal();
+            renderQuestionsList();
+        });
+
+        window.closeQuestionModal = function() {
+            document.getElementById('question-modal').classList.remove('active');
+        };
+
+        // Cancer type form submit
+        document.getElementById('cancer-type-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const saveBtn = document.getElementById('save-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
+            const cancerTypeData = {
+                id: document.getElementById('ct-id').value.toLowerCase().trim(),
+                icon: document.getElementById('ct-icon').value,
+                name_en: document.getElementById('ct-name-en').value,
+                name_zh: document.getElementById('ct-name-zh').value,
+                name_ms: document.getElementById('ct-name-ms').value,
+                name_ta: document.getElementById('ct-name-ta').value,
+                description_en: document.getElementById('ct-desc-en').value,
+                description_zh: document.getElementById('ct-desc-zh').value,
+                description_ms: document.getElementById('ct-desc-ms').value,
+                description_ta: document.getElementById('ct-desc-ta').value,
+                familyLabel_en: document.getElementById('ct-family-en').value,
+                familyLabel_zh: document.getElementById('ct-family-zh').value,
+                familyLabel_ms: document.getElementById('ct-family-ms').value,
+                familyLabel_ta: document.getElementById('ct-family-ta').value,
+                familyWeight: document.getElementById('ct-family-weight').value || '10',
+                genderFilter: document.getElementById('ct-gender-filter').value || 'all',
+                ageRiskThreshold: document.getElementById('ct-age-threshold').value || '0',
+                ageRiskWeight: document.getElementById('ct-age-weight').value || '0',
+                ethnicityRisk_chinese: document.getElementById('ct-eth-chinese').value || '1.0',
+                ethnicityRisk_malay: document.getElementById('ct-eth-malay').value || '1.0',
+                ethnicityRisk_indian: document.getElementById('ct-eth-indian').value || '1.0',
+                ethnicityRisk_caucasian: document.getElementById('ct-eth-caucasian').value || '1.0',
+                ethnicityRisk_others: document.getElementById('ct-eth-others').value || '1.0',
+                questions: currentQuestions
+            };
+
+            try {
+                let response;
+                if (isNewCancerType) {
+                    response = await adminFetch(`${API_BASE}/admin/cancer-types`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(cancerTypeData)
+                    });
+                } else {
+                    response = await adminFetch(`${API_BASE}/admin/cancer-types/${cancerTypeData.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(cancerTypeData)
+                    });
+                }
+
+                const result = await response.json();
+                if (!result.success) throw new Error(result.error);
+
+                closeModal();
+                showSuccess(isNewCancerType ? 'Cancer type created successfully!' : 'Changes saved successfully!');
+                loadCancerTypes();
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Changes';
+            }
+        });
+
+        window.closeModal = function() {
+            document.getElementById('cancer-type-modal').classList.remove('active');
+            currentCancerType = null;
+            currentQuestions = [];
+        };
+
+        // ==================== ASSESSMENTS ====================
+
+        window.loadAssessments = async function() {
+            const loading = document.getElementById('assessments-loading');
+            const error = document.getElementById('assessments-error');
+            const table = document.getElementById('assessments-table');
+            const tbody = document.getElementById('assessments-tbody');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            table.style.display = 'none';
+
+            try {
+                const response = await adminFetch(`${API_BASE}/admin/assessments`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                if (result.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">No assessments yet</td></tr>';
+                } else {
+                    tbody.innerHTML = result.data.map(a => {
+                        const date = new Date(a.timestamp).toLocaleString();
+                        const questionsAnswers = Array.isArray(a.questionsAnswers) ? a.questionsAnswers : [];
+                        return `
+                            <tr>
+                                <td><code style="font-size: 0.75rem;">${a.id.substring(0, 16)}...</code></td>
+                                <td>${a.age || '-'}</td>
+                                <td>${a.gender || '-'}</td>
+                                <td>${a.familyHistory || '-'}</td>
+                                <td><strong>${a.riskScore}</strong></td>
+                                <td><span class="badge badge-${a.riskLevel.toLowerCase()}">${a.riskLevel}</span></td>
+                                <td>${questionsAnswers.length} answered</td>
+                                <td>${date}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                loading.style.display = 'none';
+                table.style.display = 'table';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        window.exportAssessmentsCSV = async function() {
+            try {
+                const response = await adminFetch(`${API_BASE}/admin/assessments/export`);
+                if (!response.ok) throw new Error(`Export failed (${response.status})`);
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `assessments_${new Date().toISOString().slice(0, 10)}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                showError(err.message);
+            }
+        };
+
+        // ==================== STATISTICS ====================
+
+        window.loadStatistics = async function() {
+            const loading = document.getElementById('stats-loading');
+            const error = document.getElementById('stats-error');
+            const content = document.getElementById('stats-content');
+            const grid = document.getElementById('stats-grid');
+            const riskTable = document.getElementById('risk-distribution-table');
+            const ageTable = document.getElementById('age-distribution-table');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            content.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/assessments/stats`);
+                const result = await response.json();
+
+                if (!result.success) throw new Error(result.error);
+
+                const stats = result.data;
+
+                grid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total Assessments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.averageRiskScore}</div>
+                        <div class="stat-label">Avg Risk Score</div>
+                    </div>
+                `;
+
+                riskTable.innerHTML = `
+                    <thead><tr><th>Risk Level</th><th>Count</th><th>Percentage</th></tr></thead>
+                    <tbody>
+                        ${Object.entries(stats.riskLevelDistribution || {}).map(([level, count]) => `
+                            <tr>
+                                <td><span class="badge badge-${level.toLowerCase()}">${level}</span></td>
+                                <td>${count}</td>
+                                <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                ageTable.innerHTML = `
+                    <thead><tr><th>Age Range</th><th>Count</th><th>Percentage</th></tr></thead>
+                    <tbody>
+                        ${Object.entries(stats.ageDistribution || {}).map(([age, count]) => `
+                            <tr>
+                                <td>${age}</td>
+                                <td>${count}</td>
+                                <td>${stats.total > 0 ? ((count / stats.total) * 100).toFixed(1) : 0}%</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            }
+        };
+
+        // ==================== HELPERS ====================
+
+        function showSuccess(message) {
+            const el = document.getElementById('content-success');
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        }
+
+        function showError(message) {
+            const el = document.getElementById('content-error');
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 5000);
+        }
+
+        // ==================== CSV IMPORT ====================
+        
+        window.handleCSVImport = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const statusEl = document.getElementById('csv-import-status');
+            statusEl.style.display = 'block';
+            statusEl.style.background = '#f0f9ff';
+            statusEl.style.color = '#0369a1';
+            statusEl.textContent = 'Reading CSV file...';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const csv = e.target.result;
+                    const lines = csv.split('\n').filter(line => line.trim());
+                    
+                    if (lines.length < 2) {
+                        throw new Error('CSV file is empty or invalid');
+                    }
+                    
+                    // Parse CSV (assuming same format as questions.csv)
+                    const questions = [];
+                    for (let i = 1; i < lines.length; i++) { // Skip header
+                        const line = lines[i].trim();
+                        if (!line) continue;
+                        
+                        // Handle quoted fields with commas
+                        const fields = [];
+                        let current = '';
+                        let inQuotes = false;
+                        
+                        for (let char of line) {
+                            if (char === '"' && (current === '' || current.endsWith(','))) {
+                                inQuotes = !inQuotes;
+                            } else if (char === ',' && !inQuotes) {
+                                fields.push(current.replace(/^"|"$/g, ''));
+                                current = '';
+                            } else {
+                                current += char;
+                            }
+                        }
+                        fields.push(current.replace(/^"|"$/g, ''));
+                        
+                        if (fields.length >= 12) {
+                            questions.push({
+                                prompt_en: fields[0] || '',
+                                prompt_zh: fields[1] || '',
+                                prompt_ms: fields[2] || '',
+                                prompt_ta: fields[3] || '',
+                                weight: fields[4] || '0',
+                                yesValue: fields[5] || '100',
+                                noValue: fields[6] || '0',
+                                category: fields[7] || 'Medical History',
+                                explanation_en: fields[8] || '',
+                                explanation_zh: fields[9] || '',
+                                explanation_ms: fields[10] || '',
+                                explanation_ta: fields[11] || '',
+                                minAge: fields[12] || ''
+                            });
+                        }
+                    }
+                    
+                    if (questions.length === 0) {
+                        throw new Error('No valid questions found in CSV');
+                    }
+                    
+                    // Add questions to current list
+                    currentQuestions.push(...questions);
+                    renderQuestionsList();
+                    
+                    statusEl.style.background = '#f0fdf4';
+                    statusEl.style.color = '#166534';
+                    statusEl.textContent = `✓ Successfully imported ${questions.length} questions`;
+                    
+                    // Clear file input
+                    event.target.value = '';
+                    
+                    // Hide status after 3 seconds
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, 3000);
+                    
+                } catch (error) {
+                    statusEl.style.background = '#fef2f2';
+                    statusEl.style.color = '#dc2626';
+                    statusEl.textContent = `❌ Error: ${error.message}`;
+                    
+                    // Clear file input
+                    event.target.value = '';
+                }
+            };
+            
+            reader.onerror = function() {
+                statusEl.style.background = '#fef2f2';
+                statusEl.style.color = '#dc2626';
+                statusEl.textContent = '❌ Error reading file';
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        };
+
+        // Initial load
+        loadCancerTypes();
+    </script>
+    <script src="/js/logout.js"></script>
+</body>
+</html>
