@@ -593,7 +593,7 @@ class RiskAssessmentApp {
 
     _setupOnboardingListeners() {
         this.dom.onboarding.backButton?.addEventListener('click', () => {
-            this.dom.switchScreen('landing');
+            this.dom.switchScreen('cancerSelection');
         });
 
         this.dom.onboarding.ageInput?.addEventListener('input', (e) => {
