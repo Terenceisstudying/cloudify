@@ -681,6 +681,13 @@ class RiskAssessmentApp {
             // Load questions with current language
             questions = await QuestionLoader.loadQuestions(this.selectedAssessment, age, this.currentLanguage);
             
+            // Debug: Log what questions we got for generic assessment
+            if (this.selectedAssessment === 'generic') {
+                console.log('Generic assessment - loaded questions:', questions.length);
+                console.log('Questions with cancerType:', questions.filter(q => q.cancerType).length);
+                console.log('Cancer types found:', [...new Set(questions.map(q => q.cancerType).filter(Boolean))]);
+            }
+            
             if (questions.length === 0) {
                 throw new Error(`No questions found for ${this.selectedAssessment}`);
             }
@@ -834,8 +841,14 @@ class RiskAssessmentApp {
             noValue: noValue,
             riskContribution: riskContribution,
             isRisk: isRisk,
-            category: question.category
+            category: question.category,
+            cancerType: question.cancerType  // Important: preserve cancerType for generic assessment
         });
+        
+        // Debug: Log if this is generic assessment and cancerType
+        if (this.selectedAssessment === 'generic' && question.cancerType) {
+            console.log(`Answer for ${question.cancerType}: ${userAnswer} (${riskContribution}%)`);
+        }
 
         this.ui.showFeedback(!isRisk);
         this.ui.showExplanation(question.explanation);

@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         }
 
         // Calculate risk score
-        const riskResult = calculateRiskScore(userData, answers);
+        const riskResult = calculateRiskScore(userData, answers, userData.assessmentType);
 
         // Store assessment (anonymous - no PII)
         const assessment = await assessmentModel.createAssessment({
@@ -37,15 +37,22 @@ router.post('/', async (req, res) => {
             timestamp: new Date().toISOString()
         });
 
+        const responseData = {
+            assessmentId: assessment.id,
+            riskScore: riskResult.totalScore,
+            riskLevel: riskResult.riskLevel,
+            categoryRisks: riskResult.categoryRisks,
+            recommendations: riskResult.recommendations
+        };
+
+        // Add cancer-specific scores for Generic Assessment
+        if (userData.assessmentType === 'generic' && riskResult.cancerTypeScores) {
+            responseData.cancerTypeScores = riskResult.cancerTypeScores;
+        }
+
         res.json({
             success: true,
-            data: {
-                assessmentId: assessment.id,
-                riskScore: riskResult.totalScore,
-                riskLevel: riskResult.riskLevel,
-                categoryRisks: riskResult.categoryRisks,
-                recommendations: riskResult.recommendations
-            }
+            data: responseData
         });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });

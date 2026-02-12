@@ -20,9 +20,10 @@ const RISK_CATEGORIES = {
  * Calculate risk score from user data and answers using percentage-based scoring
  * @param {Object} userData - User demographic data
  * @param {Array} answers - Array of answer objects with question details
+ * @param {string} assessmentType - Type of assessment ('generic' or specific cancer type)
  * @returns {Object} - Risk assessment results
  */
-export function calculateRiskScore(userData, answers) {
+export function calculateRiskScore(userData, answers, assessmentType = null) {
     let totalScore = 0;
     const categoryRisks = {
         [RISK_CATEGORIES.DIET]: 0,
@@ -31,11 +32,19 @@ export function calculateRiskScore(userData, answers) {
         [RISK_CATEGORIES.FAMILY]: 0
     };
 
+    // For Generic Assessment, track scores by cancer type
+    const cancerTypeScores = {};
+    
     // Base risk from family history (adds fixed percentage)
     if (userData.familyHistory === 'Yes') {
         const familyHistoryWeight = 10; // 10% base risk for family history
         totalScore += familyHistoryWeight;
         categoryRisks[RISK_CATEGORIES.FAMILY] += familyHistoryWeight;
+        
+        // For Generic Assessment, add family history to all cancer types
+        if (assessmentType === 'generic') {
+            // This will be populated when we process answers
+        }
     }
 
     // Calculate from answers using percentage-based scoring
@@ -59,6 +68,24 @@ export function calculateRiskScore(userData, answers) {
             totalScore += contribution;
             const category = answer.category || RISK_CATEGORIES.LIFESTYLE;
             categoryRisks[category] = (categoryRisks[category] || 0) + contribution;
+            
+            // Track by cancer type for Generic Assessment
+            if (assessmentType === 'generic' && answer.cancerType) {
+                const cancerType = answer.cancerType.toLowerCase();
+                if (!cancerTypeScores[cancerType]) {
+                    cancerTypeScores[cancerType] = {
+                        score: 0,
+                        categories: {
+                            [RISK_CATEGORIES.DIET]: 0,
+                            [RISK_CATEGORIES.LIFESTYLE]: 0,
+                            [RISK_CATEGORIES.MEDICAL]: 0,
+                            [RISK_CATEGORIES.FAMILY]: 0
+                        }
+                    };
+                }
+                cancerTypeScores[cancerType].score += contribution;
+                cancerTypeScores[cancerType].categories[category] += contribution;
+            }
         }
     });
 
@@ -73,12 +100,32 @@ export function calculateRiskScore(userData, answers) {
     // Generate recommendations
     const recommendations = generateRecommendations(categoryRisks, userData.age);
 
-    return {
+    const result = {
         totalScore: Math.round(totalScore),
         riskLevel,
         categoryRisks,
         recommendations
     };
+    
+    // Add cancer-specific scores for Generic Assessment
+    if (assessmentType === 'generic' && Object.keys(cancerTypeScores).length > 0) {
+        result.cancerTypeScores = {};
+        
+        Object.keys(cancerTypeScores).forEach(cancerType => {
+            const score = cancerTypeScores[cancerType].score;
+            let cancerRiskLevel = 'LOW';
+            if (score >= 20) cancerRiskLevel = 'HIGH'; // Lower threshold for individual cancer types
+            else if (score >= 10) cancerRiskLevel = 'MEDIUM';
+            
+            result.cancerTypeScores[cancerType] = {
+                score: Math.round(score),
+                riskLevel: cancerRiskLevel,
+                categories: cancerTypeScores[cancerType].categories
+            };
+        });
+    }
+    
+    return result;
 }
 
 /**

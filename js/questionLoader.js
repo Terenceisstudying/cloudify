@@ -107,7 +107,11 @@ export class QuestionLoader {
                 : '/api';
             
             const params = new URLSearchParams();
-            params.append('cancerType', cancerType);
+            // For the Generic assessment, load all questions across cancer types.
+            // Each question's own `cancerType` is used later to build the breakdown.
+            if (cancerType && cancerType !== 'generic') {
+                params.append('cancerType', cancerType);
+            }
             params.append('lang', language);
             if (userAge) {
                 params.append('age', userAge);

@@ -968,3 +968,129 @@ label[for="gender-female"]::before {
 .hidden {
     display: none !important;
 }
+
+/* ======== CANCER-SPECIFIC RISK BREAKDOWN ======== */
+.cancer-breakdown {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.cancer-breakdown h4 {
+    margin: 0 0 20px 0;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.cancer-risk-item {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cancer-risk-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cancer-risk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cancer-type-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.cancer-risk-score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.risk-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.risk-badge.risk-low {
+    background: #d4edda;
+    color: #155724;
+}
+
+.risk-badge.risk-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.risk-badge.risk-high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.cancer-risk-gauge {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.gauge-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+}
+
+.gauge-fill.gauge-low {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.gauge-fill.gauge-medium {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.gauge-fill.gauge-high {
+    background: linear-gradient(90deg, #dc3545, #e74c3c);
+}
+
+/* Mobile responsiveness for cancer breakdown */
+@media (max-width: 600px) {
+    .cancer-risk-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .cancer-risk-score {
+        align-self: flex-end;
+    }
+    
+    .cancer-type-name {
+        font-size: 1rem;
+    }
+    
+    .score-value {
+        font-size: 1.2rem;
+    }
+}

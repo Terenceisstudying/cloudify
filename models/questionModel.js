@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_FILE = path.join(__dirname, '..', 'data', 'questions.csv');
+const GENERIC_DATA_FILE = path.join(__dirname, '..', 'data', 'cancer_diagnostic_questions.csv');
 
 /**
  * Question Model (MVC Pattern)
@@ -82,6 +83,19 @@ export class QuestionModel {
         }
     }
 
+    /**
+     * Load generic questions from cancer_diagnostic_questions.csv
+     */
+    async loadGenericQuestions() {
+        try {
+            const data = await fs.readFile(GENERIC_DATA_FILE, 'utf-8');
+            return this.parseGenericCSV(data);
+        } catch (error) {
+            console.error('Error loading generic questions:', error);
+            return [];
+        }
+    }
+
     async saveQuestions() {
         await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
         const csvContent = this.questionsToCSV();
@@ -89,6 +103,88 @@ export class QuestionModel {
     }
 
     parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        if (lines.length <= 1) return [];
+
+        const rawHeaders = this.parseCSVLine(lines[0]);
+        const normalizeHeader = (h) => String(h || '')
+            .replace(/^\uFEFF/, '')
+            .trim();
+
+        const headerToCanonical = (h) => {
+            const key = normalizeHeader(h).toLowerCase();
+
+            // ID mappings
+            if (key === 'id' || key === 'qid' || key === 'questionid' || key === 'question_id') return 'id';
+            
+            // Multi-language prompt mappings
+            if (key === 'prompt' || key === 'prompt_en' || key === 'question' || key === 'questiontext' || key === 'question_text') return 'prompt_en';
+            if (key === 'prompt_zh') return 'prompt_zh';
+            if (key === 'prompt_ms') return 'prompt_ms';
+            if (key === 'prompt_ta') return 'prompt_ta';
+            
+            // Scoring fields
+            if (key === 'weight' || key === 'questionweight' || key === 'question_weight') return 'weight';
+            if (key === 'yesvalue' || key === 'yes_value' || key === 'yesrisk') return 'yesValue';
+            if (key === 'novalue' || key === 'no_value' || key === 'norisk') return 'noValue';
+            
+            // Category
+            if (key === 'category' || key === 'section') return 'category';
+            
+            // Multi-language explanation mappings
+            if (key === 'explanation' || key === 'explanation_en' || key === 'rationale') return 'explanation_en';
+            if (key === 'explanation_zh') return 'explanation_zh';
+            if (key === 'explanation_ms') return 'explanation_ms';
+            if (key === 'explanation_ta') return 'explanation_ta';
+            
+            // Cancer type and age
+            if (key === 'cancertype' || key === 'cancer_type') return 'cancerType';
+            if (key === 'minage' || key === 'min_age' || key === 'minimumage' || key === 'minimum_age') return 'minAge';
+
+            return normalizeHeader(h);
+        };
+
+        const headers = rawHeaders.map(headerToCanonical);
+        const questions = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+
+            const values = this.parseCSVLine(lines[i]);
+            if (values.length >= headers.length) {
+                const question = {};
+                headers.forEach((header, index) => {
+                    question[header] = values[index] ?? '';
+                });
+
+                // Ensure canonical keys exist
+                question.id = question.id ?? '';
+                question.prompt_en = question.prompt_en ?? '';
+                question.prompt_zh = question.prompt_zh ?? '';
+                question.prompt_ms = question.prompt_ms ?? '';
+                question.prompt_ta = question.prompt_ta ?? '';
+                question.weight = question.weight ?? '';
+                question.yesValue = question.yesValue ?? '';
+                question.noValue = question.noValue ?? '';
+                question.category = question.category ?? '';
+                question.explanation_en = question.explanation_en ?? '';
+                question.explanation_zh = question.explanation_zh ?? '';
+                question.explanation_ms = question.explanation_ms ?? '';
+                question.explanation_ta = question.explanation_ta ?? '';
+                question.cancerType = question.cancerType ?? '';
+                question.minAge = question.minAge ?? '';
+
+                questions.push(question);
+            }
+        }
+
+        return questions;
+    }
+
+    /**
+     * Parse generic questions CSV with different field mapping
+     */
+    parseGenericCSV(csvText) {
         const lines = csvText.trim().split('\n');
         if (lines.length <= 1) return [];
 
@@ -221,6 +317,27 @@ export class QuestionModel {
      * Get all questions for a specific cancer type
      */
     async getQuestionsByCancerType(cancerType, userAge = null) {
+        // Handle generic assessment separately
+        if (cancerType && cancerType.toLowerCase() === 'generic') {
+            const genericQuestions = await this.loadGenericQuestions();
+            let filtered = [...genericQuestions];
+            
+            if (userAge !== null) {
+                filtered = filtered.filter(q => {
+                    if (q.minAge && q.minAge.trim() !== '') {
+                        const minAge = parseInt(q.minAge);
+                        if (!isNaN(minAge) && userAge < minAge) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            }
+            
+            return filtered;
+        }
+        
+        // Handle regular cancer types
         const allQuestions = await this.getAllQuestions(userAge);
         return allQuestions.filter(q => 
             q.cancerType && q.cancerType.toLowerCase() === cancerType.toLowerCase()

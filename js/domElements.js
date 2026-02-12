@@ -55,6 +55,7 @@ export class DOMElements {
             scoreArc: document.getElementById('score-arc'),
             scoreComparison: document.getElementById('score-comparison'),
             breakdownContainer: document.getElementById('breakdown-categories'),
+            cancerBreakdownContainer: document.getElementById('cancer-breakdown-container'),
             recommendationsContainer: document.getElementById('recommendations-container'),
             resultsForm: document.getElementById('results-form'),
             emailPhone: document.getElementById('email-phone'),

@@ -120,15 +120,22 @@ export class UIController {
         // Get user data and answers for comprehensive recalculation
         const userData = gameState.getUserData();
 
-        // Recalculate risk score using the comprehensive algorithm
-        const riskResult = calculateRiskScore(userData, answers);
+        // Recalculate risk score using comprehensive algorithm
+        const riskResult = calculateRiskScore(userData, answers, userData.assessmentType);
 
         // Update GameState with recalculated values for consistency
         gameState.riskScore = riskResult.totalScore;
         gameState.riskByCategory = { ...riskResult.categoryRisks };
 
-        // Store recommendations for later use
+        // Store recommendations and cancer-specific scores for later use
         this.currentRecommendations = riskResult.recommendations;
+        this.cancerTypeScores = riskResult.cancerTypeScores || null;
+        
+        // Debug: Log cancer type scores for generic assessment
+        if (userData.assessmentType === 'generic') {
+            console.log('Generic assessment - cancerTypeScores:', this.cancerTypeScores);
+            console.log('Risk result:', riskResult);
+        }
 
         // Update risk level heading
         if (this.elements.results.riskLevel) {
@@ -142,8 +149,62 @@ export class UIController {
         // Update summary with recalculated data
         this._updateSummary(gameState, riskResult);
 
+        // Display cancer-specific breakdown for Generic Assessment
+        if (userData.assessmentType === 'generic' && this.cancerTypeScores) {
+            this._renderCancerTypeBreakdown(this.cancerTypeScores);
+            // Show the cancer breakdown section
+            const cancerBreakdownSection = document.getElementById('cancer-breakdown');
+            if (cancerBreakdownSection) {
+                cancerBreakdownSection.style.display = 'block';
+            }
+        }
+
         // Return the risk result for use by caller
         return riskResult;
+    }
+
+    /**
+     * Render cancer-specific risk breakdown for Generic Assessment
+     */
+    _renderCancerTypeBreakdown(cancerTypeScores) {
+        if (!this.elements.results.cancerBreakdownContainer) return;
+
+        // Get cancer type names for display
+        const cancerTypeNames = {
+            'breast': 'Breast Cancer',
+            'lung': 'Lung Cancer', 
+            'colorectal': 'Colorectal Cancer',
+            'liver': 'Liver Cancer',
+            'cervical': 'Cervical Cancer',
+            'prostate': 'Prostate Cancer'
+        };
+
+        // Sort by risk score (highest first)
+        const sortedCancerTypes = Object.keys(cancerTypeScores)
+            .map(type => ({ type, ...cancerTypeScores[type] }))
+            .sort((a, b) => b.score - a.score);
+
+        const html = sortedCancerTypes.map(({ type, score, riskLevel }) => {
+            const displayName = cancerTypeNames[type] || type.charAt(0).toUpperCase() + type.slice(1) + ' Cancer';
+            const riskClass = riskLevel.toLowerCase();
+            
+            return `
+                <div class="cancer-risk-item">
+                    <div class="cancer-risk-header">
+                        <span class="cancer-type-name">${displayName}</span>
+                        <div class="cancer-risk-score">
+                            <span class="score-value">${score}</span>
+                            <span class="risk-badge risk-${riskClass}">${riskLevel} RISK</span>
+                        </div>
+                    </div>
+                    <div class="cancer-risk-gauge">
+                        <div class="gauge-fill gauge-${riskClass}" style="width: ${Math.min(score, 100)}%"></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        this.elements.results.cancerBreakdownContainer.innerHTML = html;
     }
 
     /**
