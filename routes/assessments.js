@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
  */
 router.post('/send-results', async (req, res) => {
     try {
-        const { contact, riskScore, riskLevel, userData, categoryRisks, recommendations, assessmentType } = req.body;
+        const { contact, riskScore, riskLevel, userData, categoryRisks, recommendations, assessmentType, cancerTypeScores } = req.body;
 
         if (!contact) {
             return res.status(400).json({
@@ -114,7 +114,8 @@ router.post('/send-results', async (req, res) => {
             userData,
             categoryRisks,
             recommendations,
-            assessmentType
+            assessmentType,
+            cancerTypeScores
         });
 
         res.json({

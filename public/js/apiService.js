@@ -133,7 +133,8 @@ export class ApiService {
                     userData: assessmentData.userData,
                     categoryRisks: assessmentData.categoryRisks,
                     recommendations: assessmentData.recommendations,
-                    assessmentType: assessmentData.assessmentType
+                    assessmentType: assessmentData.assessmentType,
+                    cancerTypeScores: assessmentData.cancerTypeScores
                 })
             });
             const result = await response.json();
