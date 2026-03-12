@@ -51,6 +51,28 @@
             transition: top 0.3s ease;
         }
 
+        /* Global Controls Pill (Cognitive Hierarchy - Recedes on non-hover) */
+        .top-controls-dropdown {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            padding: 8px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-controls-dropdown:hover,
+        .top-controls-dropdown:focus-within {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px);
+        }
+
         /* When the landing screen is active, push the controls down to make room for the banner */
         #screen-landing.active ~ .top-controls {
             top: 90px;
@@ -63,57 +85,78 @@
 
         /* Sound Toggle Button */
         .bgm-toggle-btn {
-            background: rgba(255, 255, 255, 0.95);
+            background: transparent;
             border: none;
             padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             font-size: 1.2rem;
             color: #333;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100%; 
+            height: 100%;
+            position: relative;
         }
 
         .bgm-toggle-btn:hover {
             color: var(--color-primary);
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(8, 145, 178, 0.15);
+            border-radius: 6px;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.2);
+        }
+
+        .bgm-toggle-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(8, 145, 178, 0.15);
         }
 
         /* Language Selector Styles */
         .language-selector {
             display: flex;
             gap: 4px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             padding: 4px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .language-selector button {
-            padding: 8px;
+            padding: 8px 10px;
             margin: 0;
             border: none;
             background: transparent;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #333;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            white-space: nowrap;
+            min-width: fit-content;
+            position: relative;
         }
         
         .language-selector button:hover {
-            background: rgba(0, 0, 0, 0.05); 
+            background: rgba(8, 145, 178, 0.15);
             color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.2);
+        }
+        
+        .language-selector button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(8, 145, 178, 0.15);
         }
         
         .language-selector button.active {
-            background: var(--color-primary);
+            background: linear-gradient(135deg, var(--color-primary) 0%, #0891B2 100%);
             color: white;
+            box-shadow: 0 6px 16px rgba(8, 145, 178, 0.35);
+            transform: translateY(-2px);
         }
         
         .admin-btn {
@@ -265,12 +308,18 @@
             height: 80px;
             object-fit: contain;
             margin-bottom: 0.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
         .gender-btn[data-gender="Male"]:hover .gender-mascot-icon,
         .gender-btn[data-gender="Female"]:hover .gender-mascot-icon {
-            transform: scale(1.1);
+            animation: characterJump 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes characterJump {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.15) translateY(-15px); }
+            100% { transform: scale(1.1) translateY(0); }
         }
 
         .gender-btn {
@@ -281,9 +330,41 @@
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 120px;
             color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gender-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        .gender-btn:active::before {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
         }
         
         .gender-btn[data-gender="Male"] {
@@ -294,6 +375,11 @@
         .gender-btn[data-gender="Male"]:hover {
             background: rgba(33, 150, 243, 0.2); 
             border-color: #64B5F6;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+        
+        .gender-btn[data-gender="Male"]:active {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
         }
@@ -312,6 +398,11 @@
         .gender-btn[data-gender="Female"]:hover {
             background: rgba(233, 30, 99, 0.2); 
             border-color: #F48FB1;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+        }
+        
+        .gender-btn[data-gender="Female"]:active {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);
         }
