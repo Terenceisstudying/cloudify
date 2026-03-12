@@ -1,7 +1,4 @@
-/**
-     * Processes the user's swipe/answer and updates UI/State.
-     */
-    _handleAnswer(dir) {
+_handleAnswer(dir) {
         const question = this.state.getCurrentQuestion();
         if (!question || this._isExplanationVisible) return;
 
@@ -37,22 +34,17 @@
         }
 
         const isRisk = totalContribution > 0;
-        
-        // Immediate Feedback
         this.ui.showFeedback(!isRisk);
 
-        // Mascot Reacts: Now stays shocked for 3 seconds
-        this.mascot.startAnimation(isRisk ? 'Shocked' : 'Good', 3000);
+        // Fix: Trigger mascot state change BEFORE starting the card animation
+        this.mascot.startAnimation(isRisk ? 'Shocked' : 'Good');
 
         const hasMoreQuestions = this.state.nextQuestion();
-        
-        // Card Animation & Explanation
         this.ui.animateCardSwipe(dir, () => {
             const explanationText = (userAnswer === 'Yes') ? question.explanationYes : question.explanationNo;
             if (explanationText) {
                 this._isExplanationVisible = true;
                 this.ui.showExplanation(question, userAnswer, this.t('game', 'continueButton'));
-                
                 this._onExplanationContinue = () => {
                     this._isExplanationVisible = false;
                     this.ui.hideExplanation();
