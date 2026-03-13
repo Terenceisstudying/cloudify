@@ -167,6 +167,7 @@
 #feedback-wrong { color: var(--color-risk-high); }
 
 /* ======== SWIPE TARGETS (Bin it / Pin it) ======== */
+/* Replace this existing code in css/game.css */
 .swipe-targets {
     position: absolute; 
     top: 80%; 
@@ -175,12 +176,16 @@
     transform: translateY(-50%);
     display: flex; 
     justify-content: space-between; 
-    padding: 0 0px; 
+    padding: 0 5vw; /* Changed from 0px to viewport width padding */
     width: 100%;
+    box-sizing: border-box; /* Ensure padding doesn't break width */
     pointer-events: none; 
     z-index: 1;
 }
 
+/* Remove the hardcoded 90px margins */
+#target-pinboard { margin-right: 0; }
+#target-bin { margin-left: 0; }
 .target-zone { 
     position: relative;
     padding: 20px; 
