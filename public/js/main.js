@@ -546,6 +546,8 @@ class RiskAssessmentApp {
             explanationContainer.addEventListener('click', (e) => {
                 const btn = e.target.closest('.explanation-continue-btn');
                 if (!btn || btn.disabled) return;
+                e.stopPropagation(); // Add this line
+                e.preventDefault();  // Add this line
                 btn.disabled = true;
                 if (this._onExplanationContinue) this._onExplanationContinue();
             });
