@@ -1,15 +1,15 @@
 #live-mascot-container {
     position: fixed;
-    bottom: 8vh; /* Default: bottom center (game / other screens) */
+    bottom: 2vh; /* Anchor to bottom to maximize separation from card */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 140px;
-    height: 140px;
-    z-index: 100; /* Ensure it stays above game cards */
-    pointer-events: none; /* Allows user to click buttons/cards behind the mascot */
+    width: 100px; /* Reduced base size for better clearance */
+    height: 100px;
+    z-index: 99; /* Below targets (101) and card (102) */
+    pointer-events: none; 
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -71,7 +71,16 @@
     }
 }
 
-/* Very small screens: hide mascot to prioritise content */
+/* Mobile optimization for game screen mascot */
+@media (max-width: 450px) {
+    #live-mascot-container {
+        width: 80px; /* Even smaller on mobile for guaranteed clearance */
+        height: 80px;
+        bottom: 1vh;
+    }
+}
+
+/* Very small screens: hide mascot on form screens to prioritise content */
 @media (max-width: 480px) {
     #screen-onboarding.active ~ #live-mascot-container,
     #screen-cancer-selection.active ~ #live-mascot-container {
