@@ -25,13 +25,11 @@ class RiskAssessmentApp {
         this._isExplanationVisible = false;
         this._onExplanationContinue = null;
 
-        // TARGET ADMIN BUTTON
         this.adminBtn = document.getElementById('admin-panel-btn');
 
         this.initialize();
     }
 
-    // HELPER TO MANAGE SCREEN CHANGES AND ADMIN BUTTON VISIBILITY
     _changeScreen(screenName) {
         this.dom.switchScreen(screenName);
         if (this.adminBtn) {
@@ -61,7 +59,7 @@ class RiskAssessmentApp {
             applyTheme(theme);
             this.mascot.setTheme(theme);
             
-            this.mascot.hide(); // Mascot starts hidden
+            this.mascot.hide(); 
 
             const activeScreen = this.dom.getActiveScreenName();
             this._changeScreen(activeScreen);
@@ -98,8 +96,6 @@ class RiskAssessmentApp {
         if (!this.recommendationsData) return recommendations;
         const lang = this.currentLanguage;
 
-        // Build a reverse lookup: English title -> recommendation data key
-        // This lets us match backend output (always English titles) to our localized data
         const titleToData = {};
         for (const [, data] of Object.entries(this.recommendationsData)) {
             if (data.title?.en) titleToData[data.title.en] = data;
@@ -192,7 +188,7 @@ class RiskAssessmentApp {
                 sessionStorage.setItem('selectedGender', gender);
                 this.mascot.setGender(gender);
                 
-                this.mascot.hide(); // Keep mascot hidden during navigation
+                this.mascot.hide();
                 this._changeScreen('cancerSelection');
                 
                 this._renderAssessmentCards();
@@ -221,11 +217,9 @@ class RiskAssessmentApp {
                 } catch (error) {
                     console.error('Error reloading assessments:', error);
                 }
-                // Re-apply screen-specific dynamic content
                 if (this.selectedAssessment) {
                     this._updateOnboardingForAssessment(this.selectedAssessment);
                 }
-                // If mid-game, reload questions in new language and re-show current
                 const activeScreen = this.dom.getActiveScreenName();
                 if (activeScreen === 'game' && this.selectedAssessment) {
                     try {
@@ -246,19 +240,14 @@ class RiskAssessmentApp {
     _applyLanguage(lang) {
         const t = (group, key, replacements) => _t(group, key, lang, replacements);
 
-        // --- Data-driven text mappings (element ID -> translation key) ---
-        // Uses textContent (safe). To add a new translatable element, add one line here.
         const TEXT_MAPPINGS = [
-            // Landing
             { id: 'landing-title',              group: 'landing',         key: 'landingTitle' },
             { id: 'landing-subtitle',           group: 'landing',         key: 'landingSubtitle' },
             { id: 'gender-prompt',              group: 'landing',         key: 'genderPrompt' },
             { id: 'gender-male-text',           group: 'landing',         key: 'male' },
             { id: 'gender-female-text',         group: 'landing',         key: 'female' },
-            // Cancer selection
             { id: 'cancer-selection-title',      group: 'cancerSelection', key: 'cancerSelectionTitle' },
             { id: 'cancer-selection-subtitle',   group: 'cancerSelection', key: 'cancerSelectionSubtitle' },
-            // Onboarding
             { id: 'ethnicity-chinese-label',     group: 'onboarding',      key: 'chinese' },
             { id: 'ethnicity-malay-label',       group: 'onboarding',      key: 'malay' },
             { id: 'ethnicity-indian-label',      group: 'onboarding',      key: 'indian' },
@@ -268,14 +257,12 @@ class RiskAssessmentApp {
             { id: 'family-no-label',             group: 'onboarding',      key: 'familyNo' },
             { id: 'family-unknown-label',        group: 'onboarding',      key: 'familyUnknown' },
             { id: 'start-game-btn',              group: 'cancerSelection', key: 'startAssessment' },
-            // Game
             { id: 'feedback-correct',            group: 'game',            key: 'feedbackNo' },
             { id: 'feedback-wrong',              group: 'game',            key: 'feedbackYes' },
             { id: 'swipe-no-label',              group: 'game',            key: 'swipeNo' },
             { id: 'swipe-yes-label',             group: 'game',            key: 'swipeYes' },
             { id: 'bin-label',                   group: 'game',            key: 'binIt' },
             { id: 'pin-label',                   group: 'game',            key: 'pinIt' },
-            // Results
             { id: 'results-heading',             group: 'results',         key: 'resultsHeading' },
             { id: 'risk-factors-heading',        group: 'results',         key: 'riskFactorsHeading' },
             { id: 'recommendations-heading',     group: 'results',         key: 'recommendationsHeading' },
@@ -294,18 +281,15 @@ class RiskAssessmentApp {
             if (el) el.textContent = t(group, key);
         }
 
-        // --- Elements that require innerHTML (contain markup like <span> or <strong>) ---
         const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
         setHtml('age-label', `${escapeHtml(t('onboarding', 'ageLabel'))} <span class="required">*</span>`);
         setHtml('ethnicity-label', `${escapeHtml(t('onboarding', 'ethnicityLabel'))} <span class="required">*</span>`);
 
-        // --- Placeholder attributes ---
         const ethnicityInput = document.getElementById('ethnicity-others-input');
         if (ethnicityInput) ethnicityInput.placeholder = t('onboarding', 'ethnicityPlaceholder');
         const emailInput = document.getElementById('email-phone');
         if (emailInput) emailInput.placeholder = t('results', 'emailPlaceholder');
 
-        // --- PDPA modal (content from separate pdpa config, not translations JSON) ---
         if (this.pdpaConfig && this.pdpaConfig.enabled) {
             const cfg = this.pdpaConfig;
             const pt = (obj) => (obj && obj[lang]) || (obj && obj.en) || '';
@@ -516,12 +500,14 @@ class RiskAssessmentApp {
     _setupGameListeners() {
         let startX = 0, isDragging = false;
         const card = this.dom.game.questionCard;
+
         const move = (x) => {
             if (!isDragging) return;
             const deltaX = x - startX;
             card.style.transform = `translateX(${deltaX}px) rotate(${deltaX * 0.05}deg)`;
             this.ui.setTargetHighlight(deltaX < -60 ? 'left' : (deltaX > 60 ? 'right' : null));
         };
+
         card.addEventListener('mousedown', e => { startX = e.clientX; isDragging = true; card.classList.add('dragging'); });
         document.addEventListener('mousemove', e => move(e.clientX));
         document.addEventListener('mouseup', e => {
@@ -531,8 +517,20 @@ class RiskAssessmentApp {
             if (Math.abs(deltaX) > 80) this._handleAnswer(deltaX > 0 ? 'right' : 'left');
             else { card.style.transform = ''; this.ui.setTargetHighlight(null); }
         });
-        card.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; });
-        card.addEventListener('touchmove', e => move(e.touches[0].clientX));
+
+        // MODIFIED: Prevent scrolling of the screen while dragging the card
+        card.addEventListener('touchstart', e => { 
+            if (e.cancelable) e.preventDefault(); 
+            startX = e.touches[0].clientX; 
+            isDragging = true; 
+        }, { passive: false });
+        
+        // MODIFIED: Ensure touchmove does not pan the entire mobile page
+        card.addEventListener('touchmove', e => {
+            if (isDragging && e.cancelable) e.preventDefault();
+            move(e.touches[0].clientX);
+        }, { passive: false });
+        
         card.addEventListener('touchend', e => {
             if (!isDragging) return;
             isDragging = false;
@@ -541,13 +539,12 @@ class RiskAssessmentApp {
             if (Math.abs(deltaX) > 80) this._handleAnswer(deltaX > 0 ? 'right' : 'left');
             else { card.style.transform = ''; this.ui.setTargetHighlight(null); }
         });
+
         const explanationContainer = this.dom.game.feedbackExplanation;
         if (explanationContainer) {
             explanationContainer.addEventListener('click', (e) => {
                 const btn = e.target.closest('.explanation-continue-btn');
                 if (!btn || btn.disabled) return;
-                e.stopPropagation(); // Add this line
-                e.preventDefault();  // Add this line
                 btn.disabled = true;
                 if (this._onExplanationContinue) this._onExplanationContinue();
             });
@@ -571,7 +568,7 @@ class RiskAssessmentApp {
         if (!question || this._isExplanationVisible) return;
         this.ui.pulseScreen(dir);
         const userAnswer = (dir === 'left') ? 'No' : 'Yes';
-        // Expand shared questions: iterate over all cancer-type targets for this question
+        
         const targets = question.targets || [{
             cancerType: question.cancerType,
             weight: question.weight,
@@ -579,6 +576,7 @@ class RiskAssessmentApp {
             noValue: question.noValue,
             category: question.category
         }];
+        
         let totalContribution = 0;
         for (const target of targets) {
             const weight = target.weight || 0;
@@ -595,6 +593,7 @@ class RiskAssessmentApp {
             }
             totalContribution += riskContribution;
         }
+        
         const isRisk = totalContribution > 0;
         this.ui.showFeedback(!isRisk);
         if (isRisk) {
@@ -657,7 +656,6 @@ class RiskAssessmentApp {
         const riskResult = this.ui.showResults(this.state, this.answers, this.assessments);
         this.ui.renderRiskBreakdown(this.state.getCategoryRisks(), this.state.getAnswerCounts());
 
-        // Submit to backend and use its recommendations
         let recommendations = riskResult?.recommendations || [];
         if (this.useBackend) {
             try {
@@ -682,7 +680,6 @@ class RiskAssessmentApp {
         this._onExplanationContinue = null;
         this.state.reset(); this.answers = []; this.mascot.hide(); this.selectedAssessment = null; this.selectedGender = null;
         sessionStorage.removeItem('selectedGender'); sessionStorage.removeItem('pdpaConsented');
-        // Reset results screen to default state
         const scoreContainer = document.querySelector('.results-score-container');
         const riskBreakdown = document.querySelector('.risk-breakdown');
         const cancerBreakdown = document.getElementById('cancer-breakdown');
