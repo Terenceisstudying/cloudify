@@ -1,11 +1,30 @@
 /* ======== BASE STYLES - PROFESSIONAL 8-BIT AESTHETIC ======== */
-body {
+
+/* Global reset to remove the blue tap highlight on mobile devices */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevents the whole page from bouncing or moving on mobile */
+html, body {
     font-family: var(--font-body);
     background-color: transparent;
     color: var(--color-text);
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden; 
+    position: fixed; 
+    touch-action: none; 
+}
+
+/* Ensure screens can still scroll internally if content is long */
+main.screen {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 h1,
@@ -59,6 +78,7 @@ input,
 select,
 textarea {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none; /* Extra safeguard against default browser outlines on mobile */
 }
 
 /* Enhanced button styles */
