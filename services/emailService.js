@@ -194,9 +194,27 @@ class EmailService {
 
     async verifyConnection() {
         try {
-            await this.transporter.verify();
-            console.log('✓ Resend SMTP email service is ready');
-            return true;
+            const response = await fetch('https://api.resend.com/emails', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${process.env.EMAIL_PASSWORD}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: process.env.EMAIL_FROM,
+                    to: 'test@resend.dev', // Resend's built-in test address
+                    subject: 'Connection test',
+                    html: '<p>test</p>'
+                })
+            });
+            if (response.ok || response.status === 422) {
+                console.log('✓ Resend API email service is ready');
+                return true;
+            } else {
+                const data = await response.json();
+                console.error('✗ Resend API error:', data.message || response.statusText);
+                return false;
+            }
         } catch (error) {
             console.error('✗ Email service error:', error);
             return false;
