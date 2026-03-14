@@ -36,7 +36,8 @@ export class UIController {
         if (overlay) { overlay.style.opacity = '1'; setTimeout(() => overlay.style.opacity = '0', 500); }
     }
 
-    showExplanation(question, userAnswer, continueLabel = 'Continue') {
+    // MODIFIED: Added undoLabel and structured the buttons
+    showExplanation(question, userAnswer, continueLabel = 'Continue', undoLabel = 'Undo') {
         const container = this.elements.game.feedbackExplanation;
         if (!container) return;
 
@@ -48,13 +49,18 @@ export class UIController {
 
         const importanceKey = riskLevel.toLowerCase() + 'Importance';
         const translatedBadge = this.t('game', importanceKey);
+        
         container.innerHTML = `
             <div class="explanation-content" aria-atomic="true">
                 <h4 class="risk-badge ${escapeHtml(riskClass)}">${escapeHtml(translatedBadge)}</h4>
                 <p>${escapeHtml(explanationText)}</p>
-                <button class="explanation-continue-btn" type="button">${escapeHtml(continueLabel)}</button>
+                <div class="explanation-actions">
+                    <button class="explanation-undo-btn" type="button">${escapeHtml(undoLabel)}</button>
+                    <button class="explanation-continue-btn" type="button">${escapeHtml(continueLabel)}</button>
+                </div>
             </div>
         `;
+        
         container.setAttribute('role', 'dialog');
         container.setAttribute('aria-modal', 'true');
         container.style.display = 'block';
@@ -117,7 +123,6 @@ export class UIController {
         }
     }
 
-    // ... (Your existing showResults and helper methods remain unchanged)
     showResults(gameState, answers, assessments = []) {
         this.assessments = assessments;
         const userData = gameState.getUserData();
@@ -134,11 +139,9 @@ export class UIController {
         const cancerBreakdownSection = document.getElementById('cancer-breakdown');
 
         if (isGeneric && this.cancerTypeScores) {
-            // Generic assessment: cancer breakdown is the hero section
             if (scoreContainer) scoreContainer.style.display = 'none';
             if (riskBreakdown) riskBreakdown.style.display = 'none';
 
-            // Filter out gender-irrelevant cancer types
             const gender = userData.gender?.toLowerCase();
             const filtered = {};
             for (const [type, data] of Object.entries(this.cancerTypeScores)) {
@@ -147,7 +150,6 @@ export class UIController {
                 filtered[type] = data;
             }
 
-            // Determine overall risk from highest individual cancer type
             const scores = Object.values(filtered);
             const highestRisk = scores.reduce((max, s) => s.score > max.score ? s : max, { score: 0, riskLevel: 'LOW' });
 
@@ -162,7 +164,6 @@ export class UIController {
             this._renderCancerTypeBreakdown(filtered);
             if (cancerBreakdownSection) cancerBreakdownSection.style.display = 'block';
         } else {
-            // Specific cancer type assessment: show the standard gauge
             if (scoreContainer) scoreContainer.style.display = '';
             if (riskBreakdown) riskBreakdown.style.display = '';
             if (cancerBreakdownSection) cancerBreakdownSection.style.display = 'none';
@@ -184,7 +185,6 @@ export class UIController {
     _renderCancerTypeBreakdown(cancerTypeScores) {
         if (!this.elements.results.cancerBreakdownContainer) return;
 
-        // Build lookup maps from assessment data (single source of truth)
         const nameMap = {};
         const iconMap = {};
         if (this.assessments) {
@@ -332,9 +332,6 @@ export class UIController {
         }
     }
 
-    /**
-     * Show or hide high-risk call-to-action and emphasize book-screening button for HIGH risk (US-01).
-     */
     _updateHighRiskCTA(riskLevel) {
         const ctaEl = document.getElementById('high-risk-cta');
         const bookBtn = document.getElementById('book-screening-btn');
