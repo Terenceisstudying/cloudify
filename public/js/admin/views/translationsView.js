@@ -49,6 +49,7 @@ const KEY_DESCRIPTIONS = {
         pinIt: { label: '"Pin It" Label', hint: 'Instruction below the Yes swipe zone' },
         feedbackYes: { label: 'Yes Feedback', hint: 'Reaction text when user swipes Yes (e.g. "Aiyo!")' },
         feedbackNo: { label: 'No Feedback', hint: 'Reaction text when user swipes No (e.g. "Steady!")' },
+        undoButton: {label: '"Undo" Button', hint: 'Button on the explanation card after each question swipe' },
         continueButton: { label: '"Continue" Button', hint: 'Button on the explanation card after each question swipe' },
         highImportance: { label: '"High Importance" Badge', hint: 'Badge for high-weight questions in explanation card' },
         mediumImportance: { label: '"Medium Importance" Badge', hint: 'Badge for medium-weight questions in explanation card' },
