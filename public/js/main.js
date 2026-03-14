@@ -24,6 +24,7 @@ class RiskAssessmentApp {
         this.selectedGender = sessionStorage.getItem('selectedGender') || null;
         this._isExplanationVisible = false;
         this._onExplanationContinue = null;
+        this._onExplanationUndo = null; // MODIFIED: Store undo action
 
         this.adminBtn = document.getElementById('admin-panel-btn');
 
@@ -518,14 +519,12 @@ class RiskAssessmentApp {
             else { card.style.transform = ''; this.ui.setTargetHighlight(null); }
         });
 
-        // MODIFIED: Prevent scrolling of the screen while dragging the card
         card.addEventListener('touchstart', e => { 
             if (e.cancelable) e.preventDefault(); 
             startX = e.touches[0].clientX; 
             isDragging = true; 
         }, { passive: false });
         
-        // MODIFIED: Ensure touchmove does not pan the entire mobile page
         card.addEventListener('touchmove', e => {
             if (isDragging && e.cancelable) e.preventDefault();
             move(e.touches[0].clientX);
@@ -540,13 +539,22 @@ class RiskAssessmentApp {
             else { card.style.transform = ''; this.ui.setTargetHighlight(null); }
         });
 
+        // MODIFIED: Handle both Undo and Continue button clicks safely
         const explanationContainer = this.dom.game.feedbackExplanation;
         if (explanationContainer) {
             explanationContainer.addEventListener('click', (e) => {
-                const btn = e.target.closest('.explanation-continue-btn');
-                if (!btn || btn.disabled) return;
-                btn.disabled = true;
-                if (this._onExplanationContinue) this._onExplanationContinue();
+                const continueBtn = e.target.closest('.explanation-continue-btn');
+                const undoBtn = e.target.closest('.explanation-undo-btn');
+
+                if (continueBtn && !continueBtn.disabled) {
+                    continueBtn.disabled = true;
+                    if (undoBtn) undoBtn.disabled = true;
+                    if (this._onExplanationContinue) this._onExplanationContinue();
+                } else if (undoBtn && !undoBtn.disabled) {
+                    undoBtn.disabled = true;
+                    if (continueBtn) continueBtn.disabled = true;
+                    if (this._onExplanationUndo) this._onExplanationUndo();
+                }
             });
         }
     }
@@ -601,19 +609,53 @@ class RiskAssessmentApp {
         }
         this.mascot.startAnimation(isRisk ? 'Shocked' : 'Good');
         const hasMoreQuestions = this.state.nextQuestion();
+        
+        // MODIFIED: Attach Undo logic here after swiping
         this.ui.animateCardSwipe(dir, () => {
             const explanationText = (userAnswer === 'Yes') ? question.explanationYes : question.explanationNo;
             if (explanationText) {
                 this._isExplanationVisible = true;
-                const continueLabel = this.t('game', 'continueButton');
-                this.ui.showExplanation(question, userAnswer, continueLabel);
+                const continueLabel = this.t('game', 'continueButton') || 'Continue';
+                const undoLabel = this.t('game', 'undoButton') || 'Undo'; 
+                
+                this.ui.showExplanation(question, userAnswer, continueLabel, undoLabel);
+                
+                // Normal Continue Action
                 this._onExplanationContinue = () => {
                     this._isExplanationVisible = false;
                     this._onExplanationContinue = null;
+                    this._onExplanationUndo = null;
                     this.ui.hideExplanation();
                     if (hasMoreQuestions) this._showNextQuestion();
                     else this._showResults();
                 };
+
+                // New Undo Action
+                this._onExplanationUndo = () => {
+                    this._isExplanationVisible = false;
+                    this._onExplanationContinue = null;
+                    this._onExplanationUndo = null;
+                    this.ui.hideExplanation();
+
+                    // 1. Remove this question's answers from the history array
+                    const answersToRevert = this.answers.filter(a => a.questionId === question.id);
+                    this.answers = this.answers.filter(a => a.questionId !== question.id);
+
+                    // 2. Subtract the points & categories that were just added
+                    for (const ans of answersToRevert) {
+                        if (ans.riskContribution > 0) {
+                            this.state.removeRiskScore(ans.riskContribution);
+                            this.state.removeCategoryRisk(ans.category, ans.riskContribution);
+                        }
+                    }
+
+                    // 3. Move the game index back one step
+                    this.state.previousQuestion();
+
+                    // 4. Redraw the current question
+                    this._showNextQuestion(); 
+                };
+
             } else {
                 if (hasMoreQuestions) this._showNextQuestion();
                 else this._showResults();
@@ -678,6 +720,7 @@ class RiskAssessmentApp {
     _resetApp() {
         this._isExplanationVisible = false;
         this._onExplanationContinue = null;
+        this._onExplanationUndo = null;
         this.state.reset(); this.answers = []; this.mascot.hide(); this.selectedAssessment = null; this.selectedGender = null;
         sessionStorage.removeItem('selectedGender'); sessionStorage.removeItem('pdpaConsented');
         const scoreContainer = document.querySelector('.results-score-container');
