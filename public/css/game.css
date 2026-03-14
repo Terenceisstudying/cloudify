@@ -307,7 +307,7 @@
 .risk-badge.medium { background-color: var(--color-risk-medium); }
 .risk-badge.low { background-color: var(--color-risk-low); }
 
-/* MODIFIED: Side-by-side buttons for Undo/Continue */
+/* Side-by-side buttons for Undo/Continue */
 .explanation-actions {
     display: flex;
     gap: 10px;
@@ -315,11 +315,11 @@
 }
 
 .explanation-actions button {
-    flex: 1;
     margin-top: 0;
 }
 
 .explanation-undo-btn {
+    flex: 1; /* 1/3 ratio */
     display: inline-block;
     padding: 14px 20px;
     font-family: var(--font-body);
@@ -348,6 +348,7 @@
 }
 
 .explanation-continue-btn {
+    flex: 2; /* 2/3 ratio */
     display: inline-block;
     padding: 14px 20px;
     font-family: var(--font-body);
