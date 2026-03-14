@@ -349,18 +349,24 @@ function renderForm(container) {
     let groupKeys = Object.keys(SCREEN_GROUPS);
 
     for (const [group, groupLabel] of Object.entries(SCREEN_GROUPS)) {
-        const keys = translationsData[group];
-        if (!keys) continue;
+        let keys = translationsData[group] || {};
         const descriptions = KEY_DESCRIPTIONS[group] || {};
+
+        // Merge keys from descriptions to ensure ALL expected keys are rendered
+        // even if they are missing from the server's JSON file.
+        const allKeys = Array.from(new Set([...Object.keys(keys), ...Object.keys(descriptions)]));
+
+        if (allKeys.length === 0) continue;
 
         formHtml += `<details class="translations-section" data-group="${esc(group)}">
             <summary class="translations-section-header">${esc(groupLabel)}</summary>
             <div class="translations-section-body">`;
 
-        for (const [key, langs] of Object.entries(keys)) {
+        for (const key of allKeys) {
             const desc = descriptions[key] || {};
             const label = desc.label || key;
             const hint = desc.hint || '';
+            const langs = keys[key] || { en: '', zh: '', ms: '', ta: '' };
             formHtml += renderLangFields(`trans-${group}-${key}`, label, hint, langs);
         }
         formHtml += `</div></details>`;
