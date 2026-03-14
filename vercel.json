@@ -1,0 +1,43 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "version": 2,
+    "buildCommand": null,
+    "outputDirectory": "public",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/public/$1"
+        }
+    ],
+    
+    "functions": {
+        "api/**/*.js": {
+            "memory": 512,
+            "maxDuration": 10
+        },
+        "api/ml/predict.js": {
+            "memory": 1024,
+            "maxDuration": 30
+        },
+        "api/assessments/**/*.js": {
+            "memory": 1024,
+            "maxDuration": 30
+        }
+    },
+    
+    "env": {
+        "NODE_ENV": "production"
+    },
+    
+    "github": {
+        "silent": false,
+        "autoJobCancelation": true
+    }
+}

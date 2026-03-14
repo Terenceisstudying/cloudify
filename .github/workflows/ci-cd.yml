@@ -1,0 +1,77 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    
+    # Environment variables (from GitHub Secrets)
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+      
+      # Step 4: Run linter (optional - doesn't fail build)
+      - name: Run Linter
+        run: npm run lint || true
+        continue-on-error: true
+      
+      # Step 5: Run tests
+      - name: Run Tests
+        run: npm test
+        env:
+          NODE_ENV: test
+          JWT_SECRET: test-secret-for-ci
+      
+      # Step 6: Build project (if you have a build step)
+      - name: Build Project
+        run: npm run build || true
+        continue-on-error: true
+      
+      # Step 7: Deploy to Vercel (only on main branch, only if tests pass)
+      - name: Deploy to Vercel
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+      
+      # Step 8: Notify deployment status
+      - name: Deployment Notification
+        if: always()
+        run: |
+          echo "============================================"
+          echo "Deployment Status: ${{ job.status }}"
+          echo "============================================"
+          echo ""
+          echo "Check Vercel dashboard for details:"
+          echo "https://vercel.com/dashboard"
+          echo ""
+          echo "============================================"

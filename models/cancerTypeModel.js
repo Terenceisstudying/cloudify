@@ -269,6 +269,7 @@ export class CancerTypeModel {
     async writeAssessmentsSnapshot() {
         const allData = await this.getAllCancerTypesLocalized('en');
         const data = allData.filter(ct => ct.visible !== false);
+        await fs.mkdir(path.dirname(SNAPSHOT_FILE), { recursive: true }).catch(() => {});
         await fs.writeFile(SNAPSHOT_FILE, JSON.stringify({ success: true, data }, null, 2));
     }
 

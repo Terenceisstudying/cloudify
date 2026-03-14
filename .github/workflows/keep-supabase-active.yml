@@ -1,0 +1,28 @@
+name: Keep Supabase Active
+
+# Supabase free tier projects pause after 7 days of inactivity
+# This workflow pings the database weekly to keep it active
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: |
+          echo "Pinging Supabase to keep it active..."
+          curl -s "${{ secrets.SUPABASE_URL }}/rest/v1/cancer_types?limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -o /dev/null
+          
+          if [ $? -eq 0 ]; then
+            echo "✓ Supabase ping successful!"
+          else
+            echo "✗ Supabase ping failed!"
+            exit 1
+          fi

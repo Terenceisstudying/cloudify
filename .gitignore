@@ -27,3 +27,5 @@ Thumbs.db
 # Miscellaneous
 .claude/
 CLAUDE.md
+.vercel
+.env*.local

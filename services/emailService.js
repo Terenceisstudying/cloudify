@@ -1,32 +1,25 @@
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-async function sendEmail({ to, subject, html, text }) {
-    const apiKey = process.env.EMAIL_PASSWORD; // reusing your existing env var
-    const from = process.env.EMAIL_FROM || 'Singapore Cancer Society <onboarding@resend.dev>';
-
-    const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ from, to, subject, html, text }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        console.error('Resend API error:', data);
-        throw new Error(`Failed to send email: ${data.message || response.statusText}`);
+class EmailService {
+    constructor() {
+        this.from = process.env.EMAIL_FROM || 'SCS Risk Assessment <noreply@scs.com>';
     }
 
-    console.log('Email sent successfully, id:', data.id);
-    return data;
-}
+    async createTransporter() {
+        return nodemailer.createTransport({
+            host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+            port: parseInt(process.env.EMAIL_PORT) || 587,
+            secure: false,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+    }
 
-class EmailService {
     async sendPasswordResetEmail(email, resetToken) {
         const resetUrl = `${process.env.APP_URL || 'http://localhost:3000'}/resetPassword.html?token=${resetToken}`;
         return sendEmail({

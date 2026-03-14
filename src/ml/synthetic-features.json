@@ -1,0 +1,9002 @@
+[
+  {
+    "age": 0.6,
+    "completionTime": 0.85,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.30666666666666664,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.74,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.74,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.43666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.6966666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.54,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.36,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.34,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.8766666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.83,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.38,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.7566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.6833333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.9433333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.8633333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.38,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.8,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.5533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.49666666666666665,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.7566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.5666666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.35,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9533333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.32666666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.6766666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.5833333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.8133333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.58,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.82,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.9266666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.35,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.74,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.6,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.81,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.4266666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.9233333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.79,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.36,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.53,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.7366666666666667,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.7966666666666666,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.87,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.89,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.7866666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.83,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.5966666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.71,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.68,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.9766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.7466666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.8666666666666667,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.43333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.72,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.8,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.47,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.44333333333333336,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.37666666666666665,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.5233333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.6666666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.6,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.57,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.47,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.8066666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.7833333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.86,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.9666666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.92,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.78,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.84,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.39,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.3466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.4,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.69,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.45666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7266666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.7133333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.49666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.58,
+    "yesRatio": 0.8,
+    "answerVariance": 0.3999999999999999,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.95,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.51,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.30333333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.69,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.85,
+    "completionTime": 0.7733333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.7833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.63,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.4666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.41,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.3,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.51,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.96,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.9166666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.9466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.6,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.8633333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 1,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.75,
+    "completionTime": 0.49333333333333335,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.87,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.9666666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.6866666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.6,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.8566666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.69,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.76,
+    "completionTime": 0.51,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.9733333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.9433333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7266666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.7466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.7,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.61,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.72,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.8433333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.9466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.7866666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.73,
+    "completionTime": 0.33,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.6133333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.38,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5033333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.63,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.8633333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.43333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.33666666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.8166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.61,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.57,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.35,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.7366666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.9266666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.56,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.9966666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.49333333333333335,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.9266666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.3933333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.75,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.31,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.61,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.43333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.7133333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.97,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.4766666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.8833333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.43666666666666665,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.4166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.9666666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.59,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.9866666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.7133333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.49333333333333335,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.58,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.43333333333333335,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.38,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.5,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.5233333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.85,
+    "completionTime": 0.6,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.98,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.4033333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.83,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.91,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.5066666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.82,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.6133333333333333,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.6733333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.94,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.3233333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.85,
+    "completionTime": 0.8033333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.3333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.77,
+    "completionTime": 0.8533333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.5533333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.5,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.88,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.76,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.6766666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6466666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.85,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.62,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.9066666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.4766666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.9033333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.78,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.9766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.96,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.39666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.35,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.7,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.32666666666666666,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.65,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.6,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.58,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.43,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.33666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.4866666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.84,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.7533333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.62,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.84,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.96,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.8,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.6666666666666666,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.8033333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.64,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.76,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.55,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.5966666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.64,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.7233333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.9533333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.69,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.69,
+    "completionTime": 0.3333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.44333333333333336,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.72,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.93,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.49666666666666665,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.77,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.4666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.9066666666666666,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.66,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.64,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.93,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.58,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.4,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.8266666666666667,
+    "yesRatio": 0.8,
+    "answerVariance": 0.3999999999999999,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.66,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.3466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.9466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.43,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.77,
+    "completionTime": 0.52,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.53,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.7266666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.77,
+    "completionTime": 0.45,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.7466666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.66,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.31333333333333335,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.82,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.8633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.9433333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.32666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.5,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.6033333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.77,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.47,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.82,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.38,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.43,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.9066666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.6,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.7333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.3333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.42333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.4533333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.44,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.3333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.41,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.4033333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.7466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.8666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.81,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.3933333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.31,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.7,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.47,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.36,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.93,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.9,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.8433333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.43,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.33,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.5,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.41333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.51,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.4166666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.96,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.8533333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.86,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.66,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.43666666666666665,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.67,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.74,
+    "completionTime": 0.3933333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.71,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.31,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.36333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.71,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.6633333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.84,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.6,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.58,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.68,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.74,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9233333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.42333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.58,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7333333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.8,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.75,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.34,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.56,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.32666666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.34,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.75,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.6266666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.30666666666666664,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.6733333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.36666666666666664,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.9733333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.5266666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.7366666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.73,
+    "completionTime": 0.8533333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.69,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.45,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.39,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.92,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.9966666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.65,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.9,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.6833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.8,
+    "completionTime": 0.48,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.9866666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.57,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.48,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.75,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.62,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.8066666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.6,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.6433333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.8266666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.41333333333333333,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.66,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.8433333333333334,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.3933333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.82,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.7633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.9866666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.73,
+    "completionTime": 0.8033333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.47,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.4766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.5066666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.7266666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.84,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.44333333333333336,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.6766666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.63,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.3933333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.56,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.97,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.34,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.48,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.5533333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.3466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.75,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.8833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5233333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.4,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.8,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.8033333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.7233333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.61,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.67,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.8166666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.9,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.89,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.74,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.83,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.9533333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.39,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.5266666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.7466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.4866666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.8633333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.97,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.9,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.37,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.42,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.56,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.97,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.92,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.94,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.7133333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.9433333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.6666666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.86,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.53,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.35,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.47,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5266666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.5866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.74,
+    "completionTime": 0.7,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.37333333333333335,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.68,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.38,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6733333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.6066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.44,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.8766666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.77,
+    "completionTime": 0.6666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.7233333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.42,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.6866666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.7233333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.59,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.6866666666666666,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.7966666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.45,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.7733333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.3,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.33,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.4033333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.8,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.33,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.9166666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.5466666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.87,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.7,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.6033333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.38,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.73,
+    "completionTime": 0.6733333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.30333333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.45,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.8,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.5733333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.85,
+    "completionTime": 0.57,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.7633333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.5033333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.92,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.49,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.9966666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.45,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.6933333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.57,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.69,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.81,
+    "completionTime": 0.6066666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.8833333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.56,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.68,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.82,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.41,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.9066666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.67,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.44,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.9,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.6,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.9333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.54,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.49,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.38333333333333336,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.47,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.5333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.8166666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.8,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.9733333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5266666666666666,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.8166666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.6,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.5266666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.49,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.56,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.37333333333333335,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.77,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.57,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.57,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.74,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.76,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.5133333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.30666666666666664,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.43666666666666665,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.88,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.76,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.36333333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.3566666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.35,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.5633333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.31333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.8733333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.7333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6366666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.69,
+    "completionTime": 0.3333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.96,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.55,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.52,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.5666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.9333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.7966666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.82,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.7,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.47,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.5133333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.5733333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.62,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.97,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.66,
+    "completionTime": 0.7233333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.3466666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.54,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.5066666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.79,
+    "completionTime": 0.97,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.9766666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.6,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.81,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.6466666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.7866666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.8,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.57,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.6366666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.41,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.37333333333333335,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.9966666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.8,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.8933333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.95,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.8133333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.47333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.87,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.6,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.7833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.34,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.62,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.7,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.75,
+    "completionTime": 0.7166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.7966666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 1,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.79,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.42,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.81,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7366666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.5033333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.68,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.92,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.6333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.7966666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.7733333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.74,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.92,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.49666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.82,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.73,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.45,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.9233333333333333,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.66,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.6566666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.47333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.4866666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.9666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.9866666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.6866666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.7133333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.93,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.33,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.8433333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.5933333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.49,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.6366666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.74,
+    "completionTime": 0.72,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.54,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.7,
+    "completionTime": 0.35,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.64,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.49,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.5,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.7833333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.38666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.9733333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.6766666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.52,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.92,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.45666666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.6066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.6966666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.75,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.6966666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.7666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.36,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.4266666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.77,
+    "completionTime": 0.6633333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.33,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.37666666666666665,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.7533333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.6633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.69,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.6933333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.32,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.8066666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.5866666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.8266666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.4866666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.8433333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.5033333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.37666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.8166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.76,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.41,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.75,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.8,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.22,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.7766666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.5566666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.6266666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.83,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.94,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.3433333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.6366666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.43,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5766666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.33,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.89,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.6166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.7066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.44666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.39666666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.7733333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.61,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.6966666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.5133333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.42,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.9266666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.69,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.44,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.6966666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.95,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.23,
+    "completionTime": 0.56,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.34,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.4666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.9133333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.63,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.7566666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.96,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.82,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.3233333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.87,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.4166666666666667,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.5833333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.75,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.87,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.47333333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.8,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.97,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.5033333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.7,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.8833333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.4766666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.6733333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.43,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.46,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.8133333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.33666666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.51,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.72,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9566666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.35,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.94,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.8666666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.71,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.8766666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.82,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.7866666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.38,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.62,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.7533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.68,
+    "yesRatio": 0.8,
+    "answerVariance": 0.3999999999999999,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.35333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.9366666666666666,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.6033333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.76,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.62,
+    "completionTime": 0.5533333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.36333333333333334,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.74,
+    "completionTime": 0.7033333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.81,
+    "completionTime": 0.83,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.5433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.32,
+    "completionTime": 0.5533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.48333333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.59,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.7733333333333333,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.29,
+    "completionTime": 0.31666666666666665,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.8,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.5866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.9633333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.46,
+    "completionTime": 0.61,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.42333333333333334,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.9966666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.41,
+    "completionTime": 0.37666666666666665,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.86,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.8266666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.24,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.21,
+    "completionTime": 0.7366666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.65,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.7,
+    "answerVariance": 0.6000000000000001,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.9733333333333334,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.4033333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.4,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.64,
+    "completionTime": 0.37,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.9833333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.28,
+    "completionTime": 0.45,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.61,
+    "completionTime": 0.7633333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.6433333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.72,
+    "completionTime": 0.41333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.8233333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.68,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.4633333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.27,
+    "completionTime": 0.3466666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.8,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.76,
+    "completionTime": 0.35,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.48,
+    "completionTime": 0.37,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.3,
+    "completionTime": 0.6466666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.31,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.9333333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.4,
+    "completionTime": 0.7933333333333333,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.8766666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.36,
+    "completionTime": 0.6,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.69,
+    "completionTime": 0.52,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.7433333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.71,
+    "completionTime": 0.4,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.8866666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.5166666666666667,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.73,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 0,
+    "anomalyType": null
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.8966666666666666,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.38,
+    "completionTime": 0.4533333333333333,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.45,
+    "completionTime": 0.46,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.53,
+    "completionTime": 0.05,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.06333333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.043333333333333335,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.02666666666666667,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.03333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.1,
+    "completionTime": 0.7333333333333333,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.016666666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.25,
+    "completionTime": 0.06666666666666667,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.55,
+    "completionTime": 0.07333333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.07,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.95,
+    "completionTime": 0.32,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.8466666666666667,
+    "yesRatio": 0.25,
+    "answerVariance": 0.5,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 1.2,
+    "completionTime": 0.5366666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.49,
+    "completionTime": 0.83,
+    "yesRatio": 0.3333333333333333,
+    "answerVariance": 0.6666666666666666,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.63,
+    "completionTime": 0.57,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.39,
+    "completionTime": 0.07666666666666666,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.69,
+    "completionTime": 0.37,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.59,
+    "completionTime": 0.9933333333333333,
+    "yesRatio": 0.25,
+    "answerVariance": 0.5,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.42,
+    "completionTime": 0.08,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.02,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.73,
+    "completionTime": 0.48,
+    "yesRatio": 0.25,
+    "answerVariance": 0.5,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.98,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.6533333333333333,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.95,
+    "completionTime": 0.46,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.06333333333333334,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.34,
+    "completionTime": 0.07666666666666666,
+    "yesRatio": 0.5,
+    "answerVariance": 1,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.54,
+    "completionTime": 0.4666666666666667,
+    "yesRatio": 0.4166666666666667,
+    "answerVariance": 0.8333333333333334,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.47,
+    "completionTime": 0.043333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.43,
+    "completionTime": 0.06333333333333334,
+    "yesRatio": 0.1,
+    "answerVariance": 0.19999999999999996,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.68,
+    "completionTime": 0.07666666666666666,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.02666666666666667,
+    "yesRatio": 0.6,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.44,
+    "completionTime": 0.6233333333333333,
+    "yesRatio": 0.25,
+    "answerVariance": 0.5,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.58,
+    "completionTime": 0.7633333333333333,
+    "yesRatio": 0.4166666666666667,
+    "answerVariance": 0.8333333333333334,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.52,
+    "completionTime": 0.7533333333333333,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.6,
+    "completionTime": 0.5133333333333333,
+    "yesRatio": 0.4166666666666667,
+    "answerVariance": 0.8333333333333334,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.37,
+    "completionTime": 0.47,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.5,
+    "completionTime": 0.8933333333333333,
+    "yesRatio": 0.16666666666666666,
+    "answerVariance": 0.33333333333333326,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.57,
+    "completionTime": 0.043333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.4066666666666667,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.67,
+    "completionTime": 0.5666666666666667,
+    "yesRatio": 0,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.33,
+    "completionTime": 0.49333333333333335,
+    "yesRatio": 0.6666666666666666,
+    "answerVariance": 0.6666666666666667,
+    "hasContradiction": 1,
+    "isAnomaly": 1,
+    "anomalyType": "CONTRADICTION"
+  },
+  {
+    "age": 0.1,
+    "completionTime": 0.68,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.26,
+    "completionTime": 0.8766666666666667,
+    "yesRatio": 1,
+    "answerVariance": 0,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "UNIFORM"
+  },
+  {
+    "age": 0.56,
+    "completionTime": 0.043333333333333335,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.1,
+    "completionTime": 0.7833333333333333,
+    "yesRatio": 0.3,
+    "answerVariance": 0.6,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "EXTREME"
+  },
+  {
+    "age": 0.31,
+    "completionTime": 0.023333333333333334,
+    "yesRatio": 0.4,
+    "answerVariance": 0.8,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  },
+  {
+    "age": 0.51,
+    "completionTime": 0.06,
+    "yesRatio": 0.2,
+    "answerVariance": 0.4,
+    "hasContradiction": 0,
+    "isAnomaly": 1,
+    "anomalyType": "TOO_FAST"
+  }
+]
