@@ -2,7 +2,11 @@
  * Root entrypoint for Vercel deployment.
  * This file satisfies Vercel's build requirement for a main entry point.
  * The actual application logic is distributed across serverless functions in the /api directory.
+ * 
+ * NOTE: We import 'express' here to satisfy Vercel's legacy detection which
+ * expects to find an express import if it's in package.json dependencies.
  */
+import express from 'express';
 
 export default function handler(req, res) {
     res.status(200).json({
