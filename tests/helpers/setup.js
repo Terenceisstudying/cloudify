@@ -30,8 +30,12 @@ export async function setup() {
             const mockBuilder = db.supabase.from(tableName);
             if (data.length > 0) {
                 if (tableName === 'settings') {
-                    // Use upsert for settings to ensure we don't duplicate keys
-                    await mockBuilder.upsert(data, { onConflict: 'key' });
+                    // Normalize settings keys for the mock API expectations
+                    const normalizedSettings = data.map(s => {
+                        if (s.key === 'ui_translations') return { ...s, key: 'translations' };
+                        return s;
+                    });
+                    await mockBuilder.upsert(normalizedSettings, { onConflict: 'key' });
                 } else {
                     await mockBuilder.insert(data);
                 }

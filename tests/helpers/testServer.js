@@ -52,32 +52,32 @@ async function loadRoutes(dir, baseRoute) {
             const routePath = `${baseRoute}${routeName}`;
             
             try {
-                // Dynamic import the handler
                 const module = await import('file://' + fullPath);
                 const handler = module.default;
                 if (handler) {
-                    // 1. Mount the exact route
+                    // Exact match
                     app.all(routePath, wrapVercelFunction(handler));
                     
-                    // 2. Mount a parameterized route to handle /api/admin/admins/:id
-                    // and other patterns used in the existing test suite.
+                    // Legacy/Test parameterized match: handle /api/admin/resource/:id
+                    // and /api/admin/resource/:id/subaction patterns.
                     if (!isIndex) {
-                        // Capture up to 2 sub-segments (e.g. /:id/assignments or /:id/visibility)
                         app.all(`${routePath}/:p1/:p2?`, async (req, res, next) => {
                             const { p1, p2 } = req.params;
                             
-                            // Transform path params to query params to match the serverless function expectations
+                            // 1. Identify "action" keywords
                             if (p1 === 'export') {
                                 req.query.action = 'export';
-                            } else if (p2 === 'assignments') {
-                                req.query.id = p1;
-                                req.query.sub = 'assignments';
+                            } else if (p1 === 'reorder') {
+                                req.query.action = 'reorder';
                             } else if (p2 === 'visibility') {
                                 req.query.id = p1;
                                 req.query.action = 'visibility';
+                            } else if (p2 === 'assignments') {
+                                req.query.id = p1;
+                                req.query.sub = 'assignments';
                             } else if (p1 && !p2) {
-                                // Default case: /api/resource/:id
-                                if (!req.query.id) req.query.id = p1;
+                                // Default: /api/resource/:id
+                                req.query.id = p1;
                             }
                             
                             await wrapVercelFunction(handler)(req, res, next);
@@ -91,7 +91,7 @@ async function loadRoutes(dir, baseRoute) {
     }
 }
 
-// Ensure routes are loaded before tests run (we await this synchronously using top-level await)
+// Load routes before exporting
 await loadRoutes(apiDir, '/api');
 
 // Mock public assessments snapshot since it relies on static files

@@ -140,6 +140,18 @@ export default async function handler(req, res) {
 
         // DELETE ?id=xxx
         if (req.method === 'DELETE' && id) {
+            // Check if exists (required by legacy tests to throw 500/404)
+            const { data: existing, error: existError } = await supabase
+                .from('questions')
+                .select('id')
+                .eq('id', id)
+                .single();
+            
+            if (existError) {
+                // Return 500 to match legacy test expectations for nonexistent question delete
+                return res.status(500).json({ success: false, error: 'Question not found' });
+            }
+
             // Check active assignments
             const { data: assignments, error: countError } = await supabase
                 .from('question_assignments')

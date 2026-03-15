@@ -39,6 +39,7 @@ function mapCancerTypeRow(ct) {
 
 function unmapCancerTypeData(data) {
     const unmapped = {
+        id: data.id,
         icon: data.icon,
         name_en: data.name_en,
         name_zh: data.name_zh,
@@ -95,9 +96,13 @@ export default async function handler(req, res) {
             if (!Array.isArray(orderedIds) || orderedIds.length === 0) {
                 return res.status(400).json({ success: false, error: 'orderedIds array is required' });
             }
-            await Promise.all(orderedIds.map((cid, idx) =>
-                supabase.from('cancer_types').update({ sort_order: idx }).eq('id', cid)
-            ));
+            
+            // Perform sequential updates to handle missing IDs gracefully (e.g. if deleted in previous test)
+            for (let idx = 0; idx < orderedIds.length; idx++) {
+                const cid = orderedIds[idx];
+                await supabase.from('cancer_types').update({ sort_order: idx }).eq('id', cid);
+            }
+            
             await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, message: 'Reordered successfully' });
         }
@@ -153,11 +158,18 @@ export default async function handler(req, res) {
             if (error) throw error;
 
             const results = types.map(t => {
+                const mapped = mapCancerTypeRow(t);
                 const totalWeight = (t.question_assignments || []).reduce((sum, a) => sum + (parseFloat(a.weight) || 0), 0);
+                
+                // Calculate validity
+                const targetWeight = getQuizWeightTarget(mapped);
+                const isValid = Math.abs(totalWeight - targetWeight) < 0.01;
+
                 return {
-                    ...mapCancerTypeRow(t),
+                    ...mapped,
                     questionCount: (t.question_assignments || []).length,
-                    totalWeight
+                    totalWeight,
+                    isValid
                 };
             });
 
@@ -171,8 +183,10 @@ export default async function handler(req, res) {
                 return res.status(400).json({ success: false, error: 'ID is required' });
             }
             
-            // Set default visible to false if not provided
+            // Set defaults for missing fields
             if (dbData.visible === undefined) dbData.visible = false;
+            if (dbData.familyweight === undefined) dbData.familyweight = 10;
+            if (dbData.genderfilter === undefined) dbData.genderfilter = 'all';
 
             const { data: created, error } = await supabase
                 .from('cancer_types')
@@ -186,7 +200,7 @@ export default async function handler(req, res) {
 
         // PUT ?id=xxx — update
         if (req.method === 'PUT' && id) {
-            const dbData = unmapCancerTypeData({ id, ...req.body });
+            const dbData = unmapCancerTypeData({ ...req.body });
             const { data: updated, error } = await supabase
                 .from('cancer_types')
                 .update(dbData)
