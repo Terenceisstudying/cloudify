@@ -14,19 +14,24 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { data, error } = await supabase
+        // Try 'translations' first, then 'ui_translations' as fallback
+        let { data, error } = await supabase
             .from('settings')
             .select('value')
             .eq('key', 'translations')
             .single();
             
-        if (error) {
-            console.error('Database error fetching translations:', error);
-            if (error.code !== 'PGRST116') throw error;
+        if (error || !data) {
+            const fallback = await supabase
+                .from('settings')
+                .select('value')
+                .eq('key', 'ui_translations')
+                .single();
+            data = fallback.data;
         }
 
         if (!data || !data.value) {
-            console.warn('Translations key not found or empty in settings table');
+            console.warn('Translations not found in settings table (checked translations and ui_translations)');
             return res.status(200).json({});
         }
 
