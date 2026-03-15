@@ -1,10 +1,7 @@
 /**
  * Root entrypoint for Vercel deployment.
- * This file satisfies Vercel's build requirement for a root entrypoint that
- * explicitly imports 'express' whenever it is listed in package.json.
- * 
- * It also serves the static frontend from the /public directory and
- * proxies API requests to their respective dispatcher functions.
+ * Explicitly imports 'express' to satisfy Vercel's build requirement.
+ * Proxies API requests to their respective dispatcher functions correctly.
  */
 import express from 'express';
 import path from 'path';
@@ -29,13 +26,18 @@ const app = express();
 // Use express.json() to parse incoming JSON payloads
 app.use(express.json());
 
-// Proxy API requests to their respective handlers
-// We use a middleware-like wrapper to pass req/res to the Vercel handlers.
-// IMPORTANT: Express req.query is already parsed, which dispatcher functions expect.
-const wrap = (handler) => (req, res) => {
-    // Ensure req.url is preserved for handlers that use new URL(req.url)
-    // Handlers expect the full path including /api
-    return handler(req, res);
+// Proxy API requests with proper async/await support
+const wrap = (handler) => async (req, res) => {
+    try {
+        // We MUST await the handler to ensure the response is fully generated
+        // before Express proceeds.
+        await handler(req, res);
+    } catch (err) {
+        console.error(`Error in handler for ${req.path}:`, err);
+        if (!res.headersSent) {
+            res.status(500).json({ success: false, error: err.message });
+        }
+    }
 };
 
 // Route specific API paths

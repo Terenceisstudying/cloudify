@@ -1,6 +1,6 @@
 /**
  * Comprehensive Seed Script: Loads all data from data/ folder into Supabase.
- * Replaces ALL existing rows in affected tables.
+ * Provides detailed feedback for each step.
  *
  * Usage: node scripts/seed-all.js
  */
@@ -22,7 +22,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-    console.error('Error: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or ANON_KEY) must be set in .env');
+    console.error('❌ Error: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env');
     process.exit(1);
 }
 
@@ -31,7 +31,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 function loadCSV(filename) {
     const filepath = path.join(DATA_DIR, filename);
     if (!fs.existsSync(filepath)) {
-        console.warn(`File not found: ${filename}`);
+        console.warn(`⚠️ File not found: ${filename}`);
         return [];
     }
     const content = fs.readFileSync(filepath, 'utf8');
@@ -43,10 +43,8 @@ function loadCSV(filename) {
         const row = {};
         headers.forEach((h, i) => { 
             let val = values[i] ?? '';
-            // Convert 'true'/'false' strings to booleans
             if (val.toLowerCase() === 'true') val = true;
             else if (val.toLowerCase() === 'false') val = false;
-            // Convert numeric strings to numbers for specific columns
             else if (['familyweight', 'ageriskthreshold', 'ageriskweight', 'ethnicityrisk_chinese', 'ethnicityrisk_malay', 'ethnicityrisk_indian', 'ethnicityrisk_caucasian', 'ethnicityrisk_others', 'weight', 'yesvalue', 'novalue', 'minage', 'age', 'risk_score', 'completion_time', 'anomaly_score'].includes(h)) {
                 val = val === '' ? null : parseFloat(val);
             }
@@ -59,20 +57,20 @@ function loadCSV(filename) {
 function loadJSON(filename) {
     const filepath = path.join(DATA_DIR, filename);
     if (!fs.existsSync(filepath)) {
-        console.warn(`File not found: ${filename}`);
+        console.warn(`⚠️ File not found: ${filename}`);
         return null;
     }
     return JSON.parse(fs.readFileSync(filepath, 'utf8'));
 }
 
 async function seed() {
-    console.log('Starting comprehensive database seed...');
+    console.log('🚀 Starting comprehensive database seed...');
 
     try {
         // 1. Seed Admins
         const admins = loadJSON('admins.json');
         if (admins) {
-            console.log(`Seeding ${admins.length} admins...`);
+            console.log(`👤 Seeding ${admins.length} admins...`);
             await supabase.from('admins').delete().neq('email', '');
             const mappedAdmins = admins.map(a => ({
                 id: a.id,
@@ -85,13 +83,14 @@ async function seed() {
                 updated_at: a.updatedAt
             }));
             const { error } = await supabase.from('admins').insert(mappedAdmins);
-            if (error) console.error('Error seeding admins:', error.message);
+            if (error) console.error('❌ Error seeding admins:', error.message);
+            else console.log('✅ Admins seeded successfully');
         }
 
         // 2. Seed Cancer Types
         const cancerTypes = loadCSV('cancer_types.csv');
         if (cancerTypes.length > 0) {
-            console.log(`Seeding ${cancerTypes.length} cancer types...`);
+            console.log(`🎗️ Seeding ${cancerTypes.length} cancer types...`);
             await supabase.from('cancer_types').delete().neq('id', '');
             const mappedCT = cancerTypes.map(ct => ({
                 id: ct.id,
@@ -120,22 +119,24 @@ async function seed() {
                 visible: ct.visible
             }));
             const { error } = await supabase.from('cancer_types').insert(mappedCT);
-            if (error) console.error('Error seeding cancer types:', error.message);
+            if (error) console.error('❌ Error seeding cancer types:', error.message);
+            else console.log('✅ Cancer types seeded successfully');
         }
 
         // 3. Seed Questions
         const questions = loadCSV('question_bank.csv');
         if (questions.length > 0) {
-            console.log(`Seeding ${questions.length} questions...`);
+            console.log(`❓ Seeding ${questions.length} questions...`);
             await supabase.from('questions').delete().neq('id', '');
             const { error } = await supabase.from('questions').insert(questions);
-            if (error) console.error('Error seeding questions:', error.message);
+            if (error) console.error('❌ Error seeding questions:', error.message);
+            else console.log('✅ Questions seeded successfully');
         }
 
         // 4. Seed Question Assignments
         const assignments = loadCSV('assignments.csv');
         if (assignments.length > 0) {
-            console.log(`Seeding ${assignments.length} assignments...`);
+            console.log(`🔗 Seeding ${assignments.length} assignments...`);
             await supabase.from('question_assignments').delete().neq('id', 0);
             const mappedAssignments = assignments.map(a => ({
                 questionid: a.questionid,
@@ -148,11 +149,12 @@ async function seed() {
                 minage: a.minage
             }));
             const { error } = await supabase.from('question_assignments').insert(mappedAssignments);
-            if (error) console.error('Error seeding assignments:', error.message);
+            if (error) console.error('❌ Error seeding assignments:', error.message);
+            else console.log('✅ Assignments seeded successfully');
         }
 
         // 5. Seed Settings
-        console.log('Seeding settings...');
+        console.log('⚙️ Seeding settings...');
         const settings = [
             { key: 'theme', file: 'theme.json' },
             { key: 'pdpa', file: 'pdpa.json' },
@@ -167,35 +169,16 @@ async function seed() {
                     key: s.key,
                     value: data,
                     updated_at: new Date().toISOString()
-                });
-                if (error) console.error(`Error seeding setting ${s.key}:`, error.message);
+                }, { onConflict: 'key' });
+                
+                if (error) console.error(`❌ Error seeding setting ${s.key}:`, error.message);
+                else console.log(`✅ Setting "${s.key}" seeded successfully`);
             }
         }
 
-        // 6. Seed Assessments (Optional)
-        const assessments = loadCSV('assessments.csv');
-        if (assessments.length > 0) {
-            console.log(`Seeding ${assessments.length} assessments...`);
-            await supabase.from('assessments').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-            const mappedAssessments = assessments.map(a => ({
-                id: uuidv4(), // Generate valid UUID
-                age: a.age,
-                gender: a.gender,
-                family_history: a.family_history || a.familyhistory,
-                assessment_type: a.assessment_type || a.assessmenttype,
-                risk_score: a.risk_score || a.riskscore,
-                risk_level: a.risk_level || a.risklevel,
-                category_risks: typeof a.category_risks === 'string' ? JSON.parse(a.category_risks) : (a.category_risks || {}),
-                questions_answers: typeof a.questions_answers === 'string' ? JSON.parse(a.questions_answers) : (a.questions_answers || []),
-                created_at: a.created_at || a.timestamp
-            }));
-            const { error } = await supabase.from('assessments').insert(mappedAssessments);
-            if (error) console.error('Error seeding assessments:', error.message);
-        }
-
-        console.log('Seed completed successfully!');
+        console.log('✨ Seed completed successfully!');
     } catch (err) {
-        console.error('Seed failed with unexpected error:', err);
+        console.error('💥 Seed failed with unexpected error:', err);
     }
 }
 

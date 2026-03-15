@@ -17,21 +17,25 @@ export default async function handler(req, res) {
         // Try 'translations' first, then 'ui_translations' as fallback
         let { data, error } = await supabase
             .from('settings')
-            .select('value')
+            .select('key, value')
             .eq('key', 'translations')
             .single();
             
         if (error || !data) {
             const fallback = await supabase
                 .from('settings')
-                .select('value')
+                .select('key, value')
                 .eq('key', 'ui_translations')
                 .single();
             data = fallback.data;
         }
 
         if (!data || !data.value) {
-            console.warn('Translations not found in settings table (checked translations and ui_translations)');
+            // DIAGNOSTIC LOGGING: Check what IS in the table
+            const { data: allKeys } = await supabase.from('settings').select('key');
+            const keysFound = (allKeys || []).map(k => k.key);
+            console.warn(`Translations not found. Available keys in settings table: [${keysFound.join(', ')}]`);
+            
             return res.status(200).json({});
         }
 
