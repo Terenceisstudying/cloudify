@@ -64,7 +64,8 @@ function loadJSON(filename) {
 }
 
 async function seed() {
-    console.log('🚀 Starting comprehensive database seed...');
+    const maskedUrl = supabaseUrl.replace(/(https:\/\/)(.*)(\.supabase\.co)/, '$1***$3');
+    console.log(`🚀 Starting comprehensive database seed to: ${maskedUrl}...`);
 
     try {
         // 1. Seed Admins
