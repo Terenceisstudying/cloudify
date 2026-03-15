@@ -13,7 +13,7 @@ import { describe, it, before, after } from 'node:test';
 import test from 'node:test';
 import assert from 'node:assert';
 import request from 'supertest';
-import { app } from '../server.js';
+import { app } from './helpers/testServer.js';
 import { setup, teardown } from './helpers/setup.js';
 import { autoCalculateWeights } from '../controllers/riskCalculator.js';
 

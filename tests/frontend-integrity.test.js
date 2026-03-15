@@ -14,7 +14,7 @@ import assert from 'node:assert';
 import fs from 'fs/promises';
 import path from 'path';
 import request from 'supertest';
-import { app } from '../server.js';
+import { app } from './helpers/testServer.js';
 import { setup, teardown } from './helpers/setup.js';
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');

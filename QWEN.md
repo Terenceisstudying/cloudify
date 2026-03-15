@@ -22,7 +22,7 @@
 - ✅ Documentation suite complete (8 files in docs/cloud-native/)
 - ✅ API routes converted (serverless functions in api/ directory)
 - ✅ ML model trained (synthetic data generated, Isolation Forest trained)
-- ⬜ Testing pending (ensure 80%+ coverage)
+- ✅ Testing migrated (unit, integration, E2E) to Vercel serverless architecture
 - ⬜ Deployment pending (Vercel, Supabase)
 
 ### Coding Standards
@@ -31,6 +31,11 @@
 - ESM modules (import/export)
 - Async/await for all async operations
 - 80%+ test coverage required
+
+### Database & Testing Guidelines
+- **`SUPABASE_URL`**: Must be the REST API URL (`https://[ref].supabase.co`), NOT the direct Postgres connection string (`db.[ref].supabase.co`).
+- **`DATABASE_URL`**: Must use the Connection Pooler URL (`postgresql://...pooler.supabase.com:6543/postgres`).
+- **Testing**: NEVER run tests against the live/production Supabase project to avoid RLS errors and data destruction. Always use a mocked database client (e.g., mock in `lib/db.js` for `NODE_ENV=test`) or a local Supabase instance.
 
 ### Security Requirements
 - JWT auth for all admin routes

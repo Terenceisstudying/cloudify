@@ -5,7 +5,7 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert';
 import request from 'supertest';
-import { app } from '../server.js';
+import { app } from './helpers/testServer.js';
 import { setup, teardown, getSuperAdminToken } from './helpers/setup.js';
 
 describe('Admin Auth API', () => {

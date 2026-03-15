@@ -1,6 +1,0 @@
-TypeError: model.toJSON is not a function
-    at trainModel (file:///C:/Users/jammy/Documents/SIT/Y2T2/CSC2102-Professional_Software_Development_02/cloudify/scripts/train-anomaly-model.js:171:22)
-    at file:///C:/Users/jammy/Documents/SIT/Y2T2/CSC2102-Professional_Software_Development_02/cloudify/scripts/train-anomaly-model.js:213:5
-    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)

@@ -113,7 +113,7 @@ export default async function handler(req, res) {
             responseData.cancerTypeScores = riskResult.cancerTypeScores;
         }
 
-        return res.status(201).json({ success: true, data: responseData });
+        return res.status(200).json({ success: true, data: responseData });
     } catch (error) {
         console.error('Assessment submission error:', error);
         return res.status(500).json({ success: false, error: error.message });

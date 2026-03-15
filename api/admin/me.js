@@ -9,9 +9,11 @@ export default async function handler(req, res) {
     applyCors(req, res);
     if (req.method === 'OPTIONS') return;
 
+    const authHeader = req.headers.authorization;
     const user = verifyToken(req);
     if (!user) {
-        return res.status(401).json({ error: 'UNAUTHORIZED', message: 'Valid authentication token required' });
+        const status = (authHeader && authHeader.startsWith('Bearer ')) ? 403 : 401;
+        return res.status(status).json({ error: 'UNAUTHORIZED', message: 'Valid authentication token required' });
     }
 
     if (req.method !== 'GET') {

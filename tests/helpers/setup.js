@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import pool from '../../config/db.js';
-import { loadFixtures, createMockQuery } from './mockPool.js';
+import db from '../../lib/db.js';
+import { loadFixtures, createMockQuery, tables } from './mockPool.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test-only-secret-not-for-production';
 
@@ -12,20 +13,43 @@ function createMockClient(mockQuery) {
 }
 
 export async function setup() {
-    // Load fixture data into in-memory mock tables
+    // 1. Load fixtures into mockPool tables (for old pg path)
     loadFixtures();
-    // Replace pool.query and pool.connect with mock implementations
+    
+    // 2. Mock the old pool.query and pool.connect
     const mockQuery = createMockQuery();
     pool.query = mockQuery;
     pool.connect = async () => createMockClient(mockQuery);
+
+    // 3. Sync Supabase mock with fixtures
+    if (db.supabase && db.supabase._reset) {
+        db.supabase._reset();
+        
+        // Inject mockPool tables into the Supabase mock data store
+        for (const [tableName, data] of Object.entries(tables)) {
+            const mockBuilder = db.supabase.from(tableName);
+            if (data.length > 0) {
+                if (tableName === 'settings') {
+                    // Use upsert for settings to ensure we don't duplicate keys
+                    await mockBuilder.upsert(data, { onConflict: 'key' });
+                } else {
+                    await mockBuilder.insert(data);
+                }
+            }
+        }
+    }
 }
 
 export async function teardown() {
-    // Reset fixtures for clean state
+    // Reset both mock environments for clean state
     loadFixtures();
     const mockQuery = createMockQuery();
     pool.query = mockQuery;
     pool.connect = async () => createMockClient(mockQuery);
+    
+    if (db.supabase && db.supabase._reset) {
+        db.supabase._reset();
+    }
 }
 
 export function getSuperAdminToken() {

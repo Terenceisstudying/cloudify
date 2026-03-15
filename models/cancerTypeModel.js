@@ -1,4 +1,4 @@
-import pool from '../config/db.js';
+import db from '../lib/db.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -34,170 +34,102 @@ function mapRow(ct) {
         ethnicityRisk_caucasian: ct.ethnicityrisk_caucasian,
         ethnicityRisk_others: ct.ethnicityrisk_others,
         sortOrder: ct.sort_order,
-        visible: ct.visible === false || ct.visible === 'false' ? false : true
+        visible: ct.visible !== false
     };
 }
 
 export class CancerTypeModel {
     async getAllCancerTypes() {
-        const result = await pool.query(
-            'SELECT * FROM cancer_types ORDER BY sort_order ASC, id ASC'
-        );
-        return result.rows.map(mapRow);
+        const { data, error } = await db.supabase
+            .from('cancer_types')
+            .select('*')
+            .order('sort_order', { ascending: true })
+            .order('id', { ascending: true });
+        
+        if (error) throw error;
+        return (data || []).map(mapRow);
     }
 
     async getCancerTypeById(id) {
-        const result = await pool.query(
-            'SELECT * FROM cancer_types WHERE id = $1 LIMIT 1',
-            [id]
-        );
-        return mapRow(result.rows[0]) || null;
+        const { data, error } = await db.supabase
+            .from('cancer_types')
+            .select('*')
+            .eq('id', id)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return mapRow(data);
     }
 
     async createCancerType(cancerTypeData) {
-        // Check for duplicate ID
-        const existing = await this.getCancerTypeById(cancerTypeData.id);
-        if (existing) {
-            throw new Error('Cancer type with this ID already exists');
-        }
+        const dbData = {
+            id: cancerTypeData.id,
+            icon: cancerTypeData.icon || '',
+            name_en: cancerTypeData.name_en || '',
+            name_zh: cancerTypeData.name_zh || '',
+            name_ms: cancerTypeData.name_ms || '',
+            name_ta: cancerTypeData.name_ta || '',
+            description_en: cancerTypeData.description_en || '',
+            description_zh: cancerTypeData.description_zh || '',
+            description_ms: cancerTypeData.description_ms || '',
+            description_ta: cancerTypeData.description_ta || '',
+            familylabel_en: cancerTypeData.familyLabel_en ?? cancerTypeData.familylabel_en ?? '',
+            familylabel_zh: cancerTypeData.familyLabel_zh ?? cancerTypeData.familylabel_zh ?? '',
+            familylabel_ms: cancerTypeData.familyLabel_ms ?? cancerTypeData.familylabel_ms ?? '',
+            familylabel_ta: cancerTypeData.familyLabel_ta ?? cancerTypeData.familylabel_ta ?? '',
+            familyweight: cancerTypeData.familyWeight ?? cancerTypeData.familyweight ?? 10,
+            genderfilter: cancerTypeData.genderFilter ?? cancerTypeData.genderfilter ?? 'all',
+            ageriskthreshold: cancerTypeData.ageRiskThreshold ?? cancerTypeData.ageriskthreshold ?? 0,
+            ageriskweight: cancerTypeData.ageRiskWeight ?? cancerTypeData.ageriskweight ?? 0,
+            ethnicityrisk_chinese: cancerTypeData.ethnicityRisk_chinese ?? cancerTypeData.ethnicityrisk_chinese ?? 0,
+            ethnicityrisk_malay: cancerTypeData.ethnicityRisk_malay ?? cancerTypeData.ethnicityrisk_malay ?? 0,
+            ethnicityrisk_indian: cancerTypeData.ethnicityRisk_indian ?? cancerTypeData.ethnicityrisk_indian ?? 0,
+            ethnicityrisk_caucasian: cancerTypeData.ethnicityRisk_caucasian ?? cancerTypeData.ethnicityrisk_caucasian ?? 0,
+            ethnicityrisk_others: cancerTypeData.ethnicityRisk_others ?? cancerTypeData.ethnicityrisk_others ?? 0,
+            sort_order: cancerTypeData.sortOrder ?? cancerTypeData.sort_order ?? 0,
+            visible: cancerTypeData.visible !== undefined ? cancerTypeData.visible : false
+        };
 
-        const result = await pool.query(
-            `INSERT INTO cancer_types (
-                id, icon,
-                name_en, name_zh, name_ms, name_ta,
-                description_en, description_zh, description_ms, description_ta,
-                familylabel_en, familylabel_zh, familylabel_ms, familylabel_ta,
-                familyweight, genderfilter, ageriskthreshold, ageriskweight,
-                ethnicityrisk_chinese, ethnicityrisk_malay, ethnicityrisk_indian,
-                ethnicityrisk_caucasian, ethnicityrisk_others,
-                sort_order, visible
-            ) VALUES (
-                $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
-                $11,$12,$13,$14,$15,$16,$17,$18,
-                $19,$20,$21,$22,$23,$24,$25
-            )
-            RETURNING *`,
-            [
-                cancerTypeData.id,
-                cancerTypeData.icon || '',
-                cancerTypeData.name_en || '',
-                cancerTypeData.name_zh || '',
-                cancerTypeData.name_ms || '',
-                cancerTypeData.name_ta || '',
-                cancerTypeData.description_en || '',
-                cancerTypeData.description_zh || '',
-                cancerTypeData.description_ms || '',
-                cancerTypeData.description_ta || '',
-                cancerTypeData.familyLabel_en ?? cancerTypeData.familylabel_en ?? '',
-                cancerTypeData.familyLabel_zh ?? cancerTypeData.familylabel_zh ?? '',
-                cancerTypeData.familyLabel_ms ?? cancerTypeData.familylabel_ms ?? '',
-                cancerTypeData.familyLabel_ta ?? cancerTypeData.familylabel_ta ?? '',
-                cancerTypeData.familyWeight ?? cancerTypeData.familyweight ?? 10,
-                cancerTypeData.genderFilter ?? cancerTypeData.genderfilter ?? 'all',
-                cancerTypeData.ageRiskThreshold ?? cancerTypeData.ageriskthreshold ?? 0,
-                cancerTypeData.ageRiskWeight ?? cancerTypeData.ageriskweight ?? 0,
-                cancerTypeData.ethnicityRisk_chinese ?? cancerTypeData.ethnicityrisk_chinese ?? 0,
-                cancerTypeData.ethnicityRisk_malay ?? cancerTypeData.ethnicityrisk_malay ?? 0,
-                cancerTypeData.ethnicityRisk_indian ?? cancerTypeData.ethnicityrisk_indian ?? 0,
-                cancerTypeData.ethnicityRisk_caucasian ?? cancerTypeData.ethnicityrisk_caucasian ?? 0,
-                cancerTypeData.ethnicityRisk_others ?? cancerTypeData.ethnicityrisk_others ?? 0,
-                cancerTypeData.sortOrder ?? cancerTypeData.sort_order ?? 0,
-                cancerTypeData.visible !== undefined ? cancerTypeData.visible : false
-            ]
-        );
-        return mapRow(result.rows[0]);
+        const { data, error } = await db.supabase
+            .from('cancer_types')
+            .insert(dbData)
+            .select()
+            .single();
+            
+        if (error) throw error;
+        return mapRow(data);
     }
 
     async updateCancerType(id, updates) {
-        const result = await pool.query(
-            `UPDATE cancer_types SET
-                icon = COALESCE($2, icon),
-                name_en = COALESCE($3, name_en),
-                name_zh = COALESCE($4, name_zh),
-                name_ms = COALESCE($5, name_ms),
-                name_ta = COALESCE($6, name_ta),
-                description_en = COALESCE($7, description_en),
-                description_zh = COALESCE($8, description_zh),
-                description_ms = COALESCE($9, description_ms),
-                description_ta = COALESCE($10, description_ta),
-                familylabel_en = COALESCE($11, familylabel_en),
-                familylabel_zh = COALESCE($12, familylabel_zh),
-                familylabel_ms = COALESCE($13, familylabel_ms),
-                familylabel_ta = COALESCE($14, familylabel_ta),
-                familyweight = COALESCE($15, familyweight),
-                genderfilter = COALESCE($16, genderfilter),
-                ageriskthreshold = COALESCE($17, ageriskthreshold),
-                ageriskweight = COALESCE($18, ageriskweight),
-                ethnicityrisk_chinese = COALESCE($19, ethnicityrisk_chinese),
-                ethnicityrisk_malay = COALESCE($20, ethnicityrisk_malay),
-                ethnicityrisk_indian = COALESCE($21, ethnicityrisk_indian),
-                ethnicityrisk_caucasian = COALESCE($22, ethnicityrisk_caucasian),
-                ethnicityrisk_others = COALESCE($23, ethnicityrisk_others),
-                visible = COALESCE($24, visible)
-             WHERE id = $1
-             RETURNING *`,
-            [
-                id,
-                updates.icon,
-                updates.name_en,
-                updates.name_zh,
-                updates.name_ms,
-                updates.name_ta,
-                updates.description_en,
-                updates.description_zh,
-                updates.description_ms,
-                updates.description_ta,
-                updates.familyLabel_en ?? updates.familylabel_en,
-                updates.familyLabel_zh ?? updates.familylabel_zh,
-                updates.familyLabel_ms ?? updates.familylabel_ms,
-                updates.familyLabel_ta ?? updates.familylabel_ta,
-                updates.familyWeight ?? updates.familyweight,
-                updates.genderFilter ?? updates.genderfilter,
-                updates.ageRiskThreshold ?? updates.ageriskthreshold,
-                updates.ageRiskWeight ?? updates.ageriskweight,
-                updates.ethnicityRisk_chinese ?? updates.ethnicityrisk_chinese,
-                updates.ethnicityRisk_malay ?? updates.ethnicityrisk_malay,
-                updates.ethnicityRisk_indian ?? updates.ethnicityrisk_indian,
-                updates.ethnicityRisk_caucasian ?? updates.ethnicityrisk_caucasian,
-                updates.ethnicityRisk_others ?? updates.ethnicityrisk_others,
-                updates.visible
-            ]
-        );
-
-        if (!result.rows[0]) throw new Error('Cancer type not found');
-        return mapRow(result.rows[0]);
+        const { data, error } = await db.supabase
+            .from('cancer_types')
+            .update(updates)
+            .eq('id', id)
+            .select()
+            .single();
+            
+        if (error) throw error;
+        return mapRow(data);
     }
 
     async deleteCancerType(id) {
-        const result = await pool.query(
-            'DELETE FROM cancer_types WHERE id = $1 RETURNING *',
-            [id]
-        );
-        if (!result.rows[0]) throw new Error('Cancer type not found');
+        const { error } = await db.supabase
+            .from('cancer_types')
+            .delete()
+            .eq('id', id);
+            
+        if (error) throw error;
     }
 
     async reorderCancerTypes(orderedIds) {
-        const client = await pool.connect();
-        try {
-            await client.query('BEGIN');
-            for (let i = 0; i < orderedIds.length; i++) {
-                await client.query(
-                    'UPDATE cancer_types SET sort_order = $1 WHERE id = $2',
-                    [i, orderedIds[i]]
-                );
-            }
-            await client.query('COMMIT');
-        } catch (err) {
-            await client.query('ROLLBACK');
-            throw err;
-        } finally {
-            client.release();
+        for (let i = 0; i < orderedIds.length; i++) {
+            await db.supabase
+                .from('cancer_types')
+                .update({ sort_order: i })
+                .eq('id', orderedIds[i]);
         }
 
-        const result = await pool.query(
-            'SELECT * FROM cancer_types ORDER BY sort_order ASC, id ASC'
-        );
-        return result.rows.map(mapRow);
+        return this.getAllCancerTypes();
     }
 
     async getAssessmentConfig(id) {

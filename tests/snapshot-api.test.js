@@ -10,7 +10,7 @@ import assert from 'node:assert';
 import fs from 'fs/promises';
 import path from 'path';
 import request from 'supertest';
-import { app } from '../server.js';
+import { app } from './helpers/testServer.js';
 import { setup, teardown, getSuperAdminToken } from './helpers/setup.js';
 
 const SNAPSHOT_PATH = path.join(process.cwd(), 'data', 'assessments-snapshot.json');

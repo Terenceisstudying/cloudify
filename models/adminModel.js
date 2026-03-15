@@ -1,4 +1,4 @@
-import pool from '../config/db.js';
+import db from '../lib/db.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,26 +25,35 @@ function mapRow(row) {
 
 export class AdminModel {
     async getAllAdmins() {
-        const result = await pool.query(
-            'SELECT * FROM admins ORDER BY created_at DESC'
-        );
-        return result.rows.map(r => stripPassword(mapRow(r)));
+        const { data, error } = await db.supabase
+            .from('admins')
+            .select('*')
+            .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        return (data || []).map(r => stripPassword(mapRow(r)));
     }
 
     async getAdminById(id) {
-        const result = await pool.query(
-            'SELECT * FROM admins WHERE id = $1 LIMIT 1',
-            [id]
-        );
-        return mapRow(result.rows[0]) || null;
+        const { data, error } = await db.supabase
+            .from('admins')
+            .select('*')
+            .eq('id', id)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return mapRow(data);
     }
 
     async getAdminByEmail(email) {
-        const result = await pool.query(
-            'SELECT * FROM admins WHERE LOWER(email) = LOWER($1) LIMIT 1',
-            [email]
-        );
-        return mapRow(result.rows[0]) || null;
+        const { data, error } = await db.supabase
+            .from('admins')
+            .select('*')
+            .ilike('email', email)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        return mapRow(data);
     }
 
     async verifyPassword(email, password) {
@@ -79,15 +88,24 @@ export class AdminModel {
         const hashedPassword = await bcrypt.hash(password, 10);
         const id = uuidv4();
 
-        const result = await pool.query(
-            `INSERT INTO admins (
-                id, email, password, role, name, require_password_reset, created_at, updated_at
-            ) VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
-            RETURNING *`,
-            [id, email.toLowerCase(), hashedPassword, role, name, !!tempPassword]
-        );
+        const dbData = {
+            id,
+            email: email.toLowerCase(),
+            password: hashedPassword,
+            role,
+            name,
+            require_password_reset: !!tempPassword
+        };
 
-        const admin = stripPassword(mapRow(result.rows[0]));
+        const { data, error } = await db.supabase
+            .from('admins')
+            .insert(dbData)
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        const admin = stripPassword(mapRow(data));
         if (tempPassword) {
             return { ...admin, tempPassword };
         }
@@ -102,64 +120,38 @@ export class AdminModel {
 
         // Prevent demoting the last super admin
         if (updates.role && updates.role !== current.role && current.role === 'super_admin') {
-            const countResult = await pool.query(
-                "SELECT COUNT(*) FROM admins WHERE role = 'super_admin'"
-            );
-            if (parseInt(countResult.rows[0].count) <= 1) {
+            const { count, error } = await db.supabase
+                .from('admins')
+                .select('*', { count: 'exact', head: true })
+                .eq('role', 'super_admin');
+            
+            if (!error && count <= 1) {
                 throw new Error('Cannot demote the last super admin');
             }
         }
 
-        // Don't allow email update if it conflicts with another admin
-        if (updates.email && updates.email.toLowerCase() !== current.email.toLowerCase()) {
-            const emailExists = await pool.query(
-                'SELECT id FROM admins WHERE LOWER(email) = LOWER($1) AND id != $2 LIMIT 1',
-                [updates.email, id]
-            );
-            if (emailExists.rows.length > 0) {
-                throw new Error('Email already in use by another admin');
-            }
-        }
-
-        const fields = [];
-        const values = [];
-        let idx = 1;
-
-        if (updates.email !== undefined) {
-            fields.push(`email = $${idx++}`);
-            values.push(updates.email.toLowerCase());
-        }
-        if (updates.role !== undefined) {
-            fields.push(`role = $${idx++}`);
-            values.push(updates.role);
-        }
-        if (updates.name !== undefined) {
-            fields.push(`name = $${idx++}`);
-            values.push(updates.name);
-        }
-        if (updates.requirePasswordReset !== undefined) {
-            fields.push(`require_password_reset = $${idx++}`);
-            values.push(updates.requirePasswordReset);
-        }
+        const dbUpdates = {};
+        if (updates.email !== undefined) dbUpdates.email = updates.email.toLowerCase();
+        if (updates.role !== undefined) dbUpdates.role = updates.role;
+        if (updates.name !== undefined) dbUpdates.name = updates.name;
+        if (updates.requirePasswordReset !== undefined) dbUpdates.require_password_reset = updates.requirePasswordReset;
         if (updates.password !== undefined) {
-            const hashedPassword = await bcrypt.hash(updates.password, 10);
-            fields.push(`password = $${idx++}`);
-            values.push(hashedPassword);
+            dbUpdates.password = await bcrypt.hash(updates.password, 10);
         }
 
-        if (fields.length === 0) {
+        if (Object.keys(dbUpdates).length === 0) {
             return stripPassword(current);
         }
 
-        fields.push(`updated_at = NOW()`);
-        values.push(id);
+        const { data, error } = await db.supabase
+            .from('admins')
+            .update(dbUpdates)
+            .eq('id', id)
+            .select()
+            .single();
 
-        const result = await pool.query(
-            `UPDATE admins SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`,
-            values
-        );
-
-        return stripPassword(mapRow(result.rows[0]));
+        if (error) throw error;
+        return stripPassword(mapRow(data));
     }
 
     async deleteAdmin(id) {
@@ -170,15 +162,22 @@ export class AdminModel {
 
         // Prevent deleting the last super admin
         if (admin.role === 'super_admin') {
-            const countResult = await pool.query(
-                "SELECT COUNT(*) FROM admins WHERE role = 'super_admin'"
-            );
-            if (parseInt(countResult.rows[0].count) <= 1) {
+            const { count, error } = await db.supabase
+                .from('admins')
+                .select('*', { count: 'exact', head: true })
+                .eq('role', 'super_admin');
+            
+            if (!error && count <= 1) {
                 throw new Error('Cannot delete the last super admin');
             }
         }
 
-        await pool.query('DELETE FROM admins WHERE id = $1', [id]);
+        const { error: delError } = await db.supabase
+            .from('admins')
+            .delete()
+            .eq('id', id);
+        
+        if (delError) throw delError;
         return true;
     }
 
@@ -208,27 +207,28 @@ export class AdminModel {
         }
 
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
 
-        await pool.query(
-            `INSERT INTO password_reset_tokens (email, token, expires_at, created_at)
-             VALUES ($1, $2, $3, NOW())`,
-            [email.toLowerCase(), token, expiresAt]
-        );
+        const { error } = await db.supabase
+            .from('password_reset_tokens')
+            .insert({ email: email.toLowerCase(), token, expires_at: expiresAt });
 
+        if (error) throw error;
         return token;
     }
 
     async verifyResetToken(token) {
-        const result = await pool.query(
-            `SELECT * FROM password_reset_tokens
-             WHERE token = $1 AND expires_at > NOW()
-             ORDER BY created_at DESC
-             LIMIT 1`,
-            [token]
-        );
+        const { data, error } = await db.supabase
+            .from('password_reset_tokens')
+            .select('*')
+            .eq('token', token)
+            .gt('expires_at', new Date().toISOString())
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
 
-        return result.rows[0] || null;
+        if (error && error.code !== 'PGRST116') throw error;
+        return data || null;
     }
 
     async resetPassword(token, newPassword) {
@@ -239,17 +239,17 @@ export class AdminModel {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        await pool.query(
-            `UPDATE admins
-             SET password = $1, require_password_reset = false, updated_at = NOW()
-             WHERE LOWER(email) = LOWER($2)`,
-            [hashedPassword, tokenRecord.email]
-        );
+        const { error: updateError } = await db.supabase
+            .from('admins')
+            .update({ password: hashedPassword, require_password_reset: false })
+            .ilike('email', tokenRecord.email);
 
-        await pool.query(
-            'DELETE FROM password_reset_tokens WHERE token = $1',
-            [token]
-        );
+        if (updateError) throw updateError;
+
+        await db.supabase
+            .from('password_reset_tokens')
+            .delete()
+            .eq('token', token);
 
         return true;
     }
