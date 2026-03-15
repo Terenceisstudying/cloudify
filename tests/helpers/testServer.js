@@ -7,7 +7,8 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const apiDir = path.join(__dirname, '../../api');
+const apiHandlersDir = path.join(__dirname, '../../api-handlers');
+const rootApiDir = path.join(__dirname, '../../api');
 
 const app = express();
 
@@ -91,8 +92,21 @@ async function loadRoutes(dir, baseRoute) {
     }
 }
 
-// Load routes before exporting
-await loadRoutes(apiDir, '/api');
+// 1. Load the nested api-handlers and map them to /api
+await loadRoutes(apiHandlersDir, '/api');
+
+// 2. Load the public root API files since they were moved out of api-handlers
+const publicFiles = ['pdpa.js', 'theme.js', 'translations.js', 'recommendations.js'];
+for (const file of publicFiles) {
+    try {
+        const module = await import('file://' + path.join(rootApiDir, file));
+        if (module.default) {
+            app.all(`/api/${file.replace('.js', '')}`, wrapVercelFunction(module.default));
+        }
+    } catch (e) {
+        console.warn('Failed to load public route:', file);
+    }
+}
 
 // Mock public assessments snapshot since it relies on static files
 app.get('/api/assessments-snapshot', async (req, res) => {
