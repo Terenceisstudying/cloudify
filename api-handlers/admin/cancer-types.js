@@ -1,10 +1,7 @@
 import { applyCors } from '../../lib/cors.js';
 import { verifyToken } from '../../lib/auth.js';
 import { supabase } from '../../lib/db.js';
-import { getQuizWeightTarget, computeGenericWeightValidity } from '../../controllers/riskCalculator.js';
-import { CancerTypeModel } from '../../models/cancerTypeModel.js';
-
-const model = new CancerTypeModel();
+import { getQuizWeightTarget } from '../../controllers/riskCalculator.js';
 
 function mapCancerTypeRow(ct) {
     if (!ct) return null;
@@ -97,13 +94,11 @@ export default async function handler(req, res) {
                 return res.status(400).json({ success: false, error: 'orderedIds array is required' });
             }
             
-            // Perform sequential updates to handle missing IDs gracefully (e.g. if deleted in previous test)
             for (let idx = 0; idx < orderedIds.length; idx++) {
                 const cid = orderedIds[idx];
                 await supabase.from('cancer_types').update({ sort_order: idx }).eq('id', cid);
             }
             
-            await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, message: 'Reordered successfully' });
         }
 
@@ -120,7 +115,6 @@ export default async function handler(req, res) {
                 .select()
                 .single();
             if (error) throw error;
-            await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, data: mapCancerTypeRow(updated) });
         }
 
@@ -194,7 +188,6 @@ export default async function handler(req, res) {
                 .select()
                 .single();
             if (error) throw error;
-            await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, data: mapCancerTypeRow(created) });
         }
 
@@ -208,7 +201,6 @@ export default async function handler(req, res) {
                 .select()
                 .single();
             if (error) throw error;
-            await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, data: mapCancerTypeRow(updated) });
         }
 
@@ -216,7 +208,6 @@ export default async function handler(req, res) {
         if (req.method === 'DELETE' && id) {
             await supabase.from('question_assignments').delete().ilike('assessmentid', id);
             await supabase.from('cancer_types').delete().eq('id', id);
-            await model.writeAssessmentsSnapshot();
             return res.status(200).json({ success: true, message: 'Cancer type and all associated questions deleted' });
         }
 
