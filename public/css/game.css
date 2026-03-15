@@ -18,7 +18,6 @@
 
 /* ======== PROGRESS BAR (QUESTION COUNTER) ======== */
 .game-header { 
-    /* MODIFIED: Add side padding to prevent progress bar overlapping exit button */
     padding: 15px 80px; 
 }
 
@@ -52,31 +51,34 @@
 
 /* ======== EXIT BUTTON ======== */
 .game-exit-btn {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    position: fixed; /* Breaks it out of the stretchy flex container */
+    top: 70px; /* Aligns horizontally with the top-right settings pill */
+    left: 20px;
+    width: max-content !important; /* Forces it to stay small */
     padding: 8px 16px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
+    border-radius: 50px; /* Gives it the same pill shape as the settings menu */
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
     color: #333;
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 10000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10010;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .game-exit-btn:hover {
     background: #fff;
     color: #e74c3c;
+    border-color: #e74c3c;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.25);
 }
 
 .game-exit-btn:active {
@@ -85,14 +87,14 @@
 
 @media (max-width: 768px) {
     .game-exit-btn {
-        top: 10px;
+        top: 60px; /* Aligns with mobile right-side controls */
         left: 10px;
-        padding: 6px 12px;
-        font-size: 0.9rem;
+        padding: 6px 14px;
+        font-size: 0.85rem;
     }
     
     .game-header { 
-        padding: 15px 70px; /* Accommodate smaller mobile button */
+        padding: 15px 70px; 
     }
 }
 
