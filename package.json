@@ -12,7 +12,7 @@
     "seed:questions": "node scripts/seed-questions.js",
     "generate:synthetic": "node scripts/generate-synthetic-data.js",
     "train:ml": "node scripts/train-anomaly-model.js",
-    "build": "npm run generate:synthetic && npm run train:ml && echo 'Build complete'",
+    "vercel-build": "npm run generate:synthetic && npm run train:ml && echo 'Build complete'",
     "lint": "echo 'Linting...'"
   },
   "dependencies": {
