@@ -2,7 +2,6 @@
   "name": "scs-risk-assessment-backend",
   "version": "1.0.0",
   "description": "Backend API for SCS Risk Assessment Tool - Cloud-Native Extension",
-  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "vercel dev",
@@ -13,7 +12,6 @@
     "seed:questions": "node scripts/seed-questions.js",
     "generate:synthetic": "node scripts/generate-synthetic-data.js",
     "train:ml": "node scripts/train-anomaly-model.js",
-    "build": "echo 'Build complete - ready for Vercel deployment'",
     "lint": "echo 'Linting...'"
   },
   "dependencies": {
