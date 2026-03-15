@@ -33,38 +33,44 @@ function mapCancerTypeRow(ct) {
         ethnicityRisk_caucasian: ct.ethnicityrisk_caucasian,
         ethnicityRisk_others: ct.ethnicityrisk_others,
         sortOrder: ct.sort_order,
-        visible: ct.visible !== false
+        visible: ct.visible === true || ct.visible === 'true'
     };
 }
 
 function unmapCancerTypeData(data) {
-    return {
-        id: data.id,
-        icon: data.icon || '',
-        name_en: data.name_en || '',
-        name_zh: data.name_zh || '',
-        name_ms: data.name_ms || '',
-        name_ta: data.name_ta || '',
-        description_en: data.description_en || '',
-        description_zh: data.description_zh || '',
-        description_ms: data.description_ms || '',
-        description_ta: data.description_ta || '',
-        familylabel_en: data.familyLabel_en ?? data.familylabel_en ?? '',
-        familylabel_zh: data.familyLabel_zh ?? data.familylabel_zh ?? '',
-        familylabel_ms: data.familyLabel_ms ?? data.familylabel_ms ?? '',
-        familylabel_ta: data.familyLabel_ta ?? data.familylabel_ta ?? '',
-        familyweight: data.familyWeight ?? data.familyweight ?? 10,
-        genderfilter: data.genderFilter ?? data.genderfilter ?? 'all',
-        ageriskthreshold: data.ageRiskThreshold ?? data.ageriskthreshold ?? 0,
-        ageriskweight: data.ageRiskWeight ?? data.ageriskweight ?? 0,
-        ethnicityrisk_chinese: data.ethnicityRisk_chinese ?? data.ethnicityrisk_chinese ?? 0,
-        ethnicityrisk_malay: data.ethnicityRisk_malay ?? data.ethnicityrisk_malay ?? 0,
-        ethnicityrisk_indian: data.ethnicityRisk_indian ?? data.ethnicityrisk_indian ?? 0,
-        ethnicityrisk_caucasian: data.ethnicityRisk_caucasian ?? data.ethnicityrisk_caucasian ?? 0,
-        ethnicityrisk_others: data.ethnicityRisk_others ?? data.ethnicityrisk_others ?? 0,
-        sort_order: data.sortOrder ?? data.sort_order ?? 0,
-        visible: data.visible === true
+    const unmapped = {
+        icon: data.icon,
+        name_en: data.name_en,
+        name_zh: data.name_zh,
+        name_ms: data.name_ms,
+        name_ta: data.name_ta,
+        description_en: data.description_en,
+        description_zh: data.description_zh,
+        description_ms: data.description_ms,
+        description_ta: data.description_ta,
+        familylabel_en: data.familyLabel_en ?? data.familylabel_en,
+        familylabel_zh: data.familyLabel_zh ?? data.familylabel_zh,
+        familylabel_ms: data.familyLabel_ms ?? data.familylabel_ms,
+        familylabel_ta: data.familyLabel_ta ?? data.familylabel_ta,
+        familyweight: data.familyWeight ?? data.familyweight,
+        genderfilter: data.genderFilter ?? data.genderfilter,
+        ageriskthreshold: data.ageRiskThreshold ?? data.ageriskthreshold,
+        ageriskweight: data.ageRiskWeight ?? data.ageriskweight,
+        ethnicityrisk_chinese: data.ethnicityRisk_chinese ?? data.ethnicityrisk_chinese,
+        ethnicityrisk_malay: data.ethnicityRisk_malay ?? data.ethnicityrisk_malay,
+        ethnicityrisk_indian: data.ethnicityRisk_indian ?? data.ethnicityrisk_indian,
+        ethnicityrisk_caucasian: data.ethnicityRisk_caucasian ?? data.ethnicityrisk_caucasian,
+        ethnicityrisk_others: data.ethnicityRisk_others ?? data.ethnicityrisk_others,
+        sort_order: data.sortOrder ?? data.sort_order,
+        visible: data.visible === undefined ? undefined : (data.visible === true || data.visible === 'true')
     };
+
+    // Remove undefined fields to allow partial updates
+    Object.keys(unmapped).forEach(key => {
+        if (unmapped[key] === undefined) delete unmapped[key];
+    });
+
+    return unmapped;
 }
 
 /**
@@ -116,99 +122,58 @@ export default async function handler(req, res) {
         // GET — list all or single
         if (req.method === 'GET') {
             if (id) {
-                const { data: ct, error: ctError } = await supabase
-                    .from('cancer_types')
-                    .select('*')
-                    .eq('id', id)
-                    .single();
-                    
-                if (ctError || !ct) {
-                    return res.status(404).json({ success: false, error: 'Cancer type not found' });
-                }
-                const cancerType = mapCancerTypeRow(ct);
-                const assessmentId = (id || '').toLowerCase();
-                
-                // Get question assignments
-                const { data: assignmentsData } = await supabase
-                    .from('question_assignments')
-                    .select('*, questions(*)')
-                    .ilike('assessmentid', id);
-                    
-                const assignments = (assignmentsData || []).map(a => ({
-                    id: a.id,
-                    questionId: a.questionid,
-                    assessmentId: a.assessmentid,
-                    targetCancerType: a.targetcancertype,
-                    weight: parseFloat(a.weight) || 0,
-                    yesValue: parseFloat(a.yesvalue) || 0,
-                    noValue: parseFloat(a.novalue) || 0,
-                    category: a.category,
-                    minAge: a.minage,
-                    questionData: a.questions
-                }));
+                const [ctRes, qRes] = await Promise.all([
+                    supabase.from('cancer_types').select('*').eq('id', id).single(),
+                    supabase.from('questions').select('*, question_assignments(*)').ilike('question_assignments.assessmentid', id)
+                ]);
 
-                const totalWeight = assignments.reduce((sum, a) => sum + (parseFloat(a.weight) || 0), 0);
-                const quizTarget = getQuizWeightTarget(cancerType);
-
-                if (assessmentId === 'generic') {
-                    const { weightByTarget, targetCount, isValid } = computeGenericWeightValidity(assignments, cancerType);
-                    return res.status(200).json({
-                        success: true,
-                        data: { ...cancerType, questions: assignments, questionCount: assignments.length, totalWeight: totalWeight.toFixed(2), quizWeightTarget: quizTarget, targetCount, weightByTarget, isValid }
-                    });
+                if (ctRes.error) {
+                    if (ctRes.error.code === 'PGRST116') return res.status(404).json({ success: false, error: 'Cancer type not found' });
+                    throw ctRes.error;
                 }
-                return res.status(200).json({
-                    success: true,
-                    data: { ...cancerType, questions: assignments, questionCount: assignments.length, totalWeight: totalWeight.toFixed(2), quizWeightTarget: quizTarget, isValid: assignments.length > 0 && Math.round(totalWeight * 100) === Math.round(quizTarget * 100) }
-                });
+
+                const questions = (qRes.data || [])
+                    .filter(q => q.question_assignments && q.question_assignments.length > 0)
+                    .map(q => ({
+                        id: q.id,
+                        prompt_en: q.prompt_en,
+                        ...q.question_assignments[0],
+                        weight: parseFloat(q.question_assignments[0].weight) || 0
+                    }));
+
+                return res.status(200).json({ success: true, data: { ...mapCancerTypeRow(ctRes.data), questions } });
             }
 
-            // List all
-            const { data: cancerTypesData, error: listError } = await supabase
+            const { data: types, error } = await supabase
                 .from('cancer_types')
-                .select('*')
+                .select('*, question_assignments(weight)')
                 .order('sort_order', { ascending: true })
                 .order('id', { ascending: true });
-            if (listError) throw listError;
-            
-            const cancerTypes = cancerTypesData.map(mapCancerTypeRow);
 
-            const { data: allAssignmentsData } = await supabase
-                .from('question_assignments')
-                .select('weight, assessmentid');
-            const assignments = allAssignmentsData || [];
+            if (error) throw error;
 
-            const cancerTypesWithStats = cancerTypes.map(ct => {
-                const aid = (ct.id || '').toLowerCase();
-                const typeAssignments = assignments.filter(a => a.assessmentid && String(a.assessmentid).toLowerCase() === aid);
-                const totalWeight = typeAssignments.reduce((sum, a) => sum + (parseFloat(a.weight) || 0), 0);
-                const quizTarget = getQuizWeightTarget(ct);
-                
-                if (aid === 'generic') {
-                    // For aggregate we just pass empty array or partial to computeGenericWeightValidity 
-                    // To keep it simple, we may assume isValid is fetched differently, but we approximate:
-                    const { weightByTarget, targetCount, isValid } = computeGenericWeightValidity(typeAssignments, ct);
-                    return { ...ct, questionCount: typeAssignments.length, totalWeight: totalWeight.toFixed(2), quizWeightTarget: quizTarget, targetCount, weightByTarget, isValid };
-                }
-                return { ...ct, questionCount: typeAssignments.length, totalWeight: totalWeight.toFixed(2), quizWeightTarget: quizTarget, isValid: typeAssignments.length > 0 && Math.round(totalWeight * 100) === Math.round(quizTarget * 100) };
+            const results = types.map(t => {
+                const totalWeight = (t.question_assignments || []).reduce((sum, a) => sum + (parseFloat(a.weight) || 0), 0);
+                return {
+                    ...mapCancerTypeRow(t),
+                    questionCount: (t.question_assignments || []).length,
+                    totalWeight
+                };
             });
-            return res.status(200).json({ success: true, data: cancerTypesWithStats });
+
+            return res.status(200).json({ success: true, data: results });
         }
 
         // POST — create
         if (req.method === 'POST') {
-            const { id: newId, ...cancerTypeData } = req.body;
-            if (!newId) {
-                return res.status(400).json({ success: false, error: 'Cancer type ID is required' });
+            const dbData = unmapCancerTypeData(req.body);
+            if (!dbData.id) {
+                return res.status(400).json({ success: false, error: 'ID is required' });
             }
             
-            // check existing
-            const { data: existing } = await supabase.from('cancer_types').select('id').eq('id', newId).single();
-            if (existing) {
-                return res.status(400).json({ success: false, error: 'Cancer type with this ID already exists' });
-            }
+            // Set default visible to false if not provided
+            if (dbData.visible === undefined) dbData.visible = false;
 
-            const dbData = unmapCancerTypeData({ id: newId.toLowerCase().trim(), ...cancerTypeData });
             const { data: created, error } = await supabase
                 .from('cancer_types')
                 .insert(dbData)
