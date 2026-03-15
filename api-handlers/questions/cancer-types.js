@@ -57,7 +57,6 @@ export default async function handler(req, res) {
             .from('cancer_types')
             .select('*')
             .eq('visible', true)
-            .order('sort_order', { ascending: true })
             .order('id', { ascending: true });
 
         if (error) throw error;

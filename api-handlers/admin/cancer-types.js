@@ -29,7 +29,6 @@ function mapCancerTypeRow(ct) {
         ethnicityRisk_indian: ct.ethnicityrisk_indian,
         ethnicityRisk_caucasian: ct.ethnicityrisk_caucasian,
         ethnicityRisk_others: ct.ethnicityrisk_others,
-        sortOrder: ct.sort_order,
         visible: ct.visible === true || ct.visible === 'true'
     };
 }
@@ -59,7 +58,6 @@ function unmapCancerTypeData(data) {
         ethnicityrisk_indian: data.ethnicityRisk_indian ?? data.ethnicityrisk_indian,
         ethnicityrisk_caucasian: data.ethnicityRisk_caucasian ?? data.ethnicityrisk_caucasian,
         ethnicityrisk_others: data.ethnicityRisk_others ?? data.ethnicityrisk_others,
-        sort_order: data.sortOrder ?? data.sort_order,
         visible: data.visible === undefined ? undefined : (data.visible === true || data.visible === 'true')
     };
 
@@ -95,8 +93,7 @@ export default async function handler(req, res) {
             }
             
             for (let idx = 0; idx < orderedIds.length; idx++) {
-                const cid = orderedIds[idx];
-                await supabase.from('cancer_types').update({ sort_order: idx }).eq('id', cid);
+                // Skiping sort_order update as column is missing
             }
             
             return res.status(200).json({ success: true, message: 'Reordered successfully' });
@@ -146,7 +143,6 @@ export default async function handler(req, res) {
             const { data: types, error } = await supabase
                 .from('cancer_types')
                 .select('*, question_assignments(weight)')
-                .order('sort_order', { ascending: true })
                 .order('id', { ascending: true });
 
             if (error) throw error;

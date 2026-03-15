@@ -20,9 +20,17 @@ export default async function handler(req, res) {
             .eq('key', 'translations')
             .single();
             
-        if (error && error.code !== 'PGRST116') throw error;
-        const translations = data ? data.value : {};
-        return res.status(200).json(translations);
+        if (error) {
+            console.error('Database error fetching translations:', error);
+            if (error.code !== 'PGRST116') throw error;
+        }
+
+        if (!data || !data.value) {
+            console.warn('Translations key not found or empty in settings table');
+            return res.status(200).json({});
+        }
+
+        return res.status(200).json(data.value);
     } catch (err) {
         console.error('Translations endpoint error:', err);
         return res.status(500).json({ error: err.message });
