@@ -52,18 +52,7 @@ jobs:
         run: npm run build || true
         continue-on-error: true
       
-      # Step 7: Deploy to Vercel (only on main branch, only if tests pass)
-      - name: Deploy to Vercel
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
-      
-      # Step 8: Notify deployment status
+      # Step 7: Notify deployment status
       - name: Deployment Notification
         if: always()
         run: |
