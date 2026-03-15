@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "vercel dev",
+    "dev": "vercel dev",
     "test": "cross-env NODE_ENV=test node --test --test-concurrency=1",
     "test:local": "cross-env NODE_ENV=test node --env-file=.env.test --test --test-concurrency=1",
     "seed:all": "node scripts/seed-all.js",

@@ -97,7 +97,9 @@ export class CancerTypeModel {
             .single();
             
         if (error) throw error;
-        return mapRow(data);
+        const result = mapRow(data);
+        await this.writeAssessmentsSnapshot();
+        return result;
     }
 
     async updateCancerType(id, updates) {
@@ -109,7 +111,9 @@ export class CancerTypeModel {
             .single();
             
         if (error) throw error;
-        return mapRow(data);
+        const result = mapRow(data);
+        await this.writeAssessmentsSnapshot();
+        return result;
     }
 
     async deleteCancerType(id) {
@@ -119,6 +123,7 @@ export class CancerTypeModel {
             .eq('id', id);
             
         if (error) throw error;
+        await this.writeAssessmentsSnapshot();
     }
 
     async reorderCancerTypes(orderedIds) {
@@ -129,7 +134,9 @@ export class CancerTypeModel {
                 .eq('id', orderedIds[i]);
         }
 
-        return this.getAllCancerTypes();
+        const result = await this.getAllCancerTypes();
+        await this.writeAssessmentsSnapshot();
+        return result;
     }
 
     async getAssessmentConfig(id) {
@@ -199,13 +206,26 @@ export class CancerTypeModel {
     }
 
     async writeAssessmentsSnapshot() {
-        const allData = await this.getAllCancerTypesLocalized('en');
-        const data = allData.filter(ct => ct.visible !== false);
-        await fs.mkdir(path.dirname(SNAPSHOT_FILE), { recursive: true }).catch(() => {});
-        await fs.writeFile(SNAPSHOT_FILE, JSON.stringify({ success: true, data }, null, 2));
+        // Skip filesystem write on Vercel
+        if (process.env.VERCEL) {
+            console.log('Skipping assessments-snapshot.json write on Vercel environment');
+            return;
+        }
+
+        try {
+            const allData = await this.getAllCancerTypesLocalized('en');
+            const data = allData.filter(ct => ct.visible !== false);
+            await fs.mkdir(path.dirname(SNAPSHOT_FILE), { recursive: true }).catch(() => {});
+            await fs.writeFile(SNAPSHOT_FILE, JSON.stringify({ success: true, data }, null, 2));
+        } catch (err) {
+            console.error('Error writing assessments snapshot:', err);
+        }
     }
 
     async ensureSnapshot() {
+        // Skip filesystem check on Vercel
+        if (process.env.VERCEL) return;
+
         try {
             await fs.access(SNAPSHOT_FILE);
         } catch {

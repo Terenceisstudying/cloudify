@@ -1,27 +1,14 @@
 import jwt from 'jsonwebtoken';
-import pool from '../../config/db.js';
 import db from '../../lib/db.js';
 import { loadFixtures, createMockQuery, tables } from './mockPool.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test-only-secret-not-for-production';
 
-function createMockClient(mockQuery) {
-    return {
-        query: mockQuery,
-        release: () => {}
-    };
-}
-
 export async function setup() {
-    // 1. Load fixtures into mockPool tables (for old pg path)
+    // 1. Load fixtures into mockPool tables
     loadFixtures();
     
-    // 2. Mock the old pool.query and pool.connect
-    const mockQuery = createMockQuery();
-    pool.query = mockQuery;
-    pool.connect = async () => createMockClient(mockQuery);
-
-    // 3. Sync Supabase mock with fixtures
+    // 2. Sync Supabase mock with fixtures
     if (db.supabase && db.supabase._reset) {
         db.supabase._reset();
         
@@ -45,11 +32,8 @@ export async function setup() {
 }
 
 export async function teardown() {
-    // Reset both mock environments for clean state
+    // Reset mock environment for clean state
     loadFixtures();
-    const mockQuery = createMockQuery();
-    pool.query = mockQuery;
-    pool.connect = async () => createMockClient(mockQuery);
     
     if (db.supabase && db.supabase._reset) {
         db.supabase._reset();
@@ -69,3 +53,4 @@ export function getAdminToken() {
         JWT_SECRET
     );
 }
+
