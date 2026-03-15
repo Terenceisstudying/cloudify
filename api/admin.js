@@ -19,7 +19,7 @@ import assets from '../api-handlers/admin/assets.js';
  * Routes are dispatched to individual handlers in /api-handlers/admin/.
  */
 export default async function handler(req, res) {
-    const url = new URL(req.url, `http://${req.headers.host}`);
+    const url = new URL(req.url, 'http://localhost');
     const segments = url.pathname.split('/');
     // Pattern: /api/admin/resource -> segment index 3
     const resource = segments[3];

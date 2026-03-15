@@ -7,7 +7,7 @@ import stats from '../api-handlers/assessments/stats.js';
  * Consolidated entrypoint for assessment routes.
  */
 export default async function handler(req, res) {
-    const url = new URL(req.url, `http://${req.headers.host}`);
+    const url = new URL(req.url, 'http://localhost');
     const segments = url.pathname.split('/');
     const resource = segments[3];
 
