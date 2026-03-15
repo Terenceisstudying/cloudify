@@ -17,7 +17,10 @@
 }
 
 /* ======== PROGRESS BAR (QUESTION COUNTER) ======== */
-.game-header { padding: 15px 20px; }
+.game-header { 
+    /* MODIFIED: Add side padding to prevent progress bar overlapping exit button */
+    padding: 15px 80px; 
+}
 
 #progress-bar-container { 
     width: 100%; 
@@ -45,6 +48,52 @@
     color: var(--color-text-secondary);
     margin-top: 5px; 
     font-weight: bold;
+}
+
+/* ======== EXIT BUTTON ======== */
+.game-exit-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    color: #333;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-exit-btn:hover {
+    background: #fff;
+    color: #e74c3c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+}
+
+.game-exit-btn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .game-exit-btn {
+        top: 10px;
+        left: 10px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .game-header { 
+        padding: 15px 70px; /* Accommodate smaller mobile button */
+    }
 }
 
 /* ======== SWIPE INDICATORS (Arrows) ======== */
