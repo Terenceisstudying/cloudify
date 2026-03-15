@@ -187,7 +187,7 @@ async function trainModel() {
         }
     };
     
-    const modelPath = path.join(__dirname, 'anomaly-model.json');
+    const modelPath = path.join(__dirname, '..', 'src', 'ml', 'anomaly-model.json');
     fs.writeFileSync(modelPath, JSON.stringify(modelData, null, 2));
     console.log(`✓ Model saved to: ${modelPath}`);
     
