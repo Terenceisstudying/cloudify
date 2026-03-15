@@ -11,7 +11,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 // Import dispatcher functions and handlers
-// We use direct imports to ensure they are available to the Express app
 import adminDispatcher from './api/admin.js';
 import questionsDispatcher from './api/questions.js';
 import assessmentsDispatcher from './api/assessments.js';
@@ -31,9 +30,15 @@ const app = express();
 app.use(express.json());
 
 // Proxy API requests to their respective handlers
-// We use a middleware-like wrapper to pass req/res to the Vercel handlers
-const wrap = (handler) => (req, res) => handler(req, res);
+// We use a middleware-like wrapper to pass req/res to the Vercel handlers.
+// IMPORTANT: Express req.query is already parsed, which dispatcher functions expect.
+const wrap = (handler) => (req, res) => {
+    // Ensure req.url is preserved for handlers that use new URL(req.url)
+    // Handlers expect the full path including /api
+    return handler(req, res);
+};
 
+// Route specific API paths
 app.all('/api/admin*', wrap(adminDispatcher));
 app.all('/api/questions*', wrap(questionsDispatcher));
 app.all('/api/assessments-snapshot', wrap(snapshotHandler));

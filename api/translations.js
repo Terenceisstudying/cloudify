@@ -20,6 +20,7 @@ export default async function handler(req, res) {
             .eq('key', 'translations')
             .single();
             
+        if (error && error.code !== 'PGRST116') throw error;
         const translations = data ? data.value : {};
         return res.status(200).json(translations);
     } catch (err) {

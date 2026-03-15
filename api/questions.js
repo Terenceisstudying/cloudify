@@ -7,12 +7,10 @@ import cancerTypes from '../api-handlers/questions/cancer-types.js';
  */
 export default async function handler(req, res) {
     const url = new URL(req.url, 'http://localhost');
-    const segments = url.pathname.split('/').filter(Boolean);
-    // Handle both /api/questions/cancer-types and direct calls
-    const resource = segments[segments.length - 1];
+    const path = url.pathname;
 
-    if (resource === 'by-assessment') return byAssessment(req, res);
-    if (resource === 'cancer-types') return cancerTypes(req, res);
+    if (path.includes('cancer-types')) return cancerTypes(req, res);
+    if (path.includes('by-assessment')) return byAssessment(req, res);
     
-    return res.status(404).json({ success: false, error: `Question resource not found: ${resource}` });
+    return res.status(404).json({ success: false, error: `Question resource not found: ${path}` });
 }

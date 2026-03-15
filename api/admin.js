@@ -20,26 +20,22 @@ import assets from '../api-handlers/admin/assets.js';
  */
 export default async function handler(req, res) {
     const url = new URL(req.url, 'http://localhost');
-    const segments = url.pathname.split('/');
-    // Pattern: /api/admin/resource -> segment index 3
-    const resource = segments[3];
+    const path = url.pathname;
 
-    switch (resource) {
-        case 'admins': return admins(req, res);
-        case 'assessments': return assessments(req, res);
-        case 'cancer-types': return cancerTypes(req, res);
-        case 'change-password': return changePassword(req, res);
-        case 'forgot-password': return forgotPassword(req, res);
-        case 'login': return login(req, res);
-        case 'me': return me(req, res);
-        case 'pdpa': return pdpa(req, res);
-        case 'question-bank': return questionBank(req, res);
-        case 'recommendations': return recommendations(req, res);
-        case 'reset-password': return resetPassword(req, res);
-        case 'theme': return theme(req, res);
-        case 'translations': return translations(req, res);
-        case 'assets': return assets(req, res);
-        default:
-            return res.status(404).json({ success: false, error: 'Admin resource not found' });
-    }
+    if (path.includes('/admins')) return admins(req, res);
+    if (path.includes('/assessments')) return assessments(req, res);
+    if (path.includes('/cancer-types')) return cancerTypes(req, res);
+    if (path.includes('/change-password')) return changePassword(req, res);
+    if (path.includes('/forgot-password')) return forgotPassword(req, res);
+    if (path.includes('/login')) return login(req, res);
+    if (path.includes('/me')) return me(req, res);
+    if (path.includes('/pdpa')) return pdpa(req, res);
+    if (path.includes('/question-bank')) return questionBank(req, res);
+    if (path.includes('/recommendations')) return recommendations(req, res);
+    if (path.includes('/reset-password')) return resetPassword(req, res);
+    if (path.includes('/theme')) return theme(req, res);
+    if (path.includes('/translations')) return translations(req, res);
+    if (path.includes('/assets')) return assets(req, res);
+
+    return res.status(404).json({ success: false, error: `Admin resource not found: ${path}` });
 }

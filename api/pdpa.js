@@ -20,6 +20,7 @@ export default async function handler(req, res) {
             .eq('key', 'pdpa')
             .single();
             
+        if (error && error.code !== 'PGRST116') throw error;
         const pdpa = data ? data.value : {};
         return res.status(200).json(pdpa);
     } catch (err) {
