@@ -6,8 +6,7 @@
     "functions": {
         "api/**/*.js": {
             "memory": 1024,
-            "maxDuration": 15,
-            "includeFiles": "api-handlers/**, models/**, lib/**, data/**, src/ml/**, controllers/**"
+            "maxDuration": 15
         }
     },
     "rewrites": [
@@ -20,7 +19,7 @@
             "destination": "/public/index.html"
         },
         {
-            "source": "/((?!api/).*)",
+            "source": "/(.*)",
             "destination": "/public/$1"
         }
     ],
