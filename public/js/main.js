@@ -558,7 +558,7 @@ class RiskAssessmentApp {
             });
         }
 
-        // NEW: Exit Modal Logic
+        // Exit Modal Logic
         const exitBtn = document.getElementById('game-exit-btn');
         const exitModal = document.getElementById('exit-modal');
         const stayBtn = document.getElementById('exit-stay-btn');
@@ -588,7 +588,24 @@ class RiskAssessmentApp {
                     exitModal.classList.add('hidden');
                     exitModal.setAttribute('aria-hidden', 'true');
                 }
-                this._resetApp(); 
+                
+                // Stop ongoing explanation popups
+                this._isExplanationVisible = false;
+                this._onExplanationContinue = null;
+                this._onExplanationUndo = null;
+                
+                // Clear out the game data but KEEP the gender
+                this.state.reset(); 
+                this.answers = []; 
+                this.selectedAssessment = null; 
+                this.mascot.hide();
+                
+                // Clear out the onboarding form inputs
+                this.dom.onboarding.form?.reset();
+                this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
+                
+                // Send user explicitly to Cancer Selection, NOT landing
+                this._changeScreen('cancerSelection'); 
             });
         }
     }
