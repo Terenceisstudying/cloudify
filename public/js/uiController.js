@@ -1,6 +1,7 @@
 import { RISK_LEVELS } from './constants.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import { escapeHtml } from './utils/escapeHtml.js';
+import { audioController } from './audioController.js';
 
 export class UIController {
     constructor(elements, translationFn) {
