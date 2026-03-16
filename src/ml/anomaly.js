@@ -75,16 +75,16 @@ function calculateVariance(answers) {
  * Extract features from assessment for ML model
  */
 function extractFeatures(assessment) {
+    const neverSmokedAnswer = assessment.answers.find(a => a.questionId === '38');
+    const hasSmokingContradiction = neverSmokedAnswer && neverSmokedAnswer.answer === 'No' && 
+        assessment.answers.some(a => (a.questionId === '34' || a.questionId === '35') && a.answer === 'Yes');
+
     return [
         assessment.age / 100,  // Normalize to 0-1
         assessment.completionTime / 300,  // Normalize
         assessment.answers.filter(a => a.answer === 'Yes').length / assessment.answers.length,
         calculateVariance(assessment.answers),
-        assessment.answers.some(a => 
-            a.questionId === 'never_smoked' && a.answer === 'Yes'
-        ) || assessment.answers.some(a =>
-            a.questionId === 'smoking_years' && a.answer !== 'No' && a.answer !== '0'
-        ) ? 1 : 0
+        hasSmokingContradiction ? 1 : 0
     ];
 }
 
@@ -115,22 +115,26 @@ export function detectAnomaly(assessment) {
     // Determine flags based on feature analysis
     const flags = [];
     
-    if (assessment.completionTime < 30) {
+    // Rule 1: Too fast
+    if (assessment.completionTime > 0 && assessment.completionTime < 30) {
         flags.push('TOO_FAST');
         score = Math.max(score, 0.95); // Force rejection if too fast
     }
     
+    // Rule 2: Uniform pattern (all Yes or all No)
     const yesRatio = assessment.answers.filter(a => a.answer === 'Yes').length / assessment.answers.length;
     if (yesRatio > 0.95 || yesRatio < 0.05) {
         flags.push('UNIFORM_PATTERN');
         score = Math.max(score, 0.85); // Force review/rejection if uniform
     }
     
+    // Rule 3: Contradictions (from extractFeatures logic)
     if (features[4] === 1) {
         flags.push('INCONSISTENT_ANSWERS');
         score = Math.max(score, 0.9);
     }
     
+    // Rule 4: Extreme profile
     if (assessment.age < 18 || assessment.age > 90) {
         flags.push('EXTREME_PROFILE');
         score = Math.max(score, 0.7);
@@ -160,9 +164,9 @@ export function detectAnomalyRules(assessment) {
     let score = 0.1;
     
     // Rule 1: Too fast
-    if (assessment.completionTime < 30) {
+    if (assessment.completionTime > 0 && assessment.completionTime < 30) {
         flags.push('TOO_FAST');
-        score = 0.9;
+        score = 0.95;
     }
     
     // Rule 2: Uniform pattern
@@ -173,15 +177,13 @@ export function detectAnomalyRules(assessment) {
     }
     
     // Rule 3: Contradictions
-    const hasContradiction = assessment.answers.some(a => 
-        a.questionId === 'never_smoked' && a.answer === 'Yes'
-    ) || assessment.answers.some(a =>
-        a.questionId === 'smoking_years' && a.answer !== 'No' && a.answer !== '0'
-    );
+    const neverSmokedAnswer = assessment.answers.find(a => a.questionId === '38');
+    const hasSmokingContradiction = neverSmokedAnswer && neverSmokedAnswer.answer === 'No' && 
+        assessment.answers.some(a => (a.questionId === '34' || a.questionId === '35') && a.answer === 'Yes');
     
-    if (hasContradiction) {
+    if (hasSmokingContradiction) {
         flags.push('INCONSISTENT_ANSWERS');
-        score = Math.max(score, 0.95);
+        score = Math.max(score, 0.9);
     }
     
     // Rule 4: Extreme profile
@@ -192,9 +194,9 @@ export function detectAnomalyRules(assessment) {
     
     // Determine status
     let status = 'valid';
-    if (score > 0.85) {
+    if (score >= 0.85) {
         status = 'rejected';
-    } else if (score > 0.6) {
+    } else if (score >= 0.6) {
         status = 'pending_review';
     }
     
