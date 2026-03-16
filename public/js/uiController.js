@@ -33,6 +33,15 @@ export class UIController {
     showQuestion(text) { if (this.elements.game.questionText) this.elements.game.questionText.textContent = text; }
 
     showFeedback(isCorrect) {
+        // --- AUDIO TRIGGER ---
+        // Play positive chime for optimal answers, neutral click for others
+        if (isCorrect) {
+            audioController.play('chime');
+        } else {
+            audioController.play('click');
+        }
+        // ---------------------
+
         const overlay = isCorrect ? this.elements.game.feedbackCorrect : this.elements.game.feedbackWrong;
         if (overlay) { overlay.style.opacity = '1'; setTimeout(() => overlay.style.opacity = '0', 500); }
     }
@@ -125,6 +134,11 @@ export class UIController {
     }
 
     showResults(gameState, answers, assessments = []) {
+        // --- AUDIO TRIGGER ---
+        // Play triumphant sound when results are generated
+        audioController.play('success');
+        // ---------------------
+
         this.assessments = assessments;
         const userData = gameState.getUserData();
         const isGeneric = userData.assessmentType === 'generic';
@@ -362,6 +376,12 @@ export class UIController {
         const headers = document.querySelectorAll('.accordion-header');
         headers.forEach(header => {
             header.addEventListener('click', () => {
+                
+                // --- AUDIO TRIGGER ---
+                // Play click sound when expanding/collapsing recommendations
+                audioController.play('click');
+                // ---------------------
+
                 header.classList.toggle('active');
                 const isActive = header.classList.contains('active');
                 header.setAttribute('aria-expanded', String(isActive));
