@@ -492,6 +492,9 @@ class RiskAssessmentApp {
             this.state.addRiskScore(ethnicityWeight);
             this.state.addCategoryRisk(this.t('common', 'ethnicityFactor'), ethnicityWeight);
         }
+        
+        this.startTime = Date.now(); // TRACK START TIME
+        
         this._changeScreen('game');
         this.mascot.show();
         this.mascot.updateState('Idle');
@@ -701,7 +704,9 @@ class RiskAssessmentApp {
         let recommendations = riskResult?.recommendations || [];
         if (this.useBackend) {
             try {
-                const apiResult = await ApiService.submitAssessment(this.state.getUserData(), this.answers);
+                // Calculate time taken in seconds
+                const completionTime = Math.floor((Date.now() - (this.startTime || Date.now())) / 1000);
+                const apiResult = await ApiService.submitAssessment(this.state.getUserData(), this.answers, completionTime);
                 if (apiResult?.recommendations) {
                     recommendations = apiResult.recommendations;
                 }

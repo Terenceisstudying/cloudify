@@ -126,8 +126,8 @@ function _renderAssessmentRows(data) {
             
             // ML Status Badge
             const status = (a.status || 'valid').toLowerCase();
-            const statusLabel = status === 'flagged' ? 'FLAGGED' : 'VALID';
-            const statusClass = status === 'flagged' ? 'badge-high' : 'badge-low';
+            const statusLabel = (status === 'valid') ? 'VALID' : 'FLAGGED';
+            const statusClass = (status === 'valid') ? 'badge-low' : 'badge-high';
             const anomalyFlags = Array.isArray(a.anomalyFlags) && a.anomalyFlags.length > 0 
                 ? ` title="Flags: ${a.anomalyFlags.join(', ')} (Score: ${a.anomalyScore})"` 
                 : '';

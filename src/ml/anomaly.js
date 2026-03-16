@@ -110,33 +110,37 @@ export function detectAnomaly(assessment) {
     
     // Get anomaly score (convert from {-1, 1} to {0, 1})
     const prediction = model.predict([scaled])[0];
-    const score = prediction === -1 ? 0.85 : 0.15;  // High score for anomalies
+    let score = prediction === -1 ? 0.85 : 0.15;  // Base score from ML
     
     // Determine flags based on feature analysis
     const flags = [];
     
     if (assessment.completionTime < 30) {
         flags.push('TOO_FAST');
+        score = Math.max(score, 0.95); // Force rejection if too fast
     }
     
     const yesRatio = assessment.answers.filter(a => a.answer === 'Yes').length / assessment.answers.length;
     if (yesRatio > 0.95 || yesRatio < 0.05) {
         flags.push('UNIFORM_PATTERN');
+        score = Math.max(score, 0.85); // Force review/rejection if uniform
     }
     
     if (features[4] === 1) {
         flags.push('INCONSISTENT_ANSWERS');
+        score = Math.max(score, 0.9);
     }
     
     if (assessment.age < 18 || assessment.age > 90) {
         flags.push('EXTREME_PROFILE');
+        score = Math.max(score, 0.7);
     }
     
     // Determine status based on score
     let status = 'valid';
-    if (score > data.thresholds.reject) {
+    if (score >= data.thresholds.reject) {
         status = 'rejected';
-    } else if (score > data.thresholds.review) {
+    } else if (score >= data.thresholds.review) {
         status = 'pending_review';
     }
     

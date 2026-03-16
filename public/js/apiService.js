@@ -63,7 +63,7 @@ export class ApiService {
     /**
      * Submit assessment to backend
      */
-    static async submitAssessment(userData, answers) {
+    static async submitAssessment(userData, answers, completionTime = 0) {
         try {
             const response = await fetch(`${API_BASE_URL}/assessments`, {
                 method: 'POST',
@@ -72,7 +72,8 @@ export class ApiService {
                 },
                 body: JSON.stringify({
                     userData,
-                    answers
+                    answers,
+                    completionTime
                 })
             });
 
