@@ -2,6 +2,7 @@ import { RISK_LEVELS } from './constants.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import { escapeHtml } from './utils/escapeHtml.js';
 import { audioController } from './audioController.js';
+import { triggerConfetti } from './particles.js'; // --- NEW: Import confetti ---
 
 export class UIController {
     constructor(elements, translationFn) {
@@ -138,6 +139,10 @@ export class UIController {
         // Play triumphant sound when results are generated
         audioController.play('success');
         // ---------------------
+
+        // --- NEW: CONFETTI TRIGGER ---
+        triggerConfetti();
+        // -----------------------------
 
         this.assessments = assessments;
         const userData = gameState.getUserData();
