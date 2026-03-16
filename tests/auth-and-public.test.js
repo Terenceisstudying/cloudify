@@ -38,7 +38,7 @@ describe('POST /api/admin/login', () => {
     it('returns token for valid credentials', async () => {
         const res = await request(app)
             .post('/api/admin/login')
-            .send({ email: 'admin@scs.com', password: 'admin123' });
+            .send({ email: 'admin@scs.com', password: 'Admin@1234' });
         assert.strictEqual(res.status, 200);
         assert.ok(res.body.token);
         assert.strictEqual(res.body.admin.email, 'admin@scs.com');

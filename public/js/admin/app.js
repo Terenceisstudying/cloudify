@@ -52,11 +52,20 @@ async function loadCurrentUser() {
 }
 
 // ==================== CHANGE PASSWORD ====================
+function showModalError(message) {
+    const errorDiv = document.getElementById('change-password-error');
+    if (!errorDiv) return;
+    errorDiv.textContent = message;
+    errorDiv.style.display = message ? 'block' : 'none';
+}
 
 window.showChangePasswordModal = function (required = false) {
     const modal = document.getElementById('change-password-modal');
     const modalBody = modal.querySelector('.modal-body');
 
+    showModalError('');
+    document.getElementById('change-password-form').reset();
+    
     const existingWarning = modal.querySelector('.password-warning');
     if (existingWarning) {
         existingWarning.remove();
@@ -121,14 +130,14 @@ document.getElementById('change-password-form').addEventListener('submit', async
     const currentPassword = document.getElementById('current-password').value;
     const newPassword = document.getElementById('new-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
+    showModalError('');
 
     if (newPassword !== confirmPassword) {
-        showError('New passwords do not match');
+        showModalError('New passwords do not match');
         return;
     }
-
     if (newPassword === currentPassword) {
-        showError('New password must be different from current password');
+        showModalError('New password must be different from current password');
         return;
     }
 
@@ -164,7 +173,7 @@ document.getElementById('change-password-form').addEventListener('submit', async
 
         await loadCurrentUser();
     } catch (err) {
-        showError(err.message);
+        showModalError(err.message);
     } finally {
         btn.disabled = false;
         btn.textContent = 'Change Password';

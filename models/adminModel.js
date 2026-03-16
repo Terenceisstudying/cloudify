@@ -72,7 +72,7 @@ export class AdminModel {
         }
 
         if (!password) {
-            tempPassword = '123456';
+            tempPassword = '12345678';
             password = tempPassword;
         }
 

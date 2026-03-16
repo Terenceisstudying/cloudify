@@ -59,16 +59,16 @@ describe('Admin Auth API', () => {
             const res = await request(app)
                 .post('/api/admin/change-password')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ currentPassword: 'admin123', newPassword: '12345' });
+                .send({ currentPassword: 'Admin@1234', newPassword: '12345' });
             assert.strictEqual(res.status, 400);
-            assert.ok(res.body.error.includes('6 characters'));
+            assert.ok(res.body.error.includes('8 characters'));
         });
 
         it('returns 400 if new password same as current', async () => {
             const res = await request(app)
                 .post('/api/admin/change-password')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ currentPassword: 'admin123', newPassword: 'admin123' });
+                .send({ currentPassword: 'Admin@1234', newPassword: 'Admin@1234' });
             assert.strictEqual(res.status, 400);
             assert.ok(res.body.error.includes('different'));
         });
@@ -76,7 +76,7 @@ describe('Admin Auth API', () => {
         it('returns 401 without token', async () => {
             const res = await request(app)
                 .post('/api/admin/change-password')
-                .send({ currentPassword: 'admin123', newPassword: 'newpass123' });
+                .send({ currentPassword: 'Admin@1234', newPassword: 'newpass123' });
             assert.strictEqual(res.status, 401);
         });
     });
