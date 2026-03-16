@@ -212,34 +212,67 @@ class RiskAssessmentApp {
                 // Translation button click intentionally does NOT have the 'button' sound here
                 const lang = btn.dataset.lang;
                 if (lang === this.currentLanguage) return;
+
+                // Update button active states immediately
                 selector.querySelectorAll('button').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                this.currentLanguage = lang;
-                setCurrentLanguage(lang);
-                QuestionLoader.clearCache();
-                this._applyLanguage(lang);
-                this._showLandingLoadingState();
+                
+                // Get reference to loading overlay
+                const loadingOverlay = document.getElementById('language-loading-overlay');
+                
+                // 1. Show loading overlay BEFORE any changes
+                if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+                
                 try {
-                    this.assessments = await loadAssessments(lang);
-                    this._renderAssessmentCards();
-                } catch (error) {
-                    console.error('Error reloading assessments:', error);
-                }
-                if (this.selectedAssessment) {
-                    this._updateOnboardingForAssessment(this.selectedAssessment);
-                }
-                const activeScreen = this.dom.getActiveScreenName();
-                if (activeScreen === 'game' && this.selectedAssessment) {
-                    try {
+                    // 2. Fetch all translated data FIRST (don't update UI yet)
+                    QuestionLoader.clearCache();
+                    
+                    // Fetch assessments
+                    const newAssessments = await loadAssessments(lang);
+                    
+                    // Fetch questions if on game screen
+                    let newQuestions = null;
+                    const activeScreen = this.dom.getActiveScreenName();
+                    if (activeScreen === 'game' && this.selectedAssessment) {
                         const age = parseInt(this.dom.onboarding.ageInput?.value) || 0;
-                        const questions = await QuestionLoader.loadQuestions(this.selectedAssessment, age, lang);
-                        if (questions.length > 0) {
-                            this.state.replaceQuestions(questions);
+                        newQuestions = await QuestionLoader.loadQuestions(this.selectedAssessment, age, lang);
+                    }
+                    
+                    // 3. NOW update everything atomically after data is ready
+                    this.currentLanguage = lang;
+                    setCurrentLanguage(lang);
+                    this._applyLanguage(lang);
+                    
+                    this.assessments = newAssessments;
+                    this._renderAssessmentCards();
+                    
+                    if (this.selectedAssessment) {
+                        this._updateOnboardingForAssessment(this.selectedAssessment);
+                    }
+                    
+                    // 4. Update game screen if active
+                    if (activeScreen === 'game' && newQuestions && newQuestions.length > 0) {
+                        this.state.replaceQuestions(newQuestions);
+                        
+                        if (this._isExplanationVisible) {
+                            // Re-show explanation with new language
+                            const question = this.state.getCurrentQuestion();
+                            const lastAnswer = this.answers.length > 0 ? this.answers[this.answers.length - 1] : null;
+                            if (question && lastAnswer) {
+                                const continueLabel = this.t('game', 'continueButton');
+                                const undoLabel = this.t('game', 'undoButton');
+                                this.ui.showExplanation(question, lastAnswer.userAnswer, continueLabel, undoLabel);
+                            }
+                        } else {
+                            // Re-show question with new language
                             this._showNextQuestion();
                         }
-                    } catch (err) {
-                        console.warn('Failed to reload questions for language switch:', err);
                     }
+                } catch (error) {
+                    console.error('Error switching language:', error);
+                } finally {
+                    // 5. Hide loading overlay
+                    if (loadingOverlay) loadingOverlay.classList.add('hidden');
                 }
             });
         });
@@ -271,6 +304,11 @@ class RiskAssessmentApp {
             { id: 'swipe-yes-label',             group: 'game',            key: 'swipeYes' },
             { id: 'bin-label',                   group: 'game',            key: 'binIt' },
             { id: 'pin-label',                   group: 'game',            key: 'pinIt' },
+            { id: 'game-exit-btn',               group: 'game',            key: 'exitButton' },
+            { id: 'exit-modal-title',            group: 'game',            key: 'exitModalTitle' },
+            { id: 'exit-modal-message',          group: 'game',            key: 'exitModalMessage' },
+            { id: 'exit-stay-btn',               group: 'game',            key: 'exitModalStay' },
+            { id: 'exit-leave-btn',              group: 'game',            key: 'exitModalLeave' },
             { id: 'results-heading',             group: 'results',         key: 'resultsHeading' },
             { id: 'risk-factors-heading',        group: 'results',         key: 'riskFactorsHeading' },
             { id: 'recommendations-heading',     group: 'results',         key: 'recommendationsHeading' },

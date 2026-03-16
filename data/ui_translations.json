@@ -186,6 +186,36 @@
       "ms": "Batal",
       "ta": "செயல்தவிர்"
     },
+    "exitButton": {
+      "en": "Exit",
+      "zh": "退出",
+      "ms": "Keluar",
+      "ta": "வெளியேறு"
+    },
+    "exitModalTitle": {
+      "en": "Exit Assessment?",
+      "zh": "退出评估？",
+      "ms": "Keluar daripada Penilaian?",
+      "ta": "மதிப்பீட்டிலிருந்து வெளியேறவா?"
+    },
+    "exitModalMessage": {
+      "en": "Are you sure you want to leave? Your progress will not be saved.",
+      "zh": "您确定要离开吗？您的进度将不会被保存。",
+      "ms": "Adakah anda pasti mahu keluar? Progress anda tidak akan disimpan.",
+      "ta": "நீங்கள் நிச்சயமாக வெளியேற விரும்புகிறீர்களா? உங்கள் முன்னேற்றம் சேமிக்கப்படாது."
+    },
+    "exitModalStay": {
+      "en": "Stay",
+      "zh": "留下",
+      "ms": "Kekal",
+      "ta": "தங்கியிரு"
+    },
+    "exitModalLeave": {
+      "en": "Leave",
+      "zh": "离开",
+      "ms": "Keluar",
+      "ta": "வெளியேறு"
+    },
     "highImportance": {
       "en": "High Importance",
       "zh": "高重要性",

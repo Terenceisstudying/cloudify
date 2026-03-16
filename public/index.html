@@ -428,11 +428,17 @@
         </div>
     </div>
 
+    <!-- Global language switch loading overlay -->
+    <div id="language-loading-overlay" class="language-loading-overlay hidden">
+        <div class="language-loading-spinner"></div>
+        <p class="language-loading-text">Switching language...</p>
+    </div>
+
     <div id="exit-modal" class="pdpa-modal hidden" aria-hidden="true" role="dialog" aria-labelledby="exit-modal-title">
         <div class="pdpa-modal-overlay"></div>
         <div class="pdpa-modal-content" style="text-align: center;">
             <h2 id="exit-modal-title">Exit Assessment?</h2>
-            <div class="pdpa-modal-section" style="margin-bottom: 25px;">
+            <div id="exit-modal-message" class="pdpa-modal-section" style="margin-bottom: 25px;">
                 Are you sure you want to leave? Your progress will not be saved.
             </div>
             <div style="display: flex; gap: 10px; justify-content: center;">
