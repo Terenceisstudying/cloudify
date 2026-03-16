@@ -1,6 +1,16 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
+// Function to validate password strength
+function isStrongPassword(password) {
+    if (password.length < 8) return 'Password must be at least 8 characters';
+    if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter';
+    if (!/[a-z]/.test(password)) return 'Password must contain at least one lowercase letter';
+    if (!/[0-9]/.test(password)) return 'Password must contain at least one number';
+    if (!/[^A-Za-z0-9]/.test(password)) return 'Password must contain at least one symbol (e.g. !@#$%)';
+    return null; // null means valid
+}
+
 /**
  * Public auth routes (no authenticateToken middleware).
  * Mounted BEFORE the authenticated admin router in server.js.
@@ -25,7 +35,7 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
             const token = jwt.sign(
                 { id: admin.id, email: admin.email, role: admin.role },
                 process.env.JWT_SECRET,
-                { expiresIn: '24h' }
+                { expiresIn: '24h', algorithm: 'HS256' }
             );
 
             res.json({
@@ -84,24 +94,22 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
     router.post('/reset-password', async (req, res) => {
         try {
             const { token, newPassword } = req.body;
+            const passwordError = isStrongPassword(newPassword);
 
             if (!token || !newPassword) {
                 return res.status(400).json({ message: 'Token and new password are required' });
             }
 
-            if (newPassword.length < 6) {
-                return res.status(400).json({ message: 'Password must be at least 6 characters' });
+            if (passwordError) {
+                return res.status(400).json({ message: passwordError });
             }
-
             await adminModel.resetPassword(token, newPassword);
-
             res.json({ message: 'Password reset successfully' });
         } catch (error) {
             console.error('Reset password error:', error);
             res.status(400).json({ message: error.message });
         }
     });
-
     return router;
 }
 
@@ -136,6 +144,7 @@ export function createAuthRouter({ adminModel }) {
     router.post('/change-password', async (req, res) => {
         try {
             const { currentPassword, newPassword } = req.body;
+            const passwordError = isStrongPassword(newPassword);
 
             if (!currentPassword || !newPassword) {
                 return res.status(400).json({
@@ -144,11 +153,8 @@ export function createAuthRouter({ adminModel }) {
                 });
             }
 
-            if (newPassword.length < 6) {
-                return res.status(400).json({
-                    success: false,
-                    error: 'New password must be at least 6 characters'
-                });
+            if (passwordError) {
+                return res.status(400).json({ success: false, error: passwordError });
             }
 
             if (currentPassword === newPassword) {

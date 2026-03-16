@@ -52,7 +52,7 @@
     background: transparent;
     border: none;
     border-left: 3px solid transparent;
-    border-radius: 6px;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
     font-weight: 500;
     font-size: 0.9rem;
@@ -62,15 +62,25 @@
 }
 
 .sidebar-item:hover {
-    background: #f5f5f5;
+    background: #f0f9ff;
     color: var(--color-primary);
+    border-left-color: #b2d8e8;
 }
+
 
 .sidebar-item.active {
     background: #fff0ef;
     color: var(--color-primary);
     border-left-color: var(--color-primary);
     font-weight: 600;
+}
+
+.admin-sidebar {
+    padding-left: 0;
+}
+
+.sidebar-group-label {
+    padding-left: 15px;
 }
 
 /* Content area */

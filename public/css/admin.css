@@ -2,14 +2,10 @@
 
 /* Base Layout */
 body {
-    padding: 20px;
+    padding: 12px;
+    box-sizing: border-box;
     background: var(--color-background);
     font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.admin-container {
-    max-width: 1400px;
-    margin: 0 auto;
 }
 
 /* Header */
@@ -88,8 +84,8 @@ body {
 /* Cancer Type Cards Grid */
 .cancer-types-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
 }
 
 .cancer-type-card {
@@ -420,29 +416,33 @@ body {
 .modal-content-wide {
     max-width: 1200px;
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .modal-content-wide .modal-header {
     position: static;
+    flex-shrink: 0;
 }
 .modal-body-columns {
     display: flex;
     gap: 24px;
     align-items: stretch;
     padding: 0;
+    flex: 1;
+    min-height: 0;
 }
 .modal-body-main {
     flex: 1;
     min-width: 0;
     overflow-y: auto;
-    max-height: calc(100vh - 120px);
     padding: 24px;
+    padding-bottom: 60px; /* Ensure content clears the bottom */
 }
 .modal-preview-col {
     width: 300px;
     flex-shrink: 0;
     overflow-y: auto;
-    max-height: calc(100vh - 120px);
-    padding: 24px 24px 24px 0;
+    padding: 24px 24px 60px 0;
 }
 .modal-preview-sticky {
     position: sticky;
@@ -450,10 +450,10 @@ body {
 }
 
 @media (max-width: 900px) {
-    .modal-content-wide { max-width: 900px; overflow-y: auto; }
-    .modal-content-wide .modal-header { position: sticky; top: 0; }
-    .modal-body-columns { flex-direction: column; }
-    .modal-body-main { max-height: none; overflow-y: visible; }
+    .modal-content-wide { max-width: 900px; overflow-y: auto; display: block; }
+    .modal-content-wide .modal-header { position: sticky; top: 0; z-index: 10; }
+    .modal-body-columns { flex-direction: column; display: flex; }
+    .modal-body-main { max-height: none; overflow-y: visible; padding-bottom: 24px; }
     .modal-preview-col { width: 100%; max-height: none; overflow-y: visible; padding: 0 24px 24px; }
     .modal-preview-sticky { position: static; }
 }
@@ -2527,4 +2527,41 @@ th.sortable.sort-desc::after {
     width: auto;
     padding: 0;
     border: none;
+}
+
+/* Password toggle wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper .form-control {
+    width: 100%;
+    padding-right: 44px;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    padding: 4px;
+    border-radius: 4px;
+    transform: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+.toggle-password-btn:hover {
+    color: var(--color-primary);
+}
+
+.toggle-password-btn svg {
+    display: block;
+    pointer-events: none;
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SCS Cancer Risk Assessment</title>
+    <title>SCS Risk Radar</title>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/utilities.css">
@@ -14,22 +14,21 @@
     <link rel="stylesheet" href="css/mascot.css">
     <link rel="stylesheet" href="css/landing.css">
     <style>
-        /* MODIFIED: Global scroll lock to prevent iOS "rubber-band" bounce */
+        /* MODIFIED: Let the browser scroll normally everywhere... */
         html, body {
             width: 100%;
-            height: 100dvh;
+            min-height: 100dvh;
             margin: 0;
             padding: 0;
-            overflow: hidden; 
-            position: fixed; 
+            overflow-x: hidden;
         }
 
-        /* Allow internal scrolling only on screens that need it (like results/onboarding) */
+        /* ...and ensure screens can grow and scroll naturally. */
         main.screen {
             width: 100%;
-            height: 100dvh;
-            overflow-y: auto !important; /* Force scroll applied here */
-            -webkit-overflow-scrolling: touch;
+            min-height: 100dvh;
+            padding-bottom: calc(60px + env(safe-area-inset-bottom)); /* Safari bottom bar fix */
+            box-sizing: border-box;
         }
 
         /* Top Banner Styles */
@@ -429,6 +428,20 @@
         </div>
     </div>
 
+    <div id="exit-modal" class="pdpa-modal hidden" aria-hidden="true" role="dialog" aria-labelledby="exit-modal-title">
+        <div class="pdpa-modal-overlay"></div>
+        <div class="pdpa-modal-content" style="text-align: center;">
+            <h2 id="exit-modal-title">Exit Assessment?</h2>
+            <div class="pdpa-modal-section" style="margin-bottom: 25px;">
+                Are you sure you want to leave? Your progress will not be saved.
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="exit-stay-btn" class="button button-secondary" style="margin: 0; flex: 1;">Stay</button>
+                <button id="exit-leave-btn" class="button" style="margin: 0; flex: 1; background-color: #e74c3c; border-color: #e74c3c; color: white;">Leave</button>
+            </div>
+        </div>
+    </div>
+
     <main id="screen-landing" class="screen active">
         <div class="top-banner">
             <a href="/admin" class="admin-btn">Admin Panel</a>
@@ -555,6 +568,8 @@
     </main>
 
     <main id="screen-game" class="screen">
+        <button id="game-exit-btn" class="game-exit-btn" aria-label="Exit Assessment">Exit</button>
+
         <div id="glow-overlay"></div>
         <div class="game-header">
             <div id="progress-bar-container"><div id="progress-bar-fill"></div></div>

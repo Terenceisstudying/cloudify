@@ -1,6 +1,8 @@
 import { RISK_LEVELS } from './constants.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import { escapeHtml } from './utils/escapeHtml.js';
+import { audioController } from './audioController.js';
+import { triggerConfetti } from './particles.js';
 
 export class UIController {
     constructor(elements, translationFn) {
@@ -32,11 +34,19 @@ export class UIController {
     showQuestion(text) { if (this.elements.game.questionText) this.elements.game.questionText.textContent = text; }
 
     showFeedback(isCorrect) {
+        // --- AUDIO TRIGGER ---
+        if (isCorrect) {
+            audioController.play('chime');
+        } else {
+            audioController.play('click');
+        }
+        // ---------------------
+
         const overlay = isCorrect ? this.elements.game.feedbackCorrect : this.elements.game.feedbackWrong;
         if (overlay) { overlay.style.opacity = '1'; setTimeout(() => overlay.style.opacity = '0', 500); }
     }
 
-    showExplanation(question, userAnswer, continueLabel = 'Continue') {
+    showExplanation(question, userAnswer, continueLabel = 'Continue', undoLabel = 'Undo') {
         const container = this.elements.game.feedbackExplanation;
         if (!container) return;
 
@@ -48,13 +58,18 @@ export class UIController {
 
         const importanceKey = riskLevel.toLowerCase() + 'Importance';
         const translatedBadge = this.t('game', importanceKey);
+        
         container.innerHTML = `
             <div class="explanation-content" aria-atomic="true">
                 <h4 class="risk-badge ${escapeHtml(riskClass)}">${escapeHtml(translatedBadge)}</h4>
                 <p>${escapeHtml(explanationText)}</p>
-                <button class="explanation-continue-btn" type="button">${escapeHtml(continueLabel)}</button>
+                <div class="explanation-actions">
+                    <button class="explanation-undo-btn" type="button">${escapeHtml(undoLabel)}</button>
+                    <button class="explanation-continue-btn" type="button">${escapeHtml(continueLabel)}</button>
+                </div>
             </div>
         `;
+        
         container.setAttribute('role', 'dialog');
         container.setAttribute('aria-modal', 'true');
         container.style.display = 'block';
@@ -95,6 +110,13 @@ export class UIController {
     }
 
     animateCardSwipe(direction, onComplete) {
+        // --- AUDIO TRIGGER ---
+        // Play click sound ONLY when swiping right (Yes/Pinboard)
+        if (direction === 'right') {
+            audioController.play('click');
+        }
+        // ---------------------
+
         const card = this.elements.game.questionCard;
         if (!card) return;
         this.setTargetHighlight(null);
@@ -117,8 +139,11 @@ export class UIController {
         }
     }
 
-    // ... (Your existing showResults and helper methods remain unchanged)
     showResults(gameState, answers, assessments = []) {
+        // --- AUDIO TRIGGER ---
+        audioController.play('success');
+        // ---------------------
+
         this.assessments = assessments;
         const userData = gameState.getUserData();
         const isGeneric = userData.assessmentType === 'generic';
@@ -133,12 +158,12 @@ export class UIController {
         const riskBreakdown = document.querySelector('.risk-breakdown');
         const cancerBreakdownSection = document.getElementById('cancer-breakdown');
 
+        let finalRiskLevel = riskResult.riskLevel; 
+
         if (isGeneric && this.cancerTypeScores) {
-            // Generic assessment: cancer breakdown is the hero section
             if (scoreContainer) scoreContainer.style.display = 'none';
             if (riskBreakdown) riskBreakdown.style.display = 'none';
 
-            // Filter out gender-irrelevant cancer types
             const gender = userData.gender?.toLowerCase();
             const filtered = {};
             for (const [type, data] of Object.entries(this.cancerTypeScores)) {
@@ -147,9 +172,10 @@ export class UIController {
                 filtered[type] = data;
             }
 
-            // Determine overall risk from highest individual cancer type
             const scores = Object.values(filtered);
             const highestRisk = scores.reduce((max, s) => s.score > max.score ? s : max, { score: 0, riskLevel: 'LOW' });
+            
+            finalRiskLevel = highestRisk.riskLevel;
 
             if (this.elements.results.riskLevel) {
                 const riskKey = highestRisk.riskLevel.toLowerCase() + 'Risk';
@@ -162,7 +188,6 @@ export class UIController {
             this._renderCancerTypeBreakdown(filtered);
             if (cancerBreakdownSection) cancerBreakdownSection.style.display = 'block';
         } else {
-            // Specific cancer type assessment: show the standard gauge
             if (scoreContainer) scoreContainer.style.display = '';
             if (riskBreakdown) riskBreakdown.style.display = '';
             if (cancerBreakdownSection) cancerBreakdownSection.style.display = 'none';
@@ -178,13 +203,18 @@ export class UIController {
             this._updateHighRiskCTA(riskResult.riskLevel);
         }
 
+        // --- CONDITIONAL CONFETTI TRIGGER ---
+        if (finalRiskLevel === 'LOW') {
+            triggerConfetti();
+        }
+        // ------------------------------------
+
         return riskResult;
     }
 
     _renderCancerTypeBreakdown(cancerTypeScores) {
         if (!this.elements.results.cancerBreakdownContainer) return;
 
-        // Build lookup maps from assessment data (single source of truth)
         const nameMap = {};
         const iconMap = {};
         if (this.assessments) {
@@ -332,9 +362,6 @@ export class UIController {
         }
     }
 
-    /**
-     * Show or hide high-risk call-to-action and emphasize book-screening button for HIGH risk (US-01).
-     */
     _updateHighRiskCTA(riskLevel) {
         const ctaEl = document.getElementById('high-risk-cta');
         const bookBtn = document.getElementById('book-screening-btn');

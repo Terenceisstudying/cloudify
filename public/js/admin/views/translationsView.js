@@ -49,6 +49,7 @@ const KEY_DESCRIPTIONS = {
         pinIt: { label: '"Pin It" Label', hint: 'Instruction below the Yes swipe zone' },
         feedbackYes: { label: 'Yes Feedback', hint: 'Reaction text when user swipes Yes (e.g. "Aiyo!")' },
         feedbackNo: { label: 'No Feedback', hint: 'Reaction text when user swipes No (e.g. "Steady!")' },
+        undoButton: {label: '"Undo" Button', hint: 'Button on the explanation card after each question swipe' },
         continueButton: { label: '"Continue" Button', hint: 'Button on the explanation card after each question swipe' },
         highImportance: { label: '"High Importance" Badge', hint: 'Badge for high-weight questions in explanation card' },
         mediumImportance: { label: '"Medium Importance" Badge', hint: 'Badge for medium-weight questions in explanation card' },
@@ -348,18 +349,24 @@ function renderForm(container) {
     let groupKeys = Object.keys(SCREEN_GROUPS);
 
     for (const [group, groupLabel] of Object.entries(SCREEN_GROUPS)) {
-        const keys = translationsData[group];
-        if (!keys) continue;
+        let keys = translationsData[group] || {};
         const descriptions = KEY_DESCRIPTIONS[group] || {};
+
+        // Merge keys from descriptions to ensure ALL expected keys are rendered
+        // even if they are missing from the server's JSON file.
+        const allKeys = Array.from(new Set([...Object.keys(keys), ...Object.keys(descriptions)]));
+
+        if (allKeys.length === 0) continue;
 
         formHtml += `<details class="translations-section" data-group="${esc(group)}">
             <summary class="translations-section-header">${esc(groupLabel)}</summary>
             <div class="translations-section-body">`;
 
-        for (const [key, langs] of Object.entries(keys)) {
+        for (const key of allKeys) {
             const desc = descriptions[key] || {};
             const label = desc.label || key;
             const hint = desc.hint || '';
+            const langs = keys[key] || { en: '', zh: '', ms: '', ta: '' };
             formHtml += renderLangFields(`trans-${group}-${key}`, label, hint, langs);
         }
         formHtml += `</div></details>`;

@@ -1,47 +1,45 @@
-import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const OAuth2 = google.auth.OAuth2;
+async function sendEmail({ to, subject, html, text }) {
+    const apiKey = process.env.EMAIL_PASSWORD; // reusing your existing env var
+    const from = process.env.EMAIL_FROM || 'Singapore Cancer Society <onboarding@resend.dev>';
+
+    const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ from, to, subject, html, text }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        console.error('Resend API error:', data);
+        throw new Error(`Failed to send email: ${data.message || response.statusText}`);
+    }
+
+    console.log('Email sent successfully, id:', data.id);
+    return data;
+}
+
+function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;');
+}
 
 class EmailService {
-    constructor() {
-        this.from = process.env.EMAIL_FROM || 'SCS Risk Assessment <noreply@scs.com>';
-    }
-
-    async createTransporter() {
-        const oauth2Client = new OAuth2(
-            process.env.GMAIL_CLIENT_ID,
-            process.env.GMAIL_CLIENT_SECRET,
-            'https://developers.google.com/oauthplayground' // redirect URI used when generating refresh token
-        );
-
-        oauth2Client.setCredentials({
-            refresh_token: process.env.GMAIL_REFRESH_TOKEN
-        });
-
-        const accessToken = await oauth2Client.getAccessToken();
-
-        return nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.GMAIL_USER,         // your gmail address
-                clientId: process.env.GMAIL_CLIENT_ID,
-                clientSecret: process.env.GMAIL_CLIENT_SECRET,
-                refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-                accessToken: accessToken.token
-            }
-        });
-    }
-
     async sendPasswordResetEmail(email, resetToken) {
         const resetUrl = `${process.env.APP_URL || 'http://localhost:3000'}/resetPassword.html?token=${resetToken}`;
-
-        const mailOptions = {
-            from: this.from,
+        return sendEmail({
             to: email,
             subject: 'Password Reset Request - SCS Risk Assessment',
             html: `
@@ -59,9 +57,7 @@ class EmailService {
                 </head>
                 <body>
                     <div class="container">
-                        <div class="header">
-                            <h1>Password Reset Request</h1>
-                        </div>
+                        <div class="header"><h1>Password Reset Request</h1></div>
                         <div class="content">
                             <p>Hello,</p>
                             <p>You recently requested to reset your password for your SCS Risk Assessment admin account. Click the button below to reset it:</p>
@@ -69,11 +65,9 @@ class EmailService {
                                 <a href="${resetUrl}" class="button">Reset Password</a>
                             </p>
                             <p>Or copy and paste this link into your browser:</p>
-                            <p style="word-break: break-all; background: white; padding: 10px; border-radius: 4px;">
-                                ${resetUrl}
-                            </p>
+                            <p style="word-break: break-all; background: white; padding: 10px; border-radius: 4px;">${resetUrl}</p>
                             <p><strong>This link will expire in 1 hour.</strong></p>
-                            <p>If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
+                            <p>If you didn't request a password reset, you can safely ignore this email.</p>
                         </div>
                         <div class="footer">
                             <p>This is an automated email. Please do not reply.</p>
@@ -83,50 +77,38 @@ class EmailService {
                 </body>
                 </html>
             `,
-            text: `
-                Password Reset Request
-
-                You recently requested to reset your password for your SCS Risk Assessment admin account.
-
-                Click this link to reset your password:
-                ${resetUrl}
-
-                This link will expire in 1 hour.
-
-                If you didn't request a password reset, you can safely ignore this email.
-            `
-        };
-
-        try {
-            const transporter = await this.createTransporter();
-            const info = await transporter.sendMail(mailOptions);
-            console.log('Password reset email sent:', info.messageId);
-            return true;
-        } catch (error) {
-            console.error('Error sending password reset email:', error);
-            throw error;
-        }
+            text: `Password Reset\n\nClick this link to reset your password:\n${resetUrl}\n\nThis link expires in 1 hour.`
+        });
     }
 
     async sendAssessmentResults(to, data) {
         const { riskScore, riskLevel, userData, categoryRisks, recommendations, assessmentType, cancerTypeScores } = data;
-        const isGeneric = assessmentType === 'generic' && cancerTypeScores && Object.keys(cancerTypeScores).length > 0;
-        const riskColor = riskLevel === 'HIGH' ? '#d32f2f'
-            : riskLevel === 'MEDIUM' ? '#f57c00'
-            : '#388e3c';
 
-        // Cancer-specific breakdown (generic layout only)
+        const safe = {
+            age: escapeHtml(userData?.age),
+            gender: escapeHtml(userData?.gender),
+            ethnicity: escapeHtml(userData?.ethnicity),
+            familyHistory: escapeHtml(userData?.familyHistory),
+            assessmentType: escapeHtml(assessmentType),
+            riskLevel: escapeHtml(riskLevel),
+            riskScore: escapeHtml(riskScore),
+        };
+
+        const isGeneric = assessmentType === 'generic' && cancerTypeScores && Object.keys(cancerTypeScores).length > 0;
+        const riskColor = riskLevel === 'HIGH' ? '#d32f2f' : riskLevel === 'MEDIUM' ? '#f57c00' : '#388e3c';
         const cancerBreakdownHtml = isGeneric
             ? Object.entries(cancerTypeScores).map(([cancer, info]) => {
+                const safeCancer = escapeHtml(cancer);
                 const score = typeof info === 'object' ? info.score ?? info : info;
                 const level = typeof info === 'object' ? info.level ?? '' : '';
+                const safeLevel = escapeHtml(level);
                 const levelColor = level === 'HIGH' ? '#d32f2f' : level === 'MEDIUM' ? '#f57c00' : '#388e3c';
                 const barWidth = Math.min(Math.round(score), 100);
                 return `
                 <div style="margin-bottom: 14px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <strong style="font-size: 0.95em;">${cancer}</strong>
-                        ${level ? `<span style="font-size: 0.8em; font-weight: 700; color: ${levelColor}; background: ${levelColor}22; padding: 2px 8px; border-radius: 12px;">${level}</span>` : ''}
+                        <strong style="font-size: 0.95em;">${safeCancer}</strong>
+                        ${safeLevel ? `<span ...>${safeLevel}</span>` : ''}
                     </div>
                     <div style="background: #e0e0e0; border-radius: 6px; height: 10px; overflow: hidden;">
                         <div style="width: ${barWidth}%; background: ${levelColor}; height: 100%; border-radius: 6px;"></div>
@@ -136,39 +118,29 @@ class EmailService {
             }).join('')
             : '';
 
-        // Category risks (specific layout only)
         const categoryRisksHtml = !isGeneric && categoryRisks && Object.keys(categoryRisks).length > 0
-            ? Object.entries(categoryRisks)
-                .map(([category, score]) => `<li>${category}: ${score.toFixed(1)}%</li>`)
-                .join('')
+            ? Object.entries(categoryRisks).map(([category, score]) => 
+                `<li>${escapeHtml(category)}: ${escapeHtml(score.toFixed(1))}%</li>`
+            ).join('')
             : '';
 
-        // Recommendations
         let recommendationsHtml = '';
         if (recommendations && Array.isArray(recommendations) && recommendations.length > 0) {
             recommendations.forEach(rec => {
                 if (typeof rec === 'object' && rec !== null) {
                     if (rec.title && Array.isArray(rec.actions)) {
-                        recommendationsHtml += `
-                        <li style="margin-bottom: 20px;">
-                            <strong style="color: #e07872;">${rec.title}</strong>
-                            <ul style="margin-top: 8px; padding-left: 20px;">
-                                ${rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${a}</li>`).join('')}
-                            </ul>
-                        </li>`;
+                        const safeTitle = escapeHtml(rec.title);
+                        const safeActions = rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${escapeHtml(a)}</li>`).join('');
+                        recommendationsHtml += `<li style="margin-bottom: 20px;"><strong style="color: #e07872;">${safeTitle}</strong><ul style="margin-top: 8px; padding-left: 20px;">${safeActions}</ul></li>`;
                     } else if (rec.category && Array.isArray(rec.actions)) {
-                        recommendationsHtml += `
-                        <li style="margin-bottom: 20px;">
-                            <strong style="color: #e07872;">${rec.category}</strong>
-                            <ul style="margin-top: 8px; padding-left: 20px;">
-                                ${rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${a}</li>`).join('')}
-                            </ul>
-                        </li>`;
+                        const safeCategory = escapeHtml(rec.category);
+                        const safeActions = rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${escapeHtml(a)}</li>`).join('');
+                        recommendationsHtml += `<li style="margin-bottom: 20px;"><strong style="color: #e07872;">${safeCategory}</strong><ul style="margin-top: 8px; padding-left: 20px;">${safeActions}</ul></li>`;
                     } else if (rec.text || rec.action) {
-                        recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${rec.text || rec.action}</li>`;
+                        recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${escapeHtml(rec.text || rec.action)}</li>`;
                     }
                 } else if (typeof rec === 'string') {
-                    recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${rec}</li>`;
+                    recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${escapeHtml(rec)}</li>`;
                 }
             });
         }
@@ -182,81 +154,59 @@ class EmailService {
         <head><meta charset="UTF-8"></head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-
-                <!-- Header -->
                 <div style="background: linear-gradient(135deg, #e07872 0%, #c0504a 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
                     <h1 style="margin: 0; font-size: 22px;">Your Cancer Risk Assessment Results</h1>
                     <p style="margin: 6px 0 0; font-size: 13px;">Singapore Cancer Society</p>
                 </div>
-
                 <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-
-                    <!-- Risk Box -->
                     ${!isGeneric ? `
-                        <div style="background: white; padding: 20px; margin-bottom: 24px; border-radius: 8px; border-left: 4px solid ${riskColor};">
-                            <p style="margin: 0 0 4px; color: #666; font-size: 13px;">Your Overall Risk Level</p>
-                            <div style="font-size: 26px; font-weight: bold; color: ${riskColor};">${riskLevel} RISK</div>
-                            <div style="text-align: center; margin-top: 12px;">
-                                <div style="font-size: 48px; font-weight: bold; color: ${riskColor};">${riskScore}%</div>
-                                <p style="margin: 4px 0 0; color: #888; font-size: 13px;">Overall Risk Score</p>
-                            </div>
+                    <div style="background: white; padding: 20px; margin-bottom: 24px; border-radius: 8px; border-left: 4px solid ${riskColor};">
+                        <p style="margin: 0 0 4px; color: #666; font-size: 13px;">Your Overall Risk Level</p>
+                        <div style="font-size: 26px; font-weight: bold; color: ${riskColor};">${riskLevel} RISK</div>
+                        <div style="text-align: center; margin-top: 12px;">
+                            <div style="font-size: 48px; font-weight: bold; color: ${riskColor};">${riskScore}%</div>
+                            <p style="margin: 4px 0 0; color: #888; font-size: 13px;">Overall Risk Score</p>
                         </div>
-                    ` : ''}
+                    </div>` : ''}
 
-                    <!-- Your Information -->
                     <div style="margin-bottom: 24px;">
                         <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">📋 Your Information</h2>
                         <ul style="padding-left: 20px;">
-                            <li><strong>Assessment Type:</strong> ${assessmentType ? assessmentType.charAt(0).toUpperCase() + assessmentType.slice(1) : 'General'}</li>
-                            <li><strong>Age:</strong> ${userData?.age ?? '-'}</li>
-                            <li><strong>Gender:</strong> ${userData?.gender ?? '-'}</li>
-                            <li><strong>Ethnicity:</strong> ${userData?.ethnicity ?? '-'}</li>
-                            <li><strong>Family History:</strong> ${userData?.familyHistory ?? '-'}</li>
+                            <li><strong>Assessment Type:</strong> ${safe.assessmentType ? safe.assessmentType.charAt(0).toUpperCase() + safe.assessmentType.slice(1) : 'General'}</li>
+                            <li><strong>Age:</strong> ${safe.age || '-'}</li>
+                            <li><strong>Gender:</strong> ${safe.gender || '-'}</li>
+                            <li><strong>Ethnicity:</strong> ${safe.ethnicity || '-'}</li>
+                            <li><strong>Family History:</strong> ${safe.familyHistory || '-'}</li>
                         </ul>
                     </div>
 
                     ${isGeneric ? `
-                    <!-- Cancer-Specific Breakdown -->
                     <div style="margin-bottom: 24px;">
                         <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">🎯 Your Cancer-Specific Risk Breakdown</h2>
-                        <div style="background: white; padding: 16px; border-radius: 8px;">
-                            ${cancerBreakdownHtml}
-                        </div>
-                    </div>
-                    ` : categoryRisksHtml ? `
-                    <!-- Category Risk Breakdown -->
+                        <div style="background: white; padding: 16px; border-radius: 8px;">${cancerBreakdownHtml}</div>
+                    </div>` : categoryRisksHtml ? `
                     <div style="margin-bottom: 24px;">
                         <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">📊 Risk Factor Breakdown</h2>
-                        <ul style="padding-left: 20px;">
-                            ${categoryRisksHtml}
-                        </ul>
-                    </div>
-                    ` : ''}
+                        <ul style="padding-left: 20px;">${categoryRisksHtml}</ul>
+                    </div>` : ''}
 
-                    <!-- Recommendations -->
                     <div style="margin-bottom: 24px;">
                         <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">💡 What You Can Do</h2>
-                        <ul style="list-style-type: none; padding-left: 0;">
-                            ${recommendationsHtml}
-                        </ul>
+                        <ul style="list-style-type: none; padding-left: 0;">${recommendationsHtml}</ul>
                     </div>
 
-                    <!-- CTA -->
                     <div style="text-align: center; margin: 24px 0;">
                         <a href="https://www.singaporecancersociety.org.sg/get-screened/book-your-screening-appointment-at-scs-clinic-bishan.html"
-                        style="display: inline-block; background: #e07872; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                           style="display: inline-block; background: #e07872; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;">
                             📅 Book Your Screening Appointment
                         </a>
                     </div>
 
-                    <!-- Disclaimer -->
                     <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 14px; border-radius: 6px; font-size: 13px;">
                         <strong>⚠️ Important Disclaimer</strong><br>
                         This assessment is for educational purposes only and is not medical advice. Please consult a healthcare professional for a comprehensive health assessment.
                     </div>
                 </div>
-
-                <!-- Footer -->
                 <div style="text-align: center; color: #999; font-size: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
                     <p>Singapore Cancer Society &nbsp;|&nbsp; <a href="https://www.singaporecancersociety.org.sg" style="color: #e07872;">www.singaporecancersociety.org.sg</a></p>
                 </div>
@@ -264,28 +214,36 @@ class EmailService {
         </body>
         </html>`;
 
-        try {
-            const transporter = await this.createTransporter();
-            const info = await transporter.sendMail({
-                from: this.from,
-                to,
-                subject: `Your ${isGeneric ? 'General' : assessmentType?.charAt(0).toUpperCase() + assessmentType?.slice(1) || ''} Cancer Risk Assessment Results`,
-                html: htmlContent
-            });
-            console.log('Assessment results email sent:', info.messageId);
-            return true;
-        } catch (error) {
-            console.error('Error sending assessment email:', error);
-            throw error;
-        }
+        return sendEmail({
+            to,
+            subject: `Your ${isGeneric ? 'General' : assessmentType?.charAt(0).toUpperCase() + assessmentType?.slice(1) || ''} Cancer Risk Assessment Results`,
+            html: htmlContent,
+        });
     }
 
     async verifyConnection() {
         try {
-            const transporter = await this.createTransporter();
-            await transporter.verify();
-            console.log('✓ Gmail OAuth2 email service is ready');
-            return true;
+            const response = await fetch('https://api.resend.com/emails', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${process.env.EMAIL_PASSWORD}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: process.env.EMAIL_FROM,
+                    to: 'test@resend.dev', // Resend's built-in test address
+                    subject: 'Connection test',
+                    html: '<p>test</p>'
+                })
+            });
+            if (response.ok || response.status === 422) {
+                console.log('✓ Resend API email service is ready');
+                return true;
+            } else {
+                const data = await response.json();
+                console.error('✗ Resend API error:', data.message || response.statusText);
+                return false;
+            }
         } catch (error) {
             console.error('✗ Email service error:', error);
             return false;

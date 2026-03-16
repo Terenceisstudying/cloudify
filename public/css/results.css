@@ -14,14 +14,14 @@
 
 /* Risk level badge — colored pill */
 #results-risk-level {
-    display: inline-block;
+    display: block; /* Changed from inline-block */
+    width: fit-content; /* Added to wrap the pill tightly around the text */
     padding: 10px 24px;
     border-radius: 50px;
     font-weight: 700;
     letter-spacing: 1px;
-    margin: 10px auto 5px;
+    margin: 10px auto 5px; /* Margin auto will now successfully center it */
 }
-
 #results-risk-level.risk-low {
     background: #dcfce7;
     color: #166534; /* Improved contrast */
