@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS questions (
 CREATE TABLE IF NOT EXISTS question_assignments (
     id SERIAL PRIMARY KEY,
     questionid TEXT REFERENCES questions(id) ON DELETE CASCADE,
-    assessmentid TEXT NOT NULL,
+    assessmentid TEXT REFERENCES cancer_types(id) ON DELETE CASCADE,
     targetcancertype TEXT NOT NULL,
     weight NUMERIC NOT NULL,
     yesvalue NUMERIC DEFAULT 100,

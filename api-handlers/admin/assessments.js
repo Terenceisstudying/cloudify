@@ -14,7 +14,10 @@ function mapAssessmentRow(row) {
         riskLevel: row.risk_level,
         categoryRisks: row.category_risks || {},
         questionsAnswers: row.questions_answers || [],
-        timestamp: row.created_at
+        timestamp: row.created_at,
+        anomalyScore: row.anomaly_score,
+        anomalyFlags: row.anomaly_flags || [],
+        status: row.status || 'valid'
     };
 }
 
@@ -44,7 +47,7 @@ export default async function handler(req, res) {
             
             const assessments = rawAssessments.map(mapAssessmentRow);
             
-            const headers = ['id', 'age', 'gender', 'familyHistory', 'assessmentType', 'riskScore', 'riskLevel', 'categoryRisks', 'questionsAnswers', 'timestamp'];
+            const headers = ['id', 'age', 'gender', 'familyHistory', 'assessmentType', 'riskScore', 'riskLevel', 'anomalyScore', 'anomalyFlags', 'status', 'timestamp'];
             const escapeField = (val) => {
                 if (val === null || val === undefined) return '';
                 const str = typeof val === 'object' ? JSON.stringify(val) : String(val);

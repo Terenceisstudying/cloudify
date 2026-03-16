@@ -123,14 +123,24 @@ function _renderAssessmentRows(data) {
             const assessmentType = a.assessmentType
                 ? a.assessmentType.charAt(0).toUpperCase() + a.assessmentType.slice(1)
                 : '-';
+            
+            // ML Status Badge
+            const status = (a.status || 'valid').toLowerCase();
+            const statusLabel = status === 'flagged' ? 'FLAGGED' : 'VALID';
+            const statusClass = status === 'flagged' ? 'badge-high' : 'badge-low';
+            const anomalyFlags = Array.isArray(a.anomalyFlags) && a.anomalyFlags.length > 0 
+                ? ` title="Flags: ${a.anomalyFlags.join(', ')} (Score: ${a.anomalyScore})"` 
+                : '';
+
             return `
                 <tr>
                     <td>${escapeHtml(a.age || '-')}</td>
                     <td>${escapeHtml(a.gender || '-')}</td>
                     <td>${escapeHtml(assessmentType)}</td>
-                    <td>${escapeHtml(a.familyHistory || '-')}</td>
+                    <td>${escapeHtml(a.familyHistory ? 'Yes' : 'No')}</td>
                     <td><strong>${escapeHtml(a.riskScore)}</strong></td>
                     <td><span class="badge badge-${escapeHtml(a.riskLevel.toLowerCase())}">${escapeHtml(a.riskLevel)}</span></td>
+                    <td${anomalyFlags}><span class="badge ${statusClass}">${statusLabel}</span></td>
                     <td>${questionsAnswers.length} answered</td>
                     <td>${escapeHtml(date)}</td>
                 </tr>
