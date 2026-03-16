@@ -796,22 +796,35 @@ class RiskAssessmentApp {
         window.scrollTo(0, 0);
     }
 
-    _resetApp() {
+_resetApp() {
+        // Stop ongoing explanation popups
         this._isExplanationVisible = false;
         this._onExplanationContinue = null;
         this._onExplanationUndo = null;
-        this.state.reset(); this.answers = []; this.mascot.hide(); this.selectedAssessment = null; this.selectedGender = null;
-        sessionStorage.removeItem('selectedGender'); sessionStorage.removeItem('pdpaConsented');
+        
+        // Clear game state but KEEP the selected gender and PDPA consent
+        this.state.reset(); 
+        this.answers = []; 
+        this.mascot.hide(); 
+        this.selectedAssessment = null; 
+
+        // Reset UI elements on results page
         const scoreContainer = document.querySelector('.results-score-container');
         const riskBreakdown = document.querySelector('.risk-breakdown');
         const cancerBreakdown = document.getElementById('cancer-breakdown');
         if (scoreContainer) scoreContainer.style.display = '';
         if (riskBreakdown) riskBreakdown.style.display = '';
         if (cancerBreakdown) cancerBreakdown.style.display = 'none';
-        this._changeScreen('landing');
+        
+        // Clear out the onboarding form inputs so it's fresh for the next quiz
         this.dom.onboarding.form?.reset();
         this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
-        if (this.pdpaConfig?.enabled) this._showPdpaModal();
+
+        // Navigate directly to cancer selection instead of landing
+        this._changeScreen('cancerSelection');
+        
+        // Re-render the cards to make sure they are clickable
+        this._renderAssessmentCards();
     }
 }
 document.addEventListener('DOMContentLoaded', () => new RiskAssessmentApp());
