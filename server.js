@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
@@ -31,6 +32,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+app.set('trust proxy', 1);
+app.use(helmet());
 const PORT = process.env.PORT || 3000;
 const adminModel = new AdminModel();
 const settingsModel = new SettingsModel();
