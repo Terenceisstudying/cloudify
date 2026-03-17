@@ -33,7 +33,9 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.set('trust proxy', 1);
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 const PORT = process.env.PORT || 3000;
 const adminModel = new AdminModel();
 const settingsModel = new SettingsModel();
