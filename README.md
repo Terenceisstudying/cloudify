@@ -40,7 +40,7 @@ The tool stores **assessment results and configuration only**; all participants 
 - Multi-language support: **English, Chinese, Malay, Tamil**
 - Mandatory PDPA consent screen per participant
 - Clean, game-like quiz flow with clear call-to-action buttons
-- "Play Again" flow that fully resets state — the next participant must give fresh consent
+- "Return to Home Screen" flow that fully resets state — the next participant must give fresh consent
 
 ### Admin Panel (`/admin`)
 - Question bank management and cancer type assignments
