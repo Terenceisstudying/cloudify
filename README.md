@@ -1,232 +1,302 @@
 # SCS Risk Assessment Tool
 
-## Overview
+A browser-based cancer risk assessment application used at health events and booths by **staff members** with **public participants** on a **shared device** (tablet or laptop). No persistent user accounts are required — each participant completes a short quiz anonymously and receives personalised recommendations.
 
-The **SCS Risk Assessment Tool** is a browser-based cancer risk assessment quiz used at events and booths by **staff members** with **public participants**.  
-It is designed for a **shared device** scenario where many people sequentially complete a short quiz on the same tablet/laptop, with no persistent user accounts.
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Setup & Installation](#setup--installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [Testing](#testing)
+- [Database & Seeding](#database--seeding)
+- [Usage Flow](#usage-flow)
+- [Security & Privacy](#security--privacy)
+- [Contributing](#contributing)
+
+---
+
+## Overview
 
 Each participant:
 
-- Reviews and accepts a **PDPA consent** notice before starting
-- Completes one or more cancer risk assessments (e.g. breast, colorectal, cervical)
-- Receives a set of recommendations based on their answers
+1. Reviews and accepts a **PDPA consent** notice before starting.
+2. Completes one or more cancer risk assessments (e.g. breast, colorectal, cervical).
+3. Receives a set of tailored recommendations based on their answers.
 
-The tool stores **assessment results and configuration only**; participants remain anonymous.
+The tool stores **assessment results and configuration only**; all participants remain anonymous.
+
+---
 
 ## Key Features
 
-- **Participant-facing quiz**
-  - Multi-language support (EN / ZH / MS / TA)
-  - PDPA consent screen (must be accepted per participant)
-  - Simple game-like flow with clear call‑to‑action buttons
-  - "Play Again" flow that resets state so the next participant must give consent again
+### Participant-Facing Quiz
+- Multi-language support: **English, Chinese, Malay, Tamil**
+- Mandatory PDPA consent screen per participant
+- Clean, game-like quiz flow with clear call-to-action buttons
+- "Play Again" flow that fully resets state — the next participant must give fresh consent
 
-- **Admin panel** (`/admin`)
-  - Manage question bank and cancer type assignments
-  - Configure PDPA text and translations
-  - Theme and appearance editor (colours, logos, assets)
-  - Recommendations and content configuration
-  - Assessments snapshot and statistics view
-  - Backup & restore of question bank and configurations
+### Admin Panel (`/admin`)
+- Question bank management and cancer type assignments
+- PDPA text editor with translation support
+- Theme and appearance editor (colours, logos, assets)
+- Recommendations and content configuration
+- Assessment statistics snapshot view
+- Backup & restore of question bank and configuration
 
-- **Backend API**
-  - Node.js + Express REST API
-  - JWT‑protected admin routes
-  - PostgreSQL storage for questions, assignments, assessments and admin data
-  - File‑based snapshots and CSV utilities for import/export
-  - Email service for admin password reset
+### Backend API
+- Node.js + Express REST API (ESM modules)
+- JWT-protected admin routes with rate limiting
+- PostgreSQL storage for questions, assignments, assessments, and admin data
+- File-based snapshots and CSV import/export utilities
+- SMTP email service for admin password reset
+
+---
 
 ## Tech Stack
 
-- **Backend**: Node.js, Express (ESM modules)
-- **Database**: PostgreSQL (via `pg`)
-- **Auth**: JWT-based admin authentication
-- **Frontend**: Vanilla HTML/CSS/JS served statically from `public/`
-- **Email**: SMTP via `nodemailer`
-- **Testing**: Node built‑in test runner (`node --test`) + `supertest`
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js ≥ 18 |
+| Framework | Express (ESM) |
+| Database | PostgreSQL (`pg`) |
+| Auth | JWT |
+| Frontend | Vanilla HTML / CSS / JavaScript |
+| Email | Nodemailer (SMTP) |
+| Testing | Node built-in test runner + `supertest` |
 
-## Repository Layout (High Level)
+---
 
-- `server.js` – Express app and HTTP server entrypoint
-- `public/` – Static frontend:
-  - Participant app (`index.html`, `js/main.js`, `js/questionLoader.js`, etc.)
-  - Admin SPA (`admin.html`, `js/admin/*`)
-- `routes/` – Express route handlers (public, assessments, questions, admin)
-- `models/` – Data access and domain models (questions, cancer types, settings, assessments, admins)
-- `controllers/` – Backend logic such as the risk calculator
-- `middleware/` – Shared Express middleware (e.g. JWT auth)
-- `services/` – External services (e.g. `emailService.js`)
-- `utils/` – Shared utilities (`csv.js`, escaping helpers, etc.)
-- `data/` – CSV/JSON data files and snapshots
-- `scripts/` – One‑off scripts (e.g. `seed-questions.js`)
-- `tests/` – Automated test suite (API, models, utilities, frontend integrity)
+## Project Structure
 
-For internal development standards and security checklist, see `CLAUDE.md`.
+```
+scs-risk-assessment-tool/
+├── server.js              # Express app entrypoint
+├── package.json
+├── .env.example
+├── public/                # Static frontend (served as-is)
+│   ├── index.html         # Participant quiz app
+│   ├── admin.html         # Admin SPA
+│   └── js/
+│       ├── main.js
+│       ├── questionLoader.js
+│       └── admin/         # Admin-specific JS modules
+├── routes/                # Express route handlers
+│   ├── public.js
+│   ├── assessments.js
+│   ├── questions.js
+│   └── admin.js
+├── models/                # Data access layer
+│   ├── questions.js
+│   ├── cancerTypes.js
+│   ├── settings.js
+│   ├── assessments.js
+│   └── admins.js
+├── controllers/           # Business logic
+│   └── riskCalculator.js
+├── middleware/            # Express middleware
+│   └── auth.js            # JWT authentication
+├── services/
+│   └── emailService.js
+├── utils/
+│   ├── csv.js
+│   └── escaping.js
+├── data/                  # CSV/JSON data files and snapshots
+│   ├── question_bank.csv
+│   └── assignments.csv
+├── scripts/
+│   └── seed-questions.js  # Initial DB seed (destructive)
+├── tests/                 # Automated test suite
+├── config/                # App configuration
+├── assets/                # Static assets
+└── docs/                  # Internal architecture docs
+```
+
+---
 
 ## Prerequisites
 
-- **Node.js** ≥ 18 (recommended)
-- **npm** (comes with Node)
+- **Node.js** ≥ 18
+- **npm** (bundled with Node)
 - **PostgreSQL** database (local or hosted, e.g. Supabase)
-- An SMTP account for sending admin password reset emails
+- An **SMTP account** for sending admin password reset emails
+
+---
 
 ## Setup & Installation
 
-1. **Clone the repository**
-
-   ```bash
-   git clone <repo-url>
-   cd scs-risk-assessment-tool
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Create your `.env` file**
-
-   Create a `.env` file in the project root (do **not** commit this file).  
-   At minimum, you will need:
-
-   ```ini
-   # JWT Secret
-   JWT_SECRET=replace-with-a-long-random-secret
-   PORT=3000
-
-   # Email (SMTP) configuration
-   EMAIL_HOST=smtp.example.com
-   EMAIL_PORT=587
-   EMAIL_USER=your-email@example.com
-   EMAIL_PASSWORD=your-app-password-or-smtp-password
-   EMAIL_FROM=SCS Risk Assessment <your-email@example.com>
-
-   # Database configuration
-   DATABASE_URL=postgresql://user:password@host:port/database
-   ```
-
-   - **Never** commit real secrets or passwords into version control.
-   - In non‑test environments, `JWT_SECRET` is required; the server will refuse to start without it.
-
-## Running the Application
-
-### Development mode
-
-Runs the server with `nodemon` so that changes to backend files restart the process automatically.
+### 1. Clone the repository
 
 ```bash
-npm run dev
+git clone <repo-url>
+cd scs-risk-assessment-tool
 ```
 
-By default:
-
-- API and frontend are served at `http://localhost:3000`
-- Participant app is served from `public/` (e.g. `http://localhost:3000/`)
-- Admin panel is at `http://localhost:3000/admin`
-
-### Production mode
+### 2. Install dependencies
 
 ```bash
-npm start
+npm install
 ```
 
-Set `NODE_ENV=production` and configure your process manager / hosting platform as needed.  
-Static assets are served from `public/` only (the project root is **not** exposed).
+### 3. Configure environment variables
 
-## Testing
+Copy the example file and fill in your values:
 
-This project uses **Node's built-in test runner** (`node --test`) and `supertest`.
+```bash
+cp .env.example .env
+```
 
-- Run the full test suite:
+See [Environment Variables](#environment-variables) below for the full reference.
 
-  ```bash
-  npm test
-  ```
+### 4. Initialise the database
 
-- Tests live under the `tests/` directory and cover:
-  - Public and admin API endpoints
-  - Risk calculator and weight functions
-  - CSV utilities
-  - Admin views & frontend integrity checks
-
-The test command runs with `--test-concurrency=1` to avoid data races with file‑based fixtures.
-
-## Database & Data Files
-
-- The main application uses **PostgreSQL**, configured via `DATABASE_URL`.
-- Some features use **file-based data** in `data/`:
-  - CSVs for initial question bank and assignments
-  - Assessments snapshot JSON for the public statistics endpoint
-
-Connection details (host, user, password, SSL settings) are read from `DATABASE_URL`.  
-Avoid running destructive scripts (see below) against production data unless you know what you are doing.
-
-## Seeding the Question Bank (Initial Setup Only)
-
-There is a dedicated seed script for loading questions and assignments from CSV into the database:
+Run the seed script to load the initial question bank (first-time setup only — see warning below):
 
 ```bash
 npm run seed:questions
 ```
 
-or equivalently:
+---
+
+## Environment Variables
+
+Create a `.env` file in the project root. **Never commit real secrets to version control.**
+
+```env
+# Server
+PORT=3000
+NODE_ENV=development
+
+# Security
+JWT_SECRET=replace-with-a-long-random-secret    # Required; server will not start without this
+
+# Database
+DATABASE_URL=postgresql://user:password@host:port/database
+
+# Email (SMTP)
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@example.com
+EMAIL_PASSWORD=your-smtp-password
+EMAIL_FROM=SCS Risk Assessment <your-email@example.com>
+```
+
+See `.env.example` in the repository root for the full template.
+
+---
+
+## Running the Application
+
+### Development (auto-restart on file change)
 
 ```bash
+npm run dev
+```
+
+### Production
+
+```bash
+npm start
+```
+
+Set `NODE_ENV=production` and configure a process manager (e.g. PM2) or hosting platform as appropriate. Static assets are served from `public/` only — the project root is not exposed.
+
+| Route | Description |
+|---|---|
+| `http://localhost:3000/` | Participant quiz app |
+| `http://localhost:3000/admin` | Admin panel |
+
+---
+
+## Testing
+
+Tests use Node's built-in test runner with `supertest` for HTTP assertions.
+
+```bash
+npm test
+```
+
+Tests run with `--test-concurrency=1` to prevent race conditions with file-based fixtures. All tests live in `tests/` and cover:
+
+- Public and admin API endpoints
+- Risk calculator and scoring logic
+- CSV utility functions
+- Admin views and frontend integrity checks
+
+**All tests must pass (0 failures) before opening a PR or merging.**
+
+---
+
+## Database & Seeding
+
+The application uses **PostgreSQL** configured via `DATABASE_URL`. Some features additionally use file-based data in `data/` (CSVs for question bank and assignments, JSON snapshots for statistics).
+
+### Seeding the Question Bank
+
+> ⚠️ **WARNING — DESTRUCTIVE OPERATION**  
+> The seed script **deletes all existing rows** from `questions` and `question_assignments` before inserting from CSV. It is intended for **initial setup only**. Running it after admins have made changes will **permanently overwrite** those changes.  
+> Always take a backup ("Download Backup" in the Admin Question Bank tab) before re-seeding.
+
+```bash
+npm run seed:questions
+# or equivalently:
 node scripts/seed-questions.js
 ```
 
-This script:
+The script reads from:
+- `data/question_bank.csv`
+- `data/assignments.csv`
 
-- Reads `data/question_bank.csv` and `data/assignments.csv`
-- **Deletes all existing rows** from `questions` and `question_assignments`
-- Inserts the CSV contents into the database
+---
 
-> **WARNING – DESTRUCTIVE OPERATION**  
-> The seed script is **for initial setup only**.  
-> Running it in an environment where admins are already using the panel will **permanently overwrite** their changes.  
-> Always take a backup ("Download Backup" in the Question Bank tab) before considering re‑seeding.
+## Usage Flow
 
-## Typical Usage Flow
+### At an Event / Booth (Participant)
 
-### Event / Booth Staff (Participant-Facing App)
-
-1. Open `http://localhost:3000` (or the deployed URL) on the shared device.
-2. Hand the device to the participant; they:
-   - Read and accept the PDPA consent.
-   - Choose the appropriate assessment(s).
-   - Answer the questions and view recommendations.
-3. After finishing, use the "Play Again" action to reset the flow for the next participant.
-   - This clears session‑level consent so the next participant must accept PDPA again.
+1. Open the app URL on the shared device.
+2. Hand the device to the participant.
+3. The participant reads and accepts the PDPA consent.
+4. They choose and complete the relevant assessment(s).
+5. Recommendations are displayed at the end.
+6. Staff tap **"Play Again"** to reset — the next participant must re-accept PDPA.
 
 ### Admin Users
 
-1. Navigate to `http://localhost:3000/admin`.
-2. Log in with an admin account.
-3. Manage:
-   - Question bank & assignments
-   - PDPA content and translations
-   - Theme / appearance and assets
-   - Recommendations and assessment settings
-   - Export backups or inspect statistics/snapshots
+1. Navigate to `/admin` and log in.
+2. From the admin panel you can:
+   - Edit the question bank and cancer type assignments
+   - Update PDPA content and translations
+   - Adjust theme, appearance, and assets
+   - Configure recommendations and assessment settings
+   - Export backups or review assessment statistics
 
-Admin routes are protected by JWT; authentication and rate limiting are applied on login and password‑reset endpoints.
+Admin routes are JWT-protected with rate limiting applied to login and password-reset endpoints.
 
-## Security & Privacy Notes
+---
 
-- The app is used in a **shared device** context; avoid storing unnecessary data in local or session storage.
-- PDPA consent is **per participant session** and must be re‑accepted when a new person uses the tool.
-- Do not log or export personally identifiable information beyond what is strictly required for the assessment workflow.
-- When making changes to the codebase, follow the security checklist and coding standards in `CLAUDE.md` (XSS prevention, input validation, OWASP Top 10, PDPA compliance).
+## Security & Privacy
 
-## Contributing / Development Notes
+- **Shared device context** — avoid storing unnecessary data in `localStorage` or `sessionStorage`.
+- PDPA consent is **per-participant session** and resets with each "Play Again" action.
+- Do not log or export personally identifiable information beyond what the assessment workflow strictly requires.
+- All contributions must follow the security checklist in `CLAUDE.md`, including XSS prevention, input validation, OWASP Top 10 adherence, and PDPA compliance.
 
-- Follow a **Test-Driven Development (TDD)** approach for backend logic.
-- All new or modified backend routes, models, and shared frontend utilities should have tests in `tests/`.
-- Run `npm test` and ensure **0 failures** before raising a PR or committing.
-- Match existing patterns in:
-  - File structure (`routes/`, `models/`, `public/js/admin/views/`, etc.)
-  - Naming conventions (kebab-case for CSS classes, camelCase for JS)
-  - Separation of concerns (HTML for structure, CSS for styling, JS for behaviour).
+---
 
-For deeper architectural details and future feature plans, refer to the documents in `docs/` (e.g. statistics revamp plans).
+## Contributing
+
+- Follow a **Test-Driven Development (TDD)** approach for all backend logic.
+- New or modified routes, models, and shared frontend utilities must have corresponding tests in `tests/`.
+- Run `npm test` and ensure **0 failures** before raising a PR.
+- Match existing patterns:
+  - File layout: `routes/`, `models/`, `public/js/admin/views/`, etc.
+  - Naming: kebab-case for CSS classes, camelCase for JavaScript
+  - Separation of concerns: HTML for structure, CSS for styling, JS for behaviour
+
+For architecture details and future feature plans, refer to the documents in `docs/`.
