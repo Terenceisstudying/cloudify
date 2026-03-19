@@ -50,10 +50,8 @@ export function calculateRiskScore(userData, answers, assessmentType = null, ass
         categoryRisks[RISK_CATEGORIES.FAMILY] += familyWeight;
         demographicContributions.familyHistory = familyWeight;
         
-        // For Generic Assessment, add family history to all cancer types
-        if (assessmentType === 'generic') {
-            // This will be populated when we process answers
-        }
+        // For Generic Assessment, demographics are added to per-cancer scores
+        // after answer processing (see demoTotal block below)
     }
     
     // Age-based risk (if user age >= threshold)
@@ -160,13 +158,13 @@ export function calculateRiskScore(userData, answers, assessmentType = null, ass
         result.cancerTypeScores = {};
         
         Object.keys(cancerTypeScores).forEach(cancerType => {
-            const score = cancerTypeScores[cancerType].score;
+            const score = Math.min(100, cancerTypeScores[cancerType].score);
             let cancerRiskLevel = 'LOW';
-            if (score >= 70) cancerRiskLevel = 'HIGH'; // Lower threshold for individual cancer types
+            if (score >= 70) cancerRiskLevel = 'HIGH';
             else if (score >= 40) cancerRiskLevel = 'MEDIUM';
             
             result.cancerTypeScores[cancerType] = {
-                score: Math.round(score),
+                score: Math.round(Math.min(100, score)),
                 riskLevel: cancerRiskLevel,
                 categories: cancerTypeScores[cancerType].categories
             };
@@ -184,8 +182,10 @@ export function calculateRiskScore(userData, answers, assessmentType = null, ass
  */
 export function calculateAnswerContribution(question, userAnswer) {
     const weight = parseFloat(question.weight) || 0;
-    const yesValue = parseFloat(question.yesValue) ?? 100;
-    const noValue = parseFloat(question.noValue) ?? 0;
+    const parsedYes = parseFloat(question.yesValue);
+    const yesValue = Number.isNaN(parsedYes) ? 100 : parsedYes;
+    const parsedNo = parseFloat(question.noValue);
+    const noValue = Number.isNaN(parsedNo) ? 0 : parsedNo;
     
     let answerValue = 0;
     if (userAnswer === 'Yes') {

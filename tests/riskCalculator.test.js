@@ -155,3 +155,39 @@ test('validateQuestionWeights: custom target weight', () => {
     assert.strictEqual(r.isValid, true);
     assert.strictEqual(r.totalWeight, 85);
 });
+
+// === Fix 1a: Per-cancer scores must be clamped to 0-100 ===
+test('calculateRiskScore: generic per-cancer scores are clamped to 100', () => {
+    const config = { familyWeight: 20, ageRiskThreshold: 40, ageRiskWeight: 15, ethnicityRisk: { chinese: 5 } };
+    const userData = { age: 50, familyHistory: 'Yes', ethnicity: 'chinese' };
+    // Demographics total = 20 + 15 + 5 = 40
+    // Quiz weight for breast = 80, so quiz + demo = 80 + 40 = 120 unclamped
+    const answers = [
+        { weight: 80, yesValue: 100, noValue: 0, userAnswer: 'Yes', category: 'Lifestyle', cancerType: 'breast' }
+    ];
+    const result = calculateRiskScore(userData, answers, 'generic', config);
+    // Per-cancer score must be clamped to 100, not 120
+    assert.ok(result.cancerTypeScores.breast.score <= 100,
+        `Expected breast score <= 100, got ${result.cancerTypeScores.breast.score}`);
+    assert.strictEqual(result.cancerTypeScores.breast.score, 100);
+});
+
+// === Fix 1c: calculateAnswerContribution NaN safety ===
+test('calculateAnswerContribution: missing yesValue defaults to 100', () => {
+    const q = { weight: 20 };
+    // With no yesValue, Yes answer should use default 100 => contribution = 20
+    assert.strictEqual(calculateAnswerContribution(q, 'Yes'), 20);
+});
+
+test('calculateAnswerContribution: missing noValue defaults to 0', () => {
+    const q = { weight: 20 };
+    // With no noValue, No answer should use default 0 => contribution = 0
+    assert.strictEqual(calculateAnswerContribution(q, 'No'), 0);
+});
+
+test('calculateAnswerContribution: invalid yesValue string defaults to 100', () => {
+    const q = { weight: 20, yesValue: 'abc', noValue: 'xyz' };
+    // parseFloat('abc') => NaN, should fallback to 100 for yes, 0 for no
+    assert.strictEqual(calculateAnswerContribution(q, 'Yes'), 20);
+    assert.strictEqual(calculateAnswerContribution(q, 'No'), 0);
+});
