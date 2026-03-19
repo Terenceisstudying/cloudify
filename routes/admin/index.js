@@ -40,7 +40,7 @@ const settingsModel = new SettingsModel();
 
 // ---- Multer config ----
 
-const ALLOWED_ASSET_FOLDERS = ['backgrounds', 'mascots', 'music', 'cancer-cards'];
+const ALLOWED_ASSET_FOLDERS = ['backgrounds', 'mascots', 'music', 'cancer-cards', 'logos'];
 const uploadTempDir = path.join(assetsDir, '_upload');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -80,7 +80,9 @@ function normalizeTheme(theme) {
         mascotMaleGood: str(theme.mascotMaleGood),
         mascotFemaleGood: str(theme.mascotFemaleGood),
         mascotMaleShocked: str(theme.mascotMaleShocked),
-        mascotFemaleShocked: str(theme.mascotFemaleShocked)
+        mascotFemaleShocked: str(theme.mascotFemaleShocked),
+        appLogo: str(theme.appLogo),
+        gameLogo: str(theme.gameLogo)
     };
 }
 

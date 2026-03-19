@@ -198,6 +198,8 @@ async function saveTheme() {
             mascotFemaleGood: getThemeSelectValue('theme-mascot-female-good'),
             mascotMaleShocked: getThemeSelectValue('theme-mascot-male-shocked'),
             mascotFemaleShocked: getThemeSelectValue('theme-mascot-female-shocked'),
+            appLogo: getThemeSelectValue('theme-app-logo'),
+            gameLogo: getThemeSelectValue('theme-game-logo'),
             screens: {}
         };
         THEME_SCREENS.forEach(({ key }) => {
@@ -247,11 +249,16 @@ export async function loadAppearance() {
             const ctData = await ctRes.json();
             previewCancerTypes = (ctData.success ? ctData.data : ctData) || [];
         }
-        const theme = themeRes.ok ? await themeRes.json() : { screens: {}, mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '' };
-        const assets = assetsRes.ok ? await assetsRes.json() : { paths: [], backgrounds: [], mascots: [], music: [] };
+        const theme = themeRes.ok ? await themeRes.json() : { screens: {}, mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '', appLogo: '', gameLogo: '' };
+        const assets = assetsRes.ok ? await assetsRes.json() : { paths: [], backgrounds: [], mascots: [], music: [], logos: [] };
         const bgList = assets.backgrounds || assets.paths || [];
         const mascotList = assets.mascots || assets.paths || [];
         const musicList = assets.music || assets.paths || [];
+        const logoList = assets.logos || [];
+
+        // Logo pickers
+        fillAssetSelect(document.getElementById('theme-app-logo'), logoList, theme.appLogo);
+        fillAssetSelect(document.getElementById('theme-game-logo'), logoList, theme.gameLogo);
 
         fillAssetSelect(document.getElementById('theme-mascot-male'), mascotList, theme.mascotMale);
         fillAssetSelect(document.getElementById('theme-mascot-female'), mascotList, theme.mascotFemale);

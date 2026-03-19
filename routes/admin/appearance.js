@@ -31,7 +31,7 @@ export function createAppearanceRouter({ settingsModel, assetsDir, upload, norma
             } catch (e) { /* use empty default */ }
 
             const screens = theme.screens && typeof theme.screens === 'object' ? theme.screens : {};
-            const mascotKeys = ['mascotMale', 'mascotFemale', 'mascotMaleGood', 'mascotFemaleGood', 'mascotMaleShocked', 'mascotFemaleShocked'];
+            const mascotKeys = ['mascotMale', 'mascotFemale', 'mascotMaleGood', 'mascotFemaleGood', 'mascotMaleShocked', 'mascotFemaleShocked', 'appLogo', 'gameLogo'];
             const out = { screens: {} };
             mascotKeys.forEach(k => {
                 out[k] = str(theme[k] !== undefined && theme[k] !== null ? theme[k] : existing[k]);
@@ -65,13 +65,14 @@ export function createAppearanceRouter({ settingsModel, assetsDir, upload, norma
                 const paths = await listAssetPaths(folder);
                 return res.json({ paths });
             }
-            const [bg, mascot, music, cancerCards] = await Promise.all([
+            const [bg, mascot, music, cancerCards, logos] = await Promise.all([
                 listAssetPaths('backgrounds'),
                 listAssetPaths('mascots'),
                 listAssetPaths('music'),
-                listAssetPaths('cancer-cards')
+                listAssetPaths('cancer-cards'),
+                listAssetPaths('logos')
             ]);
-            res.json({ paths: [...bg, ...mascot, ...music, ...cancerCards], backgrounds: bg, mascots: mascot, music, cancerCards });
+            res.json({ paths: [...bg, ...mascot, ...music, ...cancerCards, ...logos], backgrounds: bg, mascots: mascot, music, cancerCards, logos });
         } catch (err) {
             res.status(500).json({ success: false, error: err.message });
         }

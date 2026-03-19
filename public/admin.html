@@ -351,6 +351,31 @@
                     <div id="appearance-loading" class="loading">Loading theme...</div>
                     <div id="appearance-error" class="error" style="display: none;"></div>
                     <div id="appearance-form" style="display: none;">
+                        <section class="appearance-segment appearance-segment-logos">
+                        <div class="appearance-segment-header">
+                            <span class="appearance-segment-icon" aria-hidden="true">🏷️</span>
+                            <h3>Logos</h3>
+                            <p>App banner logo (top of screen) and game landing logo (hero section). Leave empty to use defaults.</p>
+                        </div>
+                        <div class="appearance-segment-body">
+                            <div class="form-group">
+                                <label>App Banner Logo</label>
+                                <div class="asset-picker-row">
+                                    <select id="theme-app-logo" class="asset-select" data-preview-label="App Banner Logo" data-preview-type="image"></select>
+                                    <button type="button" class="btn btn-secondary btn-upload-asset" data-folder="logos" data-target="theme-app-logo">Upload</button>
+                                    <input type="file" class="asset-file-input" data-folder="logos" data-target="theme-app-logo" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Game Landing Logo</label>
+                                <div class="asset-picker-row">
+                                    <select id="theme-game-logo" class="asset-select" data-preview-label="Game Landing Logo" data-preview-type="image"></select>
+                                    <button type="button" class="btn btn-secondary btn-upload-asset" data-folder="logos" data-target="theme-game-logo">Upload</button>
+                                    <input type="file" class="asset-file-input" data-folder="logos" data-target="theme-game-logo" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                         <section class="appearance-segment appearance-segment-mascots">
                         <div class="appearance-segment-header">
                             <span class="appearance-segment-icon" aria-hidden="true">🧭</span>

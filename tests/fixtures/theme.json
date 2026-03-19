@@ -31,5 +31,7 @@
   "mascotMaleGood": "assets/mascots/Good (1).png",
   "mascotFemaleGood": "assets/mascots/Good (1).png",
   "mascotMaleShocked": "assets/mascots/Shocked (1).png",
-  "mascotFemaleShocked": "assets/mascots/Shocked (1).png"
+  "mascotFemaleShocked": "assets/mascots/Shocked (1).png",
+  "appLogo": "",
+  "gameLogo": ""
 }

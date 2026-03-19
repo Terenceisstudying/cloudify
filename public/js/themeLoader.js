@@ -46,12 +46,14 @@ export async function loadTheme() {
             mascotMaleGood: str(data.mascotMaleGood),
             mascotFemaleGood: str(data.mascotFemaleGood),
             mascotMaleShocked: str(data.mascotMaleShocked),
-            mascotFemaleShocked: str(data.mascotFemaleShocked)
+            mascotFemaleShocked: str(data.mascotFemaleShocked),
+            appLogo: str(data.appLogo),
+            gameLogo: str(data.gameLogo)
         };
         return cachedTheme;
     } catch (e) {
         console.warn('Theme load failed:', e);
-        cachedTheme = { screens: normalizeScreens({}), mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '' };
+        cachedTheme = { screens: normalizeScreens({}), mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '', appLogo: '', gameLogo: '' };
         return cachedTheme;
     }
 }
@@ -80,11 +82,21 @@ export function applyTheme(theme) {
         }
         el.dataset.backgroundMusic = (screen.backgroundMusic && screen.backgroundMusic.trim()) ? screen.backgroundMusic : '';
     });
+
+    // Apply logos
+    if (theme.appLogo && theme.appLogo.trim()) {
+        const appLogoEl = document.getElementById('app-logo');
+        if (appLogoEl) appLogoEl.src = theme.appLogo;
+    }
+    if (theme.gameLogo && theme.gameLogo.trim()) {
+        const gameLogoEl = document.getElementById('game-logo');
+        if (gameLogoEl) gameLogoEl.src = theme.gameLogo;
+    }
 }
 
 /**
  * Get current theme (from cache or empty). Use after loadTheme().
  */
 export function getTheme() {
-    return cachedTheme || { screens: {}, mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '' };
+    return cachedTheme || { screens: {}, mascotMale: '', mascotFemale: '', mascotMaleGood: '', mascotFemaleGood: '', mascotMaleShocked: '', mascotFemaleShocked: '', appLogo: '', gameLogo: '' };
 }
