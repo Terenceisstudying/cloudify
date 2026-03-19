@@ -226,7 +226,7 @@ export function autoCalculateWeights(questions) {
     const questionsWithoutWeight = questions.filter(q => q.weight == null || q.weight === '');
     const questionsWithWeight = questions.filter(q => q.weight != null && q.weight !== '');
 
-    const usedWeight = questionsWithWeight.reduce((sum, q) => sum + parseFloat(q.weight), 0);
+    const usedWeight = questionsWithWeight.reduce((sum, q) => sum + (parseFloat(q.weight) || 0), 0);
     const remainingWeight = 100 - usedWeight;
     const autoWeight = questionsWithoutWeight.length > 0
         ? remainingWeight / questionsWithoutWeight.length

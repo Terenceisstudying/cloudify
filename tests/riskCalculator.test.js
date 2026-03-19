@@ -5,7 +5,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert';
-import { calculateRiskScore, calculateAnswerContribution, validateQuestionWeights } from '../controllers/riskCalculator.js';
+import { calculateRiskScore, calculateAnswerContribution, validateQuestionWeights, autoCalculateWeights } from '../controllers/riskCalculator.js';
 
 test('calculateRiskScore: no answers returns zero score and LOW risk', () => {
     const userData = { age: 30, familyHistory: 'No' };
@@ -190,4 +190,44 @@ test('calculateAnswerContribution: invalid yesValue string defaults to 100', () 
     // parseFloat('abc') => NaN, should fallback to 100 for yes, 0 for no
     assert.strictEqual(calculateAnswerContribution(q, 'Yes'), 20);
     assert.strictEqual(calculateAnswerContribution(q, 'No'), 0);
+});
+
+// === autoCalculateWeights tests ===
+test('autoCalculateWeights: distributes remaining weight equally to questions without weights', () => {
+    const questions = [
+        { id: 1, weight: '40' },
+        { id: 2, weight: '' },
+        { id: 3, weight: null }
+    ];
+    const result = autoCalculateWeights(questions);
+    // usedWeight = 40, remaining = 60, split across 2 questions = 30 each
+    assert.strictEqual(parseFloat(result[0].weight), 40);
+    assert.strictEqual(parseFloat(result[1].weight), 30);
+    assert.strictEqual(parseFloat(result[2].weight), 30);
+});
+
+test('autoCalculateWeights: unparseable weight string treated as 0 not NaN', () => {
+    const questions = [
+        { id: 1, weight: 'abc' },
+        { id: 2, weight: '' },
+        { id: 3, weight: '' }
+    ];
+    const result = autoCalculateWeights(questions);
+    // 'abc' is non-null/non-empty so it counts as "with weight", parseFloat('abc') => NaN => || 0 => 0
+    // usedWeight = 0, remaining = 100, split across 2 questions = 50 each
+    assert.strictEqual(parseFloat(result[1].weight), 50);
+    assert.strictEqual(parseFloat(result[2].weight), 50);
+    // The auto-calculated weights must not be NaN (the bug was NaN propagating into these)
+    assert.ok(!isNaN(parseFloat(result[1].weight)), 'auto-calculated weight should not be NaN');
+    assert.ok(!isNaN(parseFloat(result[2].weight)), 'auto-calculated weight should not be NaN');
+});
+
+test('autoCalculateWeights: all questions have weights returns them unchanged', () => {
+    const questions = [
+        { id: 1, weight: '60' },
+        { id: 2, weight: '40' }
+    ];
+    const result = autoCalculateWeights(questions);
+    assert.strictEqual(parseFloat(result[0].weight), 60);
+    assert.strictEqual(parseFloat(result[1].weight), 40);
 });
