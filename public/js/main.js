@@ -569,6 +569,7 @@ class RiskAssessmentApp {
             if (e.cancelable) e.preventDefault(); 
             startX = e.touches[0].clientX; 
             isDragging = true; 
+            card.classList.add('dragging');
         }, { passive: false });
         
         card.addEventListener('touchmove', e => {
@@ -579,10 +580,18 @@ class RiskAssessmentApp {
         card.addEventListener('touchend', e => {
             if (!isDragging) return;
             isDragging = false;
-            this.dom.game.questionCard?.classList.remove('dragging');
+            card.classList.remove('dragging');
             const deltaX = e.changedTouches[0].clientX - startX;
             if (Math.abs(deltaX) > 80) this._handleAnswer(deltaX > 0 ? 'right' : 'left');
             else { card.style.transform = ''; this.ui.setTargetHighlight(null); }
+        });
+
+        card.addEventListener('touchcancel', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            card.classList.remove('dragging');
+            card.style.transform = '';
+            this.ui.setTargetHighlight(null);
         });
 
         // Handle both Undo and Continue button clicks safely
