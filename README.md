@@ -106,4 +106,4 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 
 ## Contact / Support
 
-- **Project context**: School project for SIT CSC2101 — Professional Software Development and Team Project
+- **Project context**: School project for SIT CSC2101 — Professional Software Development and Team Project -- Team D1 (Tan Bing Kun Terence, Kwek Li Xuan, Andi Tan Kim Eng, Habib Noor Bin Shahul Hameed)
