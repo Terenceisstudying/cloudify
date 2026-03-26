@@ -1,5 +1,20 @@
 # Generic Cancer Risk Assessment: Questions & Weightage Rationale
 
+## Table of Contents
+
+- [1. Overview](#1-overview)
+- [2. Sources & Research Methodology](#2-sources--research-methodology)
+- [3. Weightage Methodology](#3-weightage-methodology)
+- [4. Shared Questions](#4-shared-questions)
+- [5. Cancer-Specific Questions](#5-cancer-specific-questions)
+- [6. Configuration Changes Required](#6-configuration-changes-required)
+- [7. Assignments Summary](#7-assignments-summary)
+- [8. Cross-Cancer Risk Factor Overlap](#8-cross-cancer-risk-factor-overlap)
+- [9. Comparison: Current vs Recommended](#9-comparison-current-vs-recommended)
+- [10. Implementation Notes](#10-implementation-notes)
+
+---
+
 ## 1. Overview
 
 The Generic Cancer Assessment covers **6 cancer types** in a single quiz session: Breast, Lung, Colorectal, Liver, Cervical, and Prostate. Each cancer type has its own set of questions with weights summing to 100%. Some questions are **shared** across multiple cancer types (asked once, scored for each applicable cancer with different weights), reducing total quiz length.

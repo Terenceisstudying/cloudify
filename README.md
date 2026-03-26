@@ -17,8 +17,6 @@ Staff tap **"Play Again"** to reset the app for the next participant — each pe
 
 The app supports **four languages**: English, Chinese (中文), Malay, and Tamil (தமிழ்).
 
-<screenshot_of_participant_landing_page>
-
 ---
 
 ## Key Features
@@ -29,10 +27,6 @@ The app supports **four languages**: English, Chinese (中文), Malay, and Tamil
 - Gamified assessment experience with animated mascot
 - Personalised health recommendations based on quiz results
 
-<screenshot_of_participant_quiz_in_progress>
-
-<screenshot_of_participant_results_screen>
-
 ### For Admins (`/admin`)
 - Question bank management with cancer type assignments
 - Theme and appearance customisation (colours, logos, backgrounds, mascots)
@@ -40,8 +34,6 @@ The app supports **four languages**: English, Chinese (中文), Malay, and Tamil
 - Assessment statistics dashboard
 - Backup and restore for questions and configuration
 - Multi-language content management
-
-<screenshot_of_admin_panel_dashboard>
 
 ---
 

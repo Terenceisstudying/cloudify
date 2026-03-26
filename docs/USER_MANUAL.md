@@ -1,30 +1,37 @@
 # SCS Risk Assessment Tool — User Instruction Manual
 
+> For the version with screenshots, see the [Online User Manual](https://docs.google.com/document/d/YOUR_DOC_ID).
+
 ## Table of Contents
 
-- **Part A: Participant (Public User) Flow**
-  - A1. Starting the Assessment
-  - A2. Language Selection
-  - A3. Gender Selection
-  - A4. Cancer Type Selection
-  - A5. Onboarding (Personal Details)
-  - A6. Answering Questions
-  - A7. Viewing Results
-  - A8. Results Actions for Shared Devices
+- **[Part A: Participant (Public User) Flow](#part-a-participant-public-user-flow)**
+  - [A1. Starting the Assessment](#a1-starting-the-assessment)
+  - [A2. Language Selection](#a2-language-selection)
+  - [A3. Gender Selection](#a3-gender-selection)
+  - [A4. Cancer Type Selection](#a4-cancer-type-selection)
+  - [A5. Onboarding (Personal Details)](#a5-onboarding-personal-details)
+  - [A6. Answering Questions](#a6-answering-questions)
+  - [A7. Viewing Results](#a7-viewing-results)
+  - [A8. Results Actions for Shared Devices](#a8-results-actions-for-shared-devices)
 
-- **Part B: Admin User Flow**
-  - B1. Admin Login
-  - B2. Forgot Password
-  - B3. Content Management Tab
-  - B4. Question Bank Tab
-  - B5. Assessments Tab
-  - B6. Statistics Tab
-  - B7. Appearance Tab
-  - B8. PDPA Tab
-  - B9. Translations Tab
-  - B10. Admin Management Tab (Super Admin Only)
-  - B11. Change Password
-  - B12. Logout
+- **[Part B: Admin User Flow](#part-b-admin-user-flow)**
+  - [B1. Admin Login](#b1-admin-login)
+  - [B2. Forgot Password](#b2-forgot-password)
+  - [B3. Content Management Tab](#b3-content-management-tab)
+  - [B4. Question Bank Tab](#b4-question-bank-tab)
+  - [B5. Assessments Tab](#b5-assessments-tab)
+  - [B6. Statistics Tab](#b6-statistics-tab)
+  - [B7. Appearance Tab](#b7-appearance-tab)
+  - [B8. PDPA Tab](#b8-pdpa-tab)
+  - [B9. Translations Tab](#b9-translations-tab)
+  - [B10. Admin Management Tab (Super Admin Only)](#b10-admin-management-tab-super-admin-only)
+  - [B11. Change Password](#b11-change-password)
+  - [B12. Logout](#b12-logout)
+
+- **Appendices**
+  - [Keyboard and Input Notes](#appendix-keyboard-and-input-notes)
+  - [Error Messages and Troubleshooting](#appendix-error-messages-and-troubleshooting)
+  - [Support Contact](#appendix-support-contact)
 
 ---
 
