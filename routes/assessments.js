@@ -4,6 +4,7 @@ import { CancerTypeModel } from '../models/cancerTypeModel.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import emailService from '../services/emailService.js';
 import { validateAssessment, validateSendResults } from '../middleware/validateAssessment.js';
+import { assessmentSubmitLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 const assessmentModel = new AssessmentModel();
@@ -13,7 +14,7 @@ const cancerTypeModel = new CancerTypeModel();
  * POST /api/assessments
  * Submit a new risk assessment
  */
-router.post('/', validateAssessment, async (req, res) => {
+router.post('/', assessmentSubmitLimiter, validateAssessment, async (req, res) => {
     try {
         const { userData, answers } = req.body;
 
@@ -79,7 +80,7 @@ router.post('/', validateAssessment, async (req, res) => {
  * POST /api/assessments/send-results
  * Send assessment results to user via email
  */
-router.post('/send-results',validateSendResults, async (req, res) => {
+router.post('/send-results', assessmentSubmitLimiter, validateSendResults, async (req, res) => {
     try {
        let { contact, riskScore, riskLevel, userData, categoryRisks, recommendations, assessmentType, cancerTypeScores } = req.body;
 

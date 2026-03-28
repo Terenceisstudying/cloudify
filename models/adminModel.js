@@ -72,7 +72,7 @@ export class AdminModel {
         }
 
         if (!password) {
-            tempPassword = '12345678';
+            tempPassword = crypto.randomBytes(12).toString('base64url');
             password = tempPassword;
         }
 
@@ -232,25 +232,39 @@ export class AdminModel {
     }
 
     async resetPassword(token, newPassword) {
-        const tokenRecord = await this.verifyResetToken(token);
-        if (!tokenRecord) {
-            throw new Error('Invalid or expired reset token');
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+
+            // Delete token first (and retrieve its data) — prevents reuse
+            const tokenResult = await client.query(
+                `DELETE FROM password_reset_tokens
+                 WHERE token = $1 AND expires_at > NOW()
+                 RETURNING email`,
+                [token]
+            );
+
+            if (tokenResult.rows.length === 0) {
+                await client.query('ROLLBACK');
+                throw new Error('Invalid or expired reset token');
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            await client.query(
+                `UPDATE admins
+                 SET password = $1, require_password_reset = false, updated_at = NOW()
+                 WHERE LOWER(email) = LOWER($2)`,
+                [hashedPassword, tokenResult.rows[0].email]
+            );
+
+            await client.query('COMMIT');
+            return true;
+        } catch (err) {
+            await client.query('ROLLBACK');
+            throw err;
+        } finally {
+            client.release();
         }
-
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        await pool.query(
-            `UPDATE admins
-             SET password = $1, require_password_reset = false, updated_at = NOW()
-             WHERE LOWER(email) = LOWER($2)`,
-            [hashedPassword, tokenRecord.email]
-        );
-
-        await pool.query(
-            'DELETE FROM password_reset_tokens WHERE token = $1',
-            [token]
-        );
-
-        return true;
     }
 }

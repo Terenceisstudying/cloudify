@@ -15,6 +15,7 @@ import assert from 'node:assert';
 import request from 'supertest';
 import { app } from '../server.js';
 import { setup, teardown } from './helpers/setup.js';
+import { AdminModel } from '../models/adminModel.js';
 import { autoCalculateWeights } from '../controllers/riskCalculator.js';
 
 describe('POST /api/admin/login', () => {
@@ -98,6 +99,23 @@ describe('POST /api/admin/reset-password', () => {
             .post('/api/admin/reset-password')
             .send({ token: 'invalid-token', newPassword: 'newpass123' });
         assert.strictEqual(res.status, 400);
+    });
+
+    it('prevents reset token reuse after successful reset', async () => {
+        const adminModel = new AdminModel();
+        const token = await adminModel.createResetToken('admin@scs.com');
+
+        // First reset should succeed
+        const res1 = await request(app)
+            .post('/api/admin/reset-password')
+            .send({ token, newPassword: 'NewPass1!' });
+        assert.strictEqual(res1.status, 200);
+
+        // Second reset with same token should fail
+        const res2 = await request(app)
+            .post('/api/admin/reset-password')
+            .send({ token, newPassword: 'AnotherPass2!' });
+        assert.strictEqual(res2.status, 400);
     });
 });
 
