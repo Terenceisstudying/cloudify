@@ -1,8 +1,10 @@
 import { API_BASE } from '../api.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
+import { DEFAULT_TOP_QUESTION_SORT, nextTopQuestionSort, sortTopQuestionRows } from './statisticsSort.js';
 
 let currentFilters = { startDate: null, endDate: null };
 let cachedRawRows = [];
+let topQuestionSort = { ...DEFAULT_TOP_QUESTION_SORT };
 
 // ── Date filter controls ────────────────────────────────────────────────────
 
@@ -316,20 +318,46 @@ function renderQuestions(data) {
         return;
     }
 
-    const rows = qs.map(q => `<tr>
+    const sortedRows = sortTopQuestionRows(qs, topQuestionSort);
+    const rows = sortedRows.map(q => `<tr>
         <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapeHtml(q.questionText)}">${escapeHtml(q.questionText)}</td>
         <td>${escapeHtml(q.category)}</td>
         <td>${q.yesRate}%</td>
         <td>${q.avgContribution}</td>
     </tr>`).join('');
 
+    const sortMark = (column) => {
+        if (topQuestionSort.column !== column) return '';
+        return topQuestionSort.direction === 'desc' ? ' ↓' : ' ↑';
+    };
+
+    const sortableHeader = (label, column, tooltipText = '') => {
+        const titleAttr = tooltipText ? ` title="${escapeHtml(tooltipText)}"` : '';
+        return `<th class="stats-sortable-header" data-sort="${column}" style="cursor:pointer;user-select:none"${titleAttr}>${label}${sortMark(column)}</th>`;
+    };
+
     section.innerHTML = `
         <h3 class="stats-section-title">Top Risk Questions <span style="font-size:0.78rem;font-weight:400;color:var(--color-light-text)">(by Yes rate, top 10)</span></h3>
         <table class="stats-table">
-            <thead><tr><th>Question</th><th>Category</th><th>Yes Rate</th><th>Avg Contribution</th></tr></thead>
+            <thead><tr>
+                ${sortableHeader('Question', 'questionText')}
+                ${sortableHeader('Category', 'category')}
+                ${sortableHeader('Yes Rate', 'yesRate')}
+                ${sortableHeader('Avg Contribution', 'avgContribution', 'Average risk-score points contributed by this question per answer.')}
+            </tr></thead>
             <tbody>${rows}</tbody>
         </table>
     `;
+
+    const thead = section.querySelector('thead');
+    if (thead) {
+        thead.addEventListener('click', (e) => {
+            const th = e.target.closest('th[data-sort]');
+            if (!th) return;
+            topQuestionSort = nextTopQuestionSort(topQuestionSort, th.dataset.sort);
+            renderQuestions(data);
+        });
+    }
 }
 
 function renderAgeHeatmap(data) {

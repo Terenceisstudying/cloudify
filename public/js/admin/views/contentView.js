@@ -805,7 +805,7 @@ export function addExistingQuestion(questionId) {
 }
 
 export async function addNewQuestion() {
-    const bankId = prompt('Enter a unique Question ID (e.g., Q_SMOKE, Q_DIET_1):');
+    const bankId = prompt('Enter a unique Question ID or any number(e.g., 98, 200, 300, etc.):');
     if (!bankId || !bankId.trim()) return;
 
     if (questionBank.has(bankId.trim())) {
