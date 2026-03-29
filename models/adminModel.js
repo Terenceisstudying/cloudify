@@ -208,24 +208,32 @@ export class AdminModel {
         }
 
         const token = crypto.randomBytes(32).toString('hex');
+        const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
         const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+        // Invalidate any existing tokens for this email
+        await pool.query(
+            `DELETE FROM password_reset_tokens WHERE LOWER(email) = LOWER($1)`,
+            [email]
+        );
 
         await pool.query(
             `INSERT INTO password_reset_tokens (email, token, expires_at, created_at)
              VALUES ($1, $2, $3, NOW())`,
-            [email.toLowerCase(), token, expiresAt]
+            [email.toLowerCase(), tokenHash, expiresAt]
         );
 
         return token;
     }
 
     async verifyResetToken(token) {
+        const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
         const result = await pool.query(
             `SELECT * FROM password_reset_tokens
              WHERE token = $1 AND expires_at > NOW()
              ORDER BY created_at DESC
              LIMIT 1`,
-            [token]
+            [tokenHash]
         );
 
         return result.rows[0] || null;
@@ -237,11 +245,12 @@ export class AdminModel {
             await client.query('BEGIN');
 
             // Delete token first (and retrieve its data) — prevents reuse
+            const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
             const tokenResult = await client.query(
                 `DELETE FROM password_reset_tokens
                  WHERE token = $1 AND expires_at > NOW()
                  RETURNING email`,
-                [token]
+                [tokenHash]
             );
 
             if (tokenResult.rows.length === 0) {
