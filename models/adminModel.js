@@ -229,19 +229,6 @@ export class AdminModel {
         return token;
     }
 
-    async verifyResetToken(token) {
-        const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-        const result = await pool.query(
-            `SELECT * FROM password_reset_tokens
-             WHERE token = $1 AND expires_at > NOW()
-             ORDER BY created_at DESC
-             LIMIT 1`,
-            [tokenHash]
-        );
-
-        return result.rows[0] || null;
-    }
-
     async resetPassword(token, newPassword) {
         const client = await pool.connect();
         try {
