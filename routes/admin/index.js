@@ -55,7 +55,21 @@ const storage = multer.diskStorage({
         cb(null, `${safe}${ext}`);
     }
 });
-const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
+const ALLOWED_MIME_TYPES = [
+    'image/jpeg', 'image/png', 'image/gif', 'image/webp',
+    'audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp3'
+];
+const upload = multer({
+    storage,
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        if (ALLOWED_MIME_TYPES.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only images and audio files are allowed.'));
+        }
+    }
+});
 
 // ---- Shared helpers ----
 
@@ -117,10 +131,16 @@ router.use('/', createTranslationsRouter({ settingsModel }));
 
 router.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
-    const message = err.code === 'LIMIT_FILE_SIZE'
-        ? 'File too large (max 10MB)'
-        : (err.message || 'Upload failed');
-    res.status(500).json({ success: false, error: message });
+    let status = 500;
+    let message = 'Upload failed';
+    if (err.code === 'LIMIT_FILE_SIZE') {
+        status = 413;
+        message = 'File too large (max 10MB)';
+    } else if (err.message && err.message.includes('Invalid file type')) {
+        status = 400;
+        message = err.message;
+    }
+    res.status(status).json({ success: false, error: message });
 });
 
 export { router as adminRouter, normalizeTheme };
