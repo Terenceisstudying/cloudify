@@ -6,6 +6,11 @@ const router = express.Router();
 const questionModel = new QuestionModel();
 const cancerTypeModel = new CancerTypeModel();
 
+const VALID_LANGS = ['en', 'zh', 'ms', 'ta'];
+function sanitizeLang(lang) {
+    return VALID_LANGS.includes(lang) ? lang : 'en';
+}
+
 /**
  * GET /api/questions/cancer-types
  * Returns all cancer types with localized fields
@@ -13,7 +18,7 @@ const cancerTypeModel = new CancerTypeModel();
  */
 router.get('/cancer-types', async (req, res) => {
     try {
-        const { lang = 'en' } = req.query;
+        const lang = sanitizeLang(req.query.lang);
         const allCancerTypes = await cancerTypeModel.getAllCancerTypesLocalized(lang);
         const cancerTypes = allCancerTypes.filter(ct => ct.visible !== false);
         res.json({ success: true, data: cancerTypes });
@@ -29,7 +34,7 @@ router.get('/cancer-types', async (req, res) => {
  */
 router.get('/cancer-types/:id', async (req, res) => {
     try {
-        const { lang = 'en' } = req.query;
+        const lang = sanitizeLang(req.query.lang);
         const cancerType = await cancerTypeModel.getCancerTypeLocalized(req.params.id, lang);
 
         if (!cancerType || cancerType.visible === false) {
@@ -52,7 +57,8 @@ router.get('/cancer-types/:id', async (req, res) => {
  */
 router.get('/by-assessment', async (req, res) => {
     try {
-        const { assessmentId, age, lang = 'en' } = req.query;
+        const { assessmentId, age } = req.query;
+        const lang = sanitizeLang(req.query.lang);
 
         if (!assessmentId) {
             return res.status(400).json({
