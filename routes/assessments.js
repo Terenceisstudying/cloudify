@@ -152,7 +152,9 @@ router.get('/stats', async (req, res) => {
             startDate: startDate || null,
             endDate: endDate || null,
         });
-        res.json({ success: true, data: stats });
+        // Remove raw assessment rows from public endpoint to prevent quasi-PII exposure
+        const { rawRows, ...publicStats } = stats;
+        res.json({ success: true, data: publicStats });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }

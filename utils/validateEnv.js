@@ -23,5 +23,18 @@ export function validateEnv() {
         console.error('\nPlease configure your .env file and restart the server.\n');
         process.exit(1);
     }
+    // Validate APP_URL if set
+    if (process.env.APP_URL) {
+        const url = process.env.APP_URL;
+        if (!/^https?:\/\//.test(url) || url.includes('?') || url.includes('#')) {
+            console.warn('⚠ WARNING: APP_URL should be a clean base URL (e.g. https://example.com) without query params.');
+        }
+    }
+
+    // Warn about weak JWT_SECRET
+    if (process.env.JWT_SECRET && process.env.JWT_SECRET.length < 32) {
+        console.warn('⚠ WARNING: JWT_SECRET is too short. Use at least 32 random characters for security.');
+    }
+
     console.log('✓ All required environment variables are set');
 }

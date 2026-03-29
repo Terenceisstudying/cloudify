@@ -1,6 +1,11 @@
 import express from 'express';
 import emailService from '../../services/emailService.js';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(email) {
+    return typeof email === 'string' && email.length <= 254 && EMAIL_REGEX.test(email);
+}
+
 export function createAdminUsersRouter({ adminModel, requireSuperAdmin }) {
     const router = express.Router();
 
@@ -45,7 +50,14 @@ export function createAdminUsersRouter({ adminModel, requireSuperAdmin }) {
             if (!email || !name) {
                 return res.status(400).json({
                     success: false,
-                    error: 'Email, and name are required'
+                    error: 'Email and name are required'
+                });
+            }
+
+            if (!isValidEmail(email)) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'Invalid email format'
                 });
             }
 

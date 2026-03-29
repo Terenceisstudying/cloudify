@@ -1,4 +1,6 @@
 import pool from '../config/db.js';
+import { v4 as uuidv4 } from 'uuid';
+
 export class AssessmentModel {
 
 
@@ -6,7 +8,7 @@ async createAssessment(assessmentData) {
     try {
 
         const newAssessment = {
-            id: `assessment-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            id: uuidv4(),
             ...assessmentData
         };
 

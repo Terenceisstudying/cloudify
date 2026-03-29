@@ -56,13 +56,9 @@ export class CancerTypeModel {
     }
 
     async createCancerType(cancerTypeData) {
-        // Check for duplicate ID
-        const existing = await this.getCancerTypeById(cancerTypeData.id);
-        if (existing) {
-            throw new Error('Cancer type with this ID already exists');
-        }
-
-        const result = await pool.query(
+        let result;
+        try {
+            result = await pool.query(
             `INSERT INTO cancer_types (
                 id, icon,
                 name_en, name_zh, name_ms, name_ta,
@@ -107,6 +103,12 @@ export class CancerTypeModel {
                 JSON.stringify(cancerTypeData.recommendations || [])
             ]
         );
+        } catch (err) {
+            if (err.code === '23505') {
+                throw new Error('Cancer type with this ID already exists');
+            }
+            throw err;
+        }
         return mapRow(result.rows[0]);
     }
 
@@ -190,18 +192,17 @@ export class CancerTypeModel {
                     [i, orderedIds[i]]
                 );
             }
+            const result = await client.query(
+                'SELECT * FROM cancer_types ORDER BY sort_order ASC, id ASC'
+            );
             await client.query('COMMIT');
+            return result.rows.map(mapRow);
         } catch (err) {
             await client.query('ROLLBACK');
             throw err;
         } finally {
             client.release();
         }
-
-        const result = await pool.query(
-            'SELECT * FROM cancer_types ORDER BY sort_order ASC, id ASC'
-        );
-        return result.rows.map(mapRow);
     }
 
     async getAssessmentConfig(id) {

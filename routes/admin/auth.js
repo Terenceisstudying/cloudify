@@ -1,6 +1,11 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(email) {
+    return typeof email === 'string' && email.length <= 254 && EMAIL_REGEX.test(email);
+}
+
 // Function to validate password strength
 function isStrongPassword(password) {
     if (password.length < 8) return 'Password must be at least 8 characters';
@@ -24,6 +29,10 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
 
             if (!email || !password) {
                 return res.status(400).json({ message: 'Email and password are required' });
+            }
+
+            if (!isValidEmail(email)) {
+                return res.status(400).json({ message: 'Invalid email format' });
             }
 
             const admin = await adminModel.verifyPassword(email, password);
@@ -57,8 +66,8 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
         try {
             const { email } = req.body;
 
-            if (!email) {
-                return res.status(400).json({ message: 'Email is required' });
+            if (!email || !isValidEmail(email)) {
+                return res.status(400).json({ message: 'Valid email is required' });
             }
 
             try {

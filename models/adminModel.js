@@ -130,6 +130,9 @@ export class AdminModel {
             values.push(updates.email.toLowerCase());
         }
         if (updates.role !== undefined) {
+            if (!['admin', 'super_admin'].includes(updates.role)) {
+                throw new Error('Invalid role');
+            }
             fields.push(`role = $${idx++}`);
             values.push(updates.role);
         }
