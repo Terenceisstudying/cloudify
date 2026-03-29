@@ -66,21 +66,15 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
 
                 try {
                     await emailService.sendPasswordResetEmail(email, resetToken);
-                    console.log(`✓ Password reset email sent to ${email}`);
                 } catch (emailError) {
-                    console.error('Email sending failed:', emailError);
-
-                    if (process.env.NODE_ENV !== 'production') {
-                        const PORT = process.env.PORT || 3000;
-                        console.log(`Password reset link: http://localhost:${PORT}/resetPassword.html?token=${resetToken}`);
-                    }
+                    console.error('Email sending failed:', emailError.message);
                 }
 
                 res.json({
                     message: 'If an account exists with this email, a password reset link has been sent.'
                 });
             } catch (error) {
-                console.log(`Password reset attempted for non-existent email: ${email}`);
+                console.log('Password reset attempted for unknown email');
                 res.json({
                     message: 'If an account exists with this email, a password reset link has been sent.'
                 });
