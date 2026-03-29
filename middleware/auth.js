@@ -14,6 +14,9 @@ export const authenticateToken = (req, res, next) => {
 };
 
 export const requireSuperAdmin = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ success: false, error: 'Authentication required' });
+    }
     if (req.user.role !== 'super_admin') {
         return res.status(403).json({ success: false, error: 'Super admin access required' });
     }
