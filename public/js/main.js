@@ -842,11 +842,14 @@ class RiskAssessmentApp {
         this._onExplanationContinue = null;
         this._onExplanationUndo = null;
         
-        // Clear game state but KEEP the selected gender and PDPA consent
-        this.state.reset(); 
-        this.answers = []; 
-        this.mascot.hide(); 
-        this.selectedAssessment = null; 
+        // Clear game state but KEEP the selected gender
+        this.state.reset();
+        this.answers = [];
+        this.mascot.hide();
+        this.selectedAssessment = null;
+
+        // Clear PDPA consent so next participant must re-accept
+        sessionStorage.removeItem('pdpaConsented');
 
         // Reset UI elements on results page
         const scoreContainer = document.querySelector('.results-score-container');
@@ -862,9 +865,14 @@ class RiskAssessmentApp {
 
         // Navigate directly to cancer selection instead of landing
         this._changeScreen('cancerSelection');
-        
+
         // Re-render the cards to make sure they are clickable
         this._renderAssessmentCards();
+
+        // Show PDPA modal for next participant
+        if (this.pdpaConfig && this.pdpaConfig.enabled) {
+            this._showPdpaModal();
+        }
     }
 
     _returnToHome() {
