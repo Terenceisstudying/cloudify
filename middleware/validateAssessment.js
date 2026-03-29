@@ -26,7 +26,7 @@ const userDataSchema = z.object({
     familyHistory: z.union([
         z.boolean(),
         z.enum(['Yes', 'No'])
-    ]).transform(val => val === true || val === 'Yes'),
+    ]).transform(val => (val === true || val === 'Yes') ? 'Yes' : 'No'),
     assessmentType: z.string()
         .min(1)
         .max(50)
