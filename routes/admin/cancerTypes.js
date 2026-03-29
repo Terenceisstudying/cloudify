@@ -1,5 +1,31 @@
 import express from 'express';
 
+const CANCER_TYPE_FIELDS = [
+    'icon', 'name_en', 'name_zh', 'name_ms', 'name_ta',
+    'description_en', 'description_zh', 'description_ms', 'description_ta',
+    'familyLabel_en', 'familyLabel_zh', 'familyLabel_ms', 'familyLabel_ta',
+    'familyWeight', 'genderFilter', 'ageRiskThreshold', 'ageRiskWeight',
+    'ethnicityRisk_chinese', 'ethnicityRisk_malay', 'ethnicityRisk_indian',
+    'ethnicityRisk_caucasian', 'ethnicityRisk_others',
+    'sortOrder', 'sort_order', 'visible', 'recommendations'
+];
+
+function extractCancerTypeFields(body) {
+    const result = {};
+    for (const field of CANCER_TYPE_FIELDS) {
+        if (body[field] !== undefined) {
+            result[field] = body[field];
+        }
+    }
+    return result;
+}
+
+function isValidIconPath(icon) {
+    if (typeof icon !== 'string') return false;
+    if (icon === '') return true;
+    return /^(assets\/|\/assets\/|https?:\/\/)/.test(icon);
+}
+
 export function createCancerTypesRouter({ cancerTypeModel, questionModel, computeGenericWeightValidity, getQuizWeightTarget }) {
     const router = express.Router();
 
@@ -125,13 +151,18 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
      */
     router.post('/cancer-types', async (req, res) => {
         try {
-            const { id, ...cancerTypeData } = req.body;
+            const { id } = req.body;
 
             if (!id) {
                 return res.status(400).json({ success: false, error: 'Cancer type ID is required' });
             }
 
             const normalizedId = id.toLowerCase().trim();
+            const cancerTypeData = extractCancerTypeFields(req.body);
+
+            if (cancerTypeData.icon && !isValidIconPath(cancerTypeData.icon)) {
+                return res.status(400).json({ success: false, error: 'Invalid icon path' });
+            }
 
             const cancerType = await cancerTypeModel.createCancerType({
                 id: normalizedId,
@@ -151,7 +182,11 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
      */
     router.put('/cancer-types/:id', async (req, res) => {
         try {
-            const cancerTypeData = req.body;
+            const cancerTypeData = extractCancerTypeFields(req.body);
+
+            if (cancerTypeData.icon && !isValidIconPath(cancerTypeData.icon)) {
+                return res.status(400).json({ success: false, error: 'Invalid icon path' });
+            }
 
             const updatedCancerType = await cancerTypeModel.updateCancerType(req.params.id, cancerTypeData);
 
