@@ -1,7 +1,16 @@
 const viewLoaders = {};
+const loadedTabs = new Set();
 
 export function registerView(tabName, loader) {
     viewLoaders[tabName] = loader;
+}
+
+export function invalidateTab(tabName) {
+    loadedTabs.delete(tabName);
+}
+
+export function invalidateAllTabs() {
+    loadedTabs.clear();
 }
 
 export function switchToTab(tabName) {
@@ -13,7 +22,10 @@ export function switchToTab(tabName) {
     const content = document.getElementById(`${tabName}-tab`);
     if (content) content.classList.add('active');
 
-    if (viewLoaders[tabName]) viewLoaders[tabName]();
+    if (viewLoaders[tabName] && !loadedTabs.has(tabName)) {
+        viewLoaders[tabName]();
+        loadedTabs.add(tabName);
+    }
 }
 
 export function initRouter() {

@@ -1,3 +1,4 @@
+import { invalidateTab } from '../router.js';
 import { API_BASE, adminFetch } from '../api.js';
 import { showError, showSuccess } from '../notifications.js';
 import { questionBank, clearQuestionBank, allCancerTypes } from '../state.js';
@@ -301,6 +302,7 @@ async function deleteBankQuestion(questionId, promptPreview) {
         if (!result.success) throw new Error(result.error);
         questionBank.delete(questionId);
         showSuccess('Question deleted.');
+        invalidateTab('content');
         loadQuestionBank();
     } catch (err) {
         showError(err.message);
@@ -354,6 +356,7 @@ export function initQuestionBankView() {
             });
 
             closeQbQuestionModal();
+            invalidateTab('content');
             loadQuestionBank();
         } catch (err) {
             const error = document.getElementById('qb-error');
@@ -373,6 +376,8 @@ export function initQuestionBankView() {
 }
 
 export async function downloadQuestionBankBackup() {
+    const btn = document.querySelector('[data-action="downloadQuestionBankBackup"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Downloading...'; }
     try {
         const response = await adminFetch(`${API_BASE}/admin/question-bank/export`);
         if (!response.ok) throw new Error(`Export failed (${response.status})`);
@@ -388,6 +393,8 @@ export async function downloadQuestionBankBackup() {
         URL.revokeObjectURL(url);
     } catch (err) {
         showError(err.message);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Download Backup'; }
     }
 }
 

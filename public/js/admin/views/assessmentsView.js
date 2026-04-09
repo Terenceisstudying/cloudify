@@ -184,6 +184,8 @@ function _updateResultsCount(shown, total) {
 }
 
 export async function exportAssessmentsCSV() {
+    const btn = document.querySelector('[data-action="exportAssessmentsCSV"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Exporting...'; }
     try {
         const response = await adminFetch(`${API_BASE}/admin/assessments/export`);
         if (!response.ok) throw new Error(`Export failed (${response.status})`);
@@ -199,6 +201,8 @@ export async function exportAssessmentsCSV() {
         URL.revokeObjectURL(url);
     } catch (err) {
         showError(err.message);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Export CSV'; }
     }
 }
 

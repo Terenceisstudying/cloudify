@@ -1,3 +1,4 @@
+import { invalidateTab } from '../router.js';
 import { API_BASE, adminFetch } from '../api.js';
 import { showSuccess, showError } from '../notifications.js';
 import { fillAssetSelect, updateAssetPickerTrigger, initAssetPickerDropdown } from '../assetPickerUtils.js';
@@ -248,7 +249,14 @@ function renderCancerTypeCards(cancerTypes) {
             const action = actionEl.dataset.action;
             const ctId = actionEl.dataset.ctId;
             switch (action) {
-                case 'open-editor': openCancerTypeEditor(ctId); break;
+                case 'open-editor': {
+                    const card = actionEl.closest('.cancer-type-card');
+                    if (card) card.classList.add('ct-loading');
+                    openCancerTypeEditor(ctId).finally(() => {
+                        if (card) card.classList.remove('ct-loading');
+                    });
+                    break;
+                }
                 case 'new-editor': openNewCancerTypeEditor(); break;
                 case 'move-up': e.stopPropagation(); moveCancerType(ctId, -1); break;
                 case 'move-down': e.stopPropagation(); moveCancerType(ctId, 1); break;
@@ -352,6 +360,7 @@ async function toggleCancerTypeVisibility(id, visible) {
         const result = await response.json();
         if (!result.success) throw new Error(result.error);
         showSuccess(`Cancer type ${visible ? 'visible' : 'hidden'}`);
+        invalidateTab('question-bank');
         loadCancerTypes();
     } catch (err) {
         showError(err.message);
@@ -987,6 +996,7 @@ export async function deleteCancerType(id, name) {
         if (!result.success) throw new Error(result.error);
 
         showSuccess(`Cancer type "${name}" deleted successfully!`);
+        invalidateTab('question-bank');
         loadCancerTypes();
     } catch (err) {
         showError(`Failed to delete cancer type: ${err.message}`);
@@ -1429,6 +1439,7 @@ export function initContentView() {
 
             closeModal();
             showSuccess(isNewCancerType ? 'Cancer type created successfully!' : 'Changes saved successfully!');
+            invalidateTab('question-bank');
             loadCancerTypes();
         } catch (err) {
             showError(err.message);

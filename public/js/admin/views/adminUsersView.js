@@ -178,6 +178,8 @@ export function initAdminUsersView(loadCurrentUserFn) {
 }
 
 export async function downloadAdminUsersBackup() {
+    const btn = document.querySelector('[data-action="downloadAdminUsersBackup"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Downloading...'; }
     try {
         const response = await adminFetch(`${API_BASE}/admin/admins/export`);
         if (!response.ok) throw new Error(`Export failed (${response.status})`);
@@ -193,6 +195,8 @@ export async function downloadAdminUsersBackup() {
         URL.revokeObjectURL(url);
     } catch (err) {
         showError(err.message);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Download Backup'; }
     }
 }
 
