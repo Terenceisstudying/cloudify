@@ -120,4 +120,3 @@ async function savePdpa() {
     }
 }
 
-window.loadPdpa = loadPdpa;

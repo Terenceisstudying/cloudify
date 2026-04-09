@@ -351,7 +351,9 @@ class RiskAssessmentApp {
     _showLandingError() {
         const container = document.querySelector('.assessment-cards');
         if (!container) return;
-        container.innerHTML = `<div style="text-align: center; padding: 2rem;"><p style="color: #d32f2f; margin-bottom: 1rem;">${escapeHtml(this.t('common', 'loadError'))}</p><button onclick="location.reload()" class="button">${escapeHtml(this.t('common', 'reloadPage'))}</button></div>`;
+        // All dynamic values escaped via escapeHtml — safe innerHTML usage
+        container.innerHTML = `<div style="text-align: center; padding: 2rem;"><p style="color: #d32f2f; margin-bottom: 1rem;">${escapeHtml(this.t('common', 'loadError'))}</p><button class="button reload-btn">${escapeHtml(this.t('common', 'reloadPage'))}</button></div>`;
+        container.querySelector('.reload-btn').addEventListener('click', () => location.reload());
     }
 
     _renderAssessmentCards() {
@@ -366,9 +368,18 @@ class RiskAssessmentApp {
         const renderCardIcon = (icon) => {
             if (icon && isImageUrl(icon)) {
                 const src = escapeHtml(icon || '');
-                return '<div class="card-icon card-icon-img"><img src="' + src + '" alt="" onerror="this.onerror=null;this.style.display=\'none\';var s=this.nextElementSibling;if(s)s.style.display=\'inline\';"><span class="card-icon-fallback" style="display:none">🏥</span></div>';
+                return '<div class="card-icon card-icon-img"><img src="' + src + '" alt="" class="card-icon-img-el"><span class="card-icon-fallback" style="display:none">🏥</span></div>';
             }
             return '<div class="card-icon">' + (icon || '🏥') + '</div>';
+        };
+        const bindImgFallbacks = (el) => {
+            el.querySelectorAll('img.card-icon-img-el').forEach(img => {
+                img.addEventListener('error', function () {
+                    this.style.display = 'none';
+                    const fallback = this.nextElementSibling;
+                    if (fallback) fallback.style.display = 'inline';
+                }, { once: true });
+            });
         };
         if (!this.selectedGender) {
             this.assessments.forEach(assessment => {
@@ -378,6 +389,7 @@ class RiskAssessmentApp {
                 card.innerHTML = `${renderCardIcon(assessment.icon)}<h3>${escapeHtml(assessment.name)}</h3><p>${escapeHtml(assessment.description)}</p><button class="card-btn" data-assessment="${escapeHtml(assessment.id)}" disabled>${escapeHtml(this.t('cancerSelection', 'startAssessment'))}</button>`;
                 container.appendChild(card);
             });
+            bindImgFallbacks(container);
             const overlay = document.createElement('div');
             overlay.className = 'gender-required-overlay';
             overlay.innerHTML = `<div class="overlay-content"><p>${escapeHtml(this.t('landing', 'genderPrompt'))}</p></div>`;
@@ -396,6 +408,7 @@ class RiskAssessmentApp {
             card.innerHTML = `${renderCardIcon(assessment.icon)}<h3>${escapeHtml(assessment.name)}</h3><p>${escapeHtml(assessment.description)}</p><button class="card-btn" data-assessment="${escapeHtml(assessment.id)}">${escapeHtml(this.t('cancerSelection', 'startAssessment'))}</button>`;
             container.appendChild(card);
         });
+        bindImgFallbacks(container);
         this._setupCancerCardListeners();
     }
 

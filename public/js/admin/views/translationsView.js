@@ -523,4 +523,3 @@ async function saveTranslations() {
     }
 }
 
-window.loadTranslations = loadTranslations;

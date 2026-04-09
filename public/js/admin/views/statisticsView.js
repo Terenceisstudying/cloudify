@@ -712,4 +712,3 @@ function renderAll(data) {
 
 initFilters();
 
-window.loadStatistics = loadStatistics;

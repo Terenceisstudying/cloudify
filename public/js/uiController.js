@@ -235,7 +235,7 @@ export class UIController {
         const renderIcon = (icon, fallbackLetter) => {
             if (icon && isImageUrl(icon)) {
                 const src = escapeHtml(icon);
-                return `<img src="${src}" alt="" class="cancer-type-icon-img" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="display:none">${escapeHtml(fallbackLetter)}</span>`;
+                return `<img src="${src}" alt="" class="cancer-type-icon-img"><span style="display:none">${escapeHtml(fallbackLetter)}</span>`;
             }
             return icon || fallbackLetter;
         };
@@ -270,7 +270,15 @@ export class UIController {
             `;
         }).join('');
 
+        // All dynamic values escaped via escapeHtml — safe innerHTML usage
         this.elements.results.cancerBreakdownContainer.innerHTML = html;
+        this.elements.results.cancerBreakdownContainer.querySelectorAll('img.cancer-type-icon-img').forEach(img => {
+            img.addEventListener('error', function () {
+                this.style.display = 'none';
+                const fallback = this.nextElementSibling;
+                if (fallback) fallback.style.display = 'inline';
+            }, { once: true });
+        });
     }
 
     renderRiskBreakdown(categoryRisks, answerCounts) {

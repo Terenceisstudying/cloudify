@@ -4,14 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - SCS Risk Assessment</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = sessionStorage.getItem('adminToken');
-            if (!token) {
-                window.location.href = '/login.html';
-            }
-        });
-    </script>
+    <script src="/js/admin/auth-guard.js"></script>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/utilities.css">
@@ -31,10 +24,10 @@
                     <span id="profileEmail">admin@scs.com</span>
                     <span id="profileRole">Super Admin</span>
                 </div>
-                <button class="logout-btn" onclick="showChangePasswordModal()">
+                <button class="logout-btn" data-action="showChangePasswordModal">
                     Change Password
                 </button>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+                <button class="logout-btn" data-action="logout">Logout</button>
             </div>
         </div>
 
@@ -63,7 +56,7 @@
         <!-- Content Management Tab -->
         <div id="content-tab" class="tab-content active">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
-                <button class="btn btn-primary" onclick="loadCancerTypes()">Refresh</button>
+                <button class="btn btn-primary" data-action="refreshCancerTypes">Refresh</button>
                 <div id="content-success" class="success" style="display: none; margin: 0;"></div>
                 <div id="content-error" class="error" style="display: none; margin: 0;"></div>
             </div>
@@ -76,8 +69,8 @@
             <div class="card">
                 <h2>Question Bank</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadQuestionBank()">Refresh</button>
-                    <button class="btn btn-outline" onclick="downloadQuestionBankBackup()">Download Backup</button>
+                    <button class="btn btn-primary" data-action="refreshQuestionBank">Refresh</button>
+                    <button class="btn btn-outline" data-action="downloadQuestionBankBackup">Download Backup</button>
                 </div>
                 <p style="color: var(--color-light-text); margin-bottom: 16px;">
                     Manage question content (text and explanations). To assign questions to assessments with scoring, use the Content Management tab.
@@ -105,7 +98,7 @@
                     <h2>Edit Question Text</h2>
                     <div class="modal-header-actions">
                         <button type="submit" form="qb-question-form" class="btn btn-primary btn-header-save">Save Changes</button>
-                        <button class="close-btn" onclick="closeQbQuestionModal()">&times;</button>
+                        <button class="close-btn" data-action="closeQbQuestionModal">&times;</button>
                     </div>
                 </div>
                 <div class="modal-body modal-body-columns">
@@ -227,8 +220,8 @@
             <div class="card">
                 <h2>Assessment Results</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadAssessments()">Refresh</button>
-                    <button class="btn btn-outline" onclick="exportAssessmentsCSV()">Export CSV</button>
+                    <button class="btn btn-primary" data-action="refreshAssessments">Refresh</button>
+                    <button class="btn btn-outline" data-action="exportAssessmentsCSV">Export CSV</button>
                 </div>
                 
                 <!-- Filter Bar -->
@@ -237,7 +230,7 @@
                         <!-- Gender -->
                         <div style="display: flex; flex-direction: column; gap: 4px; min-width: 120px;">
                             <label for="filter-gender" style="font-size: 0.8rem; font-weight: 600; color: #666;">Gender</label>
-                            <select id="filter-gender" onchange="applyAssessmentFilters()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                            <select id="filter-gender" data-action="applyAssessmentFilters" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                                 <option value="">All</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -247,15 +240,15 @@
                         <div style="display: flex; flex-direction: column; gap: 4px;">
                             <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Age Range</label>
                             <div style="display: flex; align-items: center; gap: 6px;">
-                                <input type="number" id="filter-age-min" placeholder="Min" min="0" max="120" oninput="applyAssessmentFilters()" style="width: 70px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                                <input type="number" id="filter-age-min" placeholder="Min" min="0" max="120" data-action="applyAssessmentFilters" style="width: 70px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                                 <span style="color: #888;">–</span>
-                                <input type="number" id="filter-age-max" placeholder="Max" min="0" max="120" oninput="applyAssessmentFilters()" style="width: 70px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                                <input type="number" id="filter-age-max" placeholder="Max" min="0" max="120" data-action="applyAssessmentFilters" style="width: 70px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                             </div>
                         </div>
                         <!-- Risk Level -->
                         <div style="display: flex; flex-direction: column; gap: 4px; min-width: 120px;">
                             <label for="filter-risk" style="font-size: 0.8rem; font-weight: 600; color: #666;">Risk Level</label>
-                            <select id="filter-risk" onchange="applyAssessmentFilters()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                            <select id="filter-risk" data-action="applyAssessmentFilters" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                                 <option value="">All</option>
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
@@ -266,14 +259,14 @@
                         <div style="display: flex; flex-direction: column; gap: 4px;">
                             <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Date Range</label>
                             <div style="display: flex; align-items: center; gap: 6px;">
-                                <input type="date" id="filter-date-from" oninput="applyAssessmentFilters()" style="padding: 5px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                                <input type="date" id="filter-date-from" data-action="applyAssessmentFilters" style="padding: 5px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                                 <span style="color: #888;">–</span>
-                                <input type="date" id="filter-date-to" oninput="applyAssessmentFilters()" style="padding: 5px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+                                <input type="date" id="filter-date-to" data-action="applyAssessmentFilters" style="padding: 5px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
                             </div>
                         </div>
                         <!-- Clear button -->
                         <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                            <button onclick="clearAssessmentFilters()" style="padding: 6px 14px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; color: #555;">Clear Filters</button>
+                            <button data-action="clearAssessmentFilters" style="padding: 6px 14px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; color: #555;">Clear Filters</button>
                         </div>
                         <!-- Results count -->
                         <div style="display: flex; flex-direction: column; justify-content: flex-end; margin-left: auto;">
@@ -306,7 +299,7 @@
             <div class="card">
                 <h2>Analytics Dashboard</h2>
                 <div class="stats-filter-row">
-                    <button class="btn btn-primary" onclick="loadStatistics()">Refresh</button>
+                    <button class="btn btn-primary" data-action="refreshStatistics">Refresh</button>
                     <div class="stats-preset-group">
                         <button class="btn btn-secondary stats-preset active" data-preset="all">All time</button>
                         <button class="btn btn-secondary stats-preset" data-preset="today">Today</button>
@@ -342,7 +335,7 @@
             <div class="card">
                 <h2>Screen &amp; Mascot Customization</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadAppearance()">Refresh</button>
+                    <button class="btn btn-primary" data-action="refreshAppearance">Refresh</button>
                     <button type="button" class="btn btn-primary" id="theme-save-btn">Save theme</button>
                 </div>
                 <p class="settings-desc">Set background images, background music per screen, and global mascot images. Choose from existing assets or upload new ones.</p>
@@ -498,7 +491,7 @@
             <div class="card">
                 <h2>PDPA Consent Form</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadPdpa()">Refresh</button>
+                    <button class="btn btn-primary" data-action="refreshPdpa">Refresh</button>
                     <button type="button" class="btn btn-primary" id="pdpa-save-btn">Save PDPA Settings</button>
                 </div>
                 <p class="settings-desc">Configure the Personal Data Protection Act consent form shown to users before they begin the assessment.</p>
@@ -696,7 +689,7 @@
             <div class="card">
                 <h2>UI Translations</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadTranslations()">Refresh</button>
+                    <button class="btn btn-primary" data-action="refreshTranslations">Refresh</button>
                     <button type="button" class="btn btn-primary" id="save-translations-btn">Save Translations</button>
                 </div>
                 <p class="settings-desc">Manage all user-facing text across the 4 supported languages (EN, ZH, MS, TA).</p>
@@ -711,9 +704,9 @@
             <div class="card">
                 <h2>Admin User Management</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                    <button class="btn btn-primary" onclick="loadAdminUsers()">Refresh</button>
-                    <button class="btn btn-primary" onclick="showCreateAdminModal()" id="create-admin-btn">+ Add Admin</button>
-                    <button class="btn btn-outline" onclick="downloadAdminUsersBackup()">Download Backup</button>
+                    <button class="btn btn-primary" data-action="refreshAdminUsers">Refresh</button>
+                    <button class="btn btn-primary" data-action="showCreateAdminModal" id="create-admin-btn">+ Add Admin</button>
+                    <button class="btn btn-outline" data-action="downloadAdminUsersBackup">Download Backup</button>
                 </div>
                 <div id="admin-users-loading" class="loading">Loading admins...</div>
                 <div id="admin-users-error" class="error" style="display: none;"></div>
@@ -744,7 +737,7 @@
                 <h2 id="modal-title">Edit Cancer Type</h2>
                 <div class="modal-header-actions">
                     <button type="submit" form="cancer-type-form" class="btn btn-primary btn-header-save" id="save-btn">Save Changes</button>
-                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                    <button class="close-btn" data-action="closeModal">&times;</button>
                 </div>
             </div>
             <div class="modal-body modal-body-columns">
@@ -974,8 +967,8 @@
                     </div>
                     <div class="section-body" data-section="questions">
                     <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                        <button type="button" class="btn btn-sm btn-outline" onclick="showAddQuestionDialog()">+ Add Existing Question</button>
-                        <button type="button" class="btn btn-sm btn-outline" onclick="addNewQuestion()">+ Create New Question</button>
+                        <button type="button" class="btn btn-sm btn-outline" data-action="showAddQuestionDialog">+ Add Existing Question</button>
+                        <button type="button" class="btn btn-sm btn-outline" data-action="addNewQuestion">+ Create New Question</button>
                     </div>
 
                     <div id="questions-container"></div>
@@ -1025,7 +1018,7 @@
                 <h2 id="question-modal-title">Edit Question Weightage</h2>
                 <div class="modal-header-actions">
                     <button type="submit" form="question-form" class="btn btn-primary btn-header-save" id="question-modal-save-btn">Save Weightage</button>
-                    <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
+                    <button class="close-btn" data-action="closeQuestionModal">&times;</button>
                 </div>
             </div>
             <div class="modal-body modal-body-columns">
@@ -1217,7 +1210,7 @@
                 <h2 id="admin-modal-title">Add Admin</h2>
                 <div class="modal-header-actions">
                     <button type="submit" form="admin-user-form" class="btn btn-primary btn-header-save" id="save-admin-btn">Save</button>
-                    <button class="close-btn" onclick="closeAdminModal()">&times;</button>
+                    <button class="close-btn" data-action="closeAdminModal">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -1256,7 +1249,7 @@
                 <h2>Change Password</h2>
                 <div class="modal-header-actions">
                     <button type="submit" form="change-password-form" class="btn btn-primary btn-header-save" id="change-password-btn">Change Password</button>
-                    <button class="close-btn" onclick="closeChangePasswordModal()">&times;</button>
+                    <button class="close-btn" data-action="closeChangePasswordModal">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -1266,7 +1259,7 @@
                         <label for="current-password">Current Password *</label>
                         <div class="password-input-wrapper">
                             <input type="password" id="current-password" class="form-control" required minlength="8">
-                            <button type="button" class="toggle-password-btn" onclick="togglePassword('current-password', this)" title="Show password">
+                            <button type="button" class="toggle-password-btn" data-action="togglePassword" title="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
@@ -1278,7 +1271,7 @@
                         <label for="new-password">New Password *</label>
                         <div class="password-input-wrapper">
                             <input type="password" id="new-password" class="form-control" required minlength="8">
-                            <button type="button" class="toggle-password-btn" onclick="togglePassword('new-password', this)" title="Show password">
+                            <button type="button" class="toggle-password-btn" data-action="togglePassword" title="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
@@ -1291,7 +1284,7 @@
                         <label for="confirm-password">Confirm New Password *</label>
                         <div class="password-input-wrapper">
                             <input type="password" id="confirm-password" class="form-control" required minlength="8">
-                            <button type="button" class="toggle-password-btn" onclick="togglePassword('confirm-password', this)" title="Show password">
+                            <button type="button" class="toggle-password-btn" data-action="togglePassword" title="Show password">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
@@ -1305,6 +1298,5 @@
     </div>
 
     <script type="module" src="/js/admin/app.js"></script>
-    <script src="/js/logout.js"></script>
 </body>
 </html>

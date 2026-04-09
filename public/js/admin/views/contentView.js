@@ -182,7 +182,7 @@ function renderCancerTypeCards(cancerTypes) {
         const isImg = ct.icon && (ct.icon.startsWith('http') || ct.icon.startsWith('/') || ct.icon.startsWith('data:') || ct.icon.startsWith('assets/'));
         const iconEsc = (ct.icon || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
         const iconOrImg = isImg
-            ? '<div class="card-icon card-icon-img"><img src="' + iconEsc + '" alt="" onerror="this.onerror=null;this.style.display=\'none\';var s=this.nextElementSibling;if(s)s.style.display=\'inline\';"><span class="card-icon-fallback" style="display:none">\uD83C\uDFE5</span></div>'
+            ? '<div class="card-icon card-icon-img"><img src="' + iconEsc + '" alt="" class="card-icon-img-el"><span class="card-icon-fallback" style="display:none">\uD83C\uDFE5</span></div>'
             : `<div class="card-icon">${(ct.icon || '\uD83C\uDFE5').replace(/</g, '&lt;')}</div>`;
         const isFirst = idx === 0;
         const isLast = idx === cancerTypes.length - 1;
@@ -225,7 +225,14 @@ function renderCancerTypeCards(cancerTypes) {
         </div>
     `;
 
-    grid.innerHTML = html;
+    grid.innerHTML = html; // escaped values — safe
+    grid.querySelectorAll('img.card-icon-img-el').forEach(img => {
+        img.addEventListener('error', function () {
+            this.style.display = 'none';
+            const fallback = this.nextElementSibling;
+            if (fallback) fallback.style.display = 'inline';
+        }, { once: true });
+    });
     // Store current order for reordering
     grid._cancerTypeOrder = cancerTypes.map(ct => ct.id);
 
@@ -1517,16 +1524,3 @@ export function initContentView() {
     }
 }
 
-// Expose to window for onclick handlers in HTML
-window.loadCancerTypes = loadCancerTypes;
-window.openNewCancerTypeEditor = openNewCancerTypeEditor;
-window.openCancerTypeEditor = openCancerTypeEditor;
-window.showAddQuestionDialog = showAddQuestionDialog;
-window.addExistingQuestion = addExistingQuestion;
-window.addNewQuestion = addNewQuestion;
-window.editAssignment = editAssignment;
-window.deleteAssignment = deleteAssignment;
-window.closeQuestionModal = closeQuestionModal;
-window.closeModal = closeModal;
-window.deleteCancerType = deleteCancerType;
-window.moveCancerType = moveCancerType;

@@ -372,7 +372,7 @@ export function initQuestionBankView() {
     });
 }
 
-async function downloadQuestionBankBackup() {
+export async function downloadQuestionBankBackup() {
     try {
         const response = await adminFetch(`${API_BASE}/admin/question-bank/export`);
         if (!response.ok) throw new Error(`Export failed (${response.status})`);
@@ -391,10 +391,3 @@ async function downloadQuestionBankBackup() {
     }
 }
 
-// Expose to window for onclick handlers in HTML
-window.loadQuestionBank = loadQuestionBank;
-window.openEditBankQuestion = openEditBankQuestion;
-window.closeQbQuestionModal = closeQbQuestionModal;
-window.useQuestionInAssessment = useQuestionInAssessment;
-window.addQuestionToAssessment = addQuestionToAssessment;
-window.downloadQuestionBankBackup = downloadQuestionBankBackup;

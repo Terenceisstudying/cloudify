@@ -4,14 +4,15 @@ import { currentUser, setCurrentUser } from './state.js';
 import { registerView, initRouter } from './router.js';
 
 // Import views
-import { loadCancerTypes, initContentView } from './views/contentView.js';
-import { loadQuestionBank, initQuestionBankView } from './views/questionBankView.js';
-import { loadAssessments } from './views/assessmentsView.js';
+import { loadCancerTypes, initContentView, closeModal, showAddQuestionDialog, addNewQuestion, closeQuestionModal } from './views/contentView.js';
+import { loadQuestionBank, initQuestionBankView, closeQbQuestionModal, downloadQuestionBankBackup } from './views/questionBankView.js';
+import { loadAssessments, exportAssessmentsCSV, applyAssessmentFilters, clearAssessmentFilters } from './views/assessmentsView.js';
 import { loadStatistics } from './views/statisticsView.js';
 import { loadAppearance } from './views/appearanceView.js';
 import { loadPdpa } from './views/pdpaView.js';
 import { loadTranslations } from './views/translationsView.js';
-import { loadAdminUsers, initAdminUsersView } from './views/adminUsersView.js';
+import { loadAdminUsers, initAdminUsersView, showCreateAdminModal, closeAdminModal, downloadAdminUsersBackup } from './views/adminUsersView.js';
+import { togglePassword, resetPasswordIcons } from '../utils/passwordToggle.js';
 
 // ==================== CURRENT USER ====================
 
@@ -59,31 +60,9 @@ function showModalError(message) {
     errorDiv.style.display = message ? 'block' : 'none';
 }
 
-function getEyeOpenIcon() {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-        <circle cx="12" cy="12" r="3"/>
-    </svg>`;
-}
+// togglePassword imported from utils/passwordToggle.js
 
-function getEyeClosedIcon() {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-        <line x1="1" y1="1" x2="23" y2="23"/>
-    </svg>`;
-}
-
-// Toggle password visibility
-window.togglePassword = function(inputId, btn) {
-    const input = document.getElementById(inputId);
-    const isHidden = input.type === 'password';
-    input.type = isHidden ? 'text' : 'password';
-    btn.innerHTML = isHidden ? getEyeClosedIcon() : getEyeOpenIcon();
-    btn.title = isHidden ? 'Hide password' : 'Show password';
-};
-
-window.showChangePasswordModal = function (required = false) {
+function showChangePasswordModal(required = false) {
     const modal = document.getElementById('change-password-modal');
     const modalBody = modal.querySelector('.modal-body');
 
@@ -104,23 +83,35 @@ window.showChangePasswordModal = function (required = false) {
         const warningDiv = document.createElement('div');
         warningDiv.className = 'password-warning';
         warningDiv.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 16px; border-radius: 4px; margin-bottom: 20px; color: #856404;';
-        warningDiv.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">\u26A0\uFE0F</span>
-                <div>
-                    <strong style="display: block; margin-bottom: 4px;">Password Change Required</strong>
-                    <span>You must change your password before you can continue using the admin panel.</span>
-                </div>
-            </div>
-        `;
+
+        const innerDiv = document.createElement('div');
+        innerDiv.style.cssText = 'display: flex; align-items: center; gap: 12px;';
+
+        const icon = document.createElement('span');
+        icon.style.fontSize = '24px';
+        icon.textContent = '\u26A0\uFE0F';
+
+        const textDiv = document.createElement('div');
+        const strong = document.createElement('strong');
+        strong.style.cssText = 'display: block; margin-bottom: 4px;';
+        strong.textContent = 'Password Change Required';
+        const span = document.createElement('span');
+        span.textContent = 'You must change your password before you can continue using the admin panel.';
+        textDiv.appendChild(strong);
+        textDiv.appendChild(span);
+
+        innerDiv.appendChild(icon);
+        innerDiv.appendChild(textDiv);
+        warningDiv.appendChild(innerDiv);
+
         modalBody.insertBefore(warningDiv, modalBody.firstChild);
     } else {
         if (closeBtn) closeBtn.style.display = 'block';
         if (cancelBtn) cancelBtn.style.display = 'block';
     }
-};
+}
 
-window.closeChangePasswordModal = function () {
+function closeChangePasswordModal() {
     if (currentUser && currentUser.requirePasswordReset) {
         alert('You must change your password to continue.');
         return;
@@ -130,15 +121,18 @@ window.closeChangePasswordModal = function () {
     document.querySelectorAll('#change-password-modal input[type="text"]').forEach(input => {
         input.type = 'password';
     });
-    document.querySelectorAll('#change-password-modal .toggle-password-btn').forEach(btn => {
-        btn.innerHTML = getEyeOpenIcon();
-    });
-};
+    resetPasswordIcons(document.getElementById('change-password-modal'));
+}
 
-window.toggleProfileMenu = function () {
+function toggleProfileMenu() {
     const menu = document.getElementById('profileMenu');
     menu.classList.toggle('active');
-};
+}
+
+function logout() {
+    sessionStorage.removeItem('adminToken');
+    window.location.href = '/login.html';
+}
 
 // Close profile menu when clicking outside
 document.addEventListener('click', function (event) {
@@ -185,7 +179,7 @@ document.getElementById('change-password-form').addEventListener('submit', async
             currentUser.requirePasswordReset = false;
         }
 
-        window.closeChangePasswordModal();
+        closeChangePasswordModal();
         document.getElementById('change-password-form').reset();
 
         const modal = document.getElementById('change-password-modal');
@@ -205,6 +199,58 @@ document.getElementById('change-password-form').addEventListener('submit', async
     } finally {
         btn.disabled = false;
         btn.textContent = 'Change Password';
+    }
+});
+
+// ==================== BIND DATA-ACTION HANDLERS ====================
+
+const actionHandlers = {
+    // App-level actions
+    'showChangePasswordModal': () => showChangePasswordModal(),
+    'closeChangePasswordModal': () => closeChangePasswordModal(),
+    'logout': () => logout(),
+    // Content tab
+    'refreshCancerTypes': () => loadCancerTypes(),
+    'closeModal': () => closeModal(),
+    'showAddQuestionDialog': () => showAddQuestionDialog(),
+    'addNewQuestion': () => addNewQuestion(),
+    'closeQuestionModal': () => closeQuestionModal(),
+    // Question Bank tab
+    'refreshQuestionBank': () => loadQuestionBank(),
+    'downloadQuestionBankBackup': () => downloadQuestionBankBackup(),
+    'closeQbQuestionModal': () => closeQbQuestionModal(),
+    // Assessments tab
+    'refreshAssessments': () => loadAssessments(),
+    'exportAssessmentsCSV': () => exportAssessmentsCSV(),
+    'clearAssessmentFilters': () => clearAssessmentFilters(),
+    // Statistics tab
+    'refreshStatistics': () => loadStatistics(),
+    // Appearance tab
+    'refreshAppearance': () => loadAppearance(),
+    // PDPA tab
+    'refreshPdpa': () => loadPdpa(),
+    // Translations tab
+    'refreshTranslations': () => loadTranslations(),
+    // Admin Users tab
+    'refreshAdminUsers': () => loadAdminUsers(),
+    'showCreateAdminModal': () => showCreateAdminModal(),
+    'downloadAdminUsersBackup': () => downloadAdminUsersBackup(),
+    'closeAdminModal': () => closeAdminModal(),
+};
+
+// Bind click handlers for all [data-action] buttons
+document.querySelectorAll('[data-action]').forEach(el => {
+    const action = el.dataset.action;
+    if (action === 'togglePassword') {
+        // Toggle password buttons — find input ID from closest wrapper
+        const inputId = el.closest('.password-input-wrapper').querySelector('.form-control').id;
+        el.addEventListener('click', () => togglePassword(inputId, el));
+    } else if (action === 'applyAssessmentFilters') {
+        // Filter inputs — bind change for selects, input for inputs
+        const event = (el.tagName === 'SELECT') ? 'change' : 'input';
+        el.addEventListener(event, () => applyAssessmentFilters());
+    } else if (actionHandlers[action]) {
+        el.addEventListener('click', actionHandlers[action]);
     }
 });
 

@@ -374,4 +374,3 @@ export async function loadAppearance() {
     }
 }
 
-window.loadAppearance = loadAppearance;

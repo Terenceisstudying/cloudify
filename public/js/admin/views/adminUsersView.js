@@ -177,7 +177,7 @@ export function initAdminUsersView(loadCurrentUserFn) {
     });
 }
 
-async function downloadAdminUsersBackup() {
+export async function downloadAdminUsersBackup() {
     try {
         const response = await adminFetch(`${API_BASE}/admin/admins/export`);
         if (!response.ok) throw new Error(`Export failed (${response.status})`);
@@ -196,9 +196,3 @@ async function downloadAdminUsersBackup() {
     }
 }
 
-window.loadAdminUsers = loadAdminUsers;
-window.showCreateAdminModal = showCreateAdminModal;
-window.editAdmin = editAdmin;
-window.closeAdminModal = closeAdminModal;
-window.deleteAdmin = deleteAdmin;
-window.downloadAdminUsersBackup = downloadAdminUsersBackup;

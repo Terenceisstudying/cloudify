@@ -202,7 +202,3 @@ export async function exportAssessmentsCSV() {
     }
 }
 
-window.loadAssessments = loadAssessments;
-window.exportAssessmentsCSV = exportAssessmentsCSV;
-window.applyAssessmentFilters = applyAssessmentFilters;
-window.clearAssessmentFilters = clearAssessmentFilters;
