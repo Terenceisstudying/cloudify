@@ -44,7 +44,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
             successMessage.style.display = 'block';
             document.getElementById('email').value = '';
         } else {
-            errorMessage.textContent = data.message || 'An error occurred. Please try again.';
+            errorMessage.textContent = data.error || data.message || 'An error occurred. Please try again.';
             errorMessage.style.display = 'block';
         }
     } catch (error) {

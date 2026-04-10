@@ -75,7 +75,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async (e
                 window.location.href = '/login.html';
             }, 2000);
         } else {
-            errorMessage.textContent = data.message || 'An error occurred. Please try again.';
+            errorMessage.textContent = data.error || data.message || 'An error occurred. Please try again.';
             errorMessage.style.display = 'block';
         }
     } catch (error) {

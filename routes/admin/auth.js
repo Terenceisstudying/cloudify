@@ -24,17 +24,17 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
             const { email, password } = req.body;
 
             if (!email || !password) {
-                return res.status(400).json({ message: 'Email and password are required' });
+                return res.status(400).json({ success: false, error: 'Email and password are required' });
             }
 
             if (!isValidEmail(email)) {
-                return res.status(400).json({ message: 'Invalid email format' });
+                return res.status(400).json({ success: false, error: 'Invalid email format' });
             }
 
             const admin = await adminModel.verifyPassword(email, password);
 
             if (!admin) {
-                return res.status(401).json({ message: 'Invalid credentials' });
+                return res.status(401).json({ success: false, error: 'Invalid credentials' });
             }
 
             const token = jwt.sign(
@@ -44,6 +44,7 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
             );
 
             res.json({
+                success: true,
                 token,
                 admin: {
                     id: admin.id,
@@ -54,16 +55,17 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
             });
         } catch (error) {
             console.error('Login error:', error);
-            res.status(500).json({ message: 'Server error' });
+            res.status(500).json({ success: false, error: 'Internal server error' });
         }
     });
 
     router.post('/forgot-password', async (req, res) => {
+        const ENUMERATION_SAFE_MESSAGE = 'If an account exists with this email, a password reset link has been sent.';
         try {
             const { email } = req.body;
 
             if (!email || !isValidEmail(email)) {
-                return res.status(400).json({ message: 'Valid email is required' });
+                return res.status(400).json({ success: false, error: 'Valid email is required' });
             }
 
             try {
@@ -75,18 +77,14 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
                     console.error('Email sending failed:', emailError.message);
                 }
 
-                res.json({
-                    message: 'If an account exists with this email, a password reset link has been sent.'
-                });
+                res.json({ success: true, message: ENUMERATION_SAFE_MESSAGE });
             } catch (error) {
                 console.log('Password reset attempted for unknown email');
-                res.json({
-                    message: 'If an account exists with this email, a password reset link has been sent.'
-                });
+                res.json({ success: true, message: ENUMERATION_SAFE_MESSAGE });
             }
         } catch (error) {
             console.error('Forgot password error:', error);
-            res.json({ message: 'If an account exists with this email, a password reset link has been sent.' });
+            res.json({ success: true, message: ENUMERATION_SAFE_MESSAGE });
         }
     });
 
@@ -95,20 +93,20 @@ export function createPublicAuthRouter({ adminModel, emailService }) {
             const { token, newPassword } = req.body;
 
             if (!token || !newPassword) {
-                return res.status(400).json({ message: 'Token and new password are required' });
+                return res.status(400).json({ success: false, error: 'Token and new password are required' });
             }
 
             const passwordError = isStrongPassword(newPassword);
             if (passwordError) {
-                return res.status(400).json({ message: passwordError });
+                return res.status(400).json({ success: false, error: passwordError });
             }
             await adminModel.resetPassword(token, newPassword);
-            res.json({ message: 'Password reset successfully' });
+            res.json({ success: true, message: 'Password reset successfully' });
         } catch (error) {
             console.error('Reset password error:', error);
             const knownErrors = ['Invalid or expired reset token'];
             const message = knownErrors.includes(error.message) ? error.message : 'Password reset failed';
-            res.status(400).json({ message });
+            res.status(400).json({ success: false, error: message });
         }
     });
     return router;

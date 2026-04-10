@@ -39,7 +39,11 @@ export class GameState {
 
     // User Data
     setUserData(age, gender, familyHistory, ethnicity, assessmentType = 'colorectal') {
-        this.userAge = parseInt(age);
+        // Guard against NaN so downstream age comparisons (e.g. risk cutoffs) stay
+        // predictable. Onboarding already enforces a numeric input; this is defense
+        // in depth for any caller that might pass a non-numeric value.
+        const parsedAge = parseInt(age, 10);
+        this.userAge = Number.isFinite(parsedAge) && parsedAge >= 0 ? parsedAge : 0;
         this.userGender = gender;
         this.userFamilyHistory = familyHistory;
         this.userEthnicity = ethnicity;

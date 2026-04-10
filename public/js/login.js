@@ -27,7 +27,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             sessionStorage.setItem('adminToken', data.token);
             window.location.href = '/admin.html';
         } else {
-            errorMessage.textContent = data.message || 'Invalid email or password. Please try again.';
+            errorMessage.textContent = data.error || data.message || 'Invalid email or password. Please try again.';
             errorMessage.style.display = 'block';
         }
     } catch (error) {
