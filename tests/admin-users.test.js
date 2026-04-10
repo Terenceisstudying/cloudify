@@ -65,6 +65,16 @@ describe('Admin Users API', () => {
             assert.strictEqual(res.status, 400);
         });
 
+        it('returns 400 for email with single-char TLD', async () => {
+            // Guards against the previously permissive regex that accepted "a@b.c".
+            const res = await request(app)
+                .post('/api/admin/admins')
+                .set('Authorization', `Bearer ${superToken}`)
+                .send({ email: 'a@b.c', name: 'Bad TLD', role: 'admin' });
+            assert.strictEqual(res.status, 400);
+            assert.strictEqual(res.body.success, false);
+        });
+
         it('returns 403 as regular admin', async () => {
             const res = await request(app)
                 .post('/api/admin/admins')

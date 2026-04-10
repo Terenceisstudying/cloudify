@@ -1,10 +1,6 @@
 import express from 'express';
 import emailService from '../../services/emailService.js';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-function isValidEmail(email) {
-    return typeof email === 'string' && email.length <= 254 && EMAIL_REGEX.test(email);
-}
+import { isValidEmail } from '../../utils/email.js';
 
 export function createAdminUsersRouter({ adminModel, requireSuperAdmin }) {
     const router = express.Router();

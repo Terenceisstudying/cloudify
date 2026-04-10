@@ -1,10 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-function isValidEmail(email) {
-    return typeof email === 'string' && email.length <= 254 && EMAIL_REGEX.test(email);
-}
+import { isValidEmail } from '../../utils/email.js';
 
 // Function to validate password strength
 function isStrongPassword(password) {

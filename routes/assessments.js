@@ -5,6 +5,7 @@ import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import emailService from '../services/emailService.js';
 import { validateAssessment, validateSendResults } from '../middleware/validateAssessment.js';
 import { assessmentSubmitLimiter } from '../middleware/rateLimiter.js';
+import { isValidEmail } from '../utils/email.js';
 
 const router = express.Router();
 const assessmentModel = new AssessmentModel();
@@ -91,10 +92,8 @@ router.post('/send-results', assessmentSubmitLimiter, validateSendResults, async
             });
         }
 
-        // Validate email format. TLD must be at least 2 chars to reject things
-        // like "a@b.c" while still accepting all real-world TLDs.
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-        if (!emailRegex.test(contact)) {
+        // Validate email format via the shared helper in utils/email.js
+        if (!isValidEmail(contact)) {
             return res.status(400).json({
                 success: false,
                 error: 'Please enter a valid email address'

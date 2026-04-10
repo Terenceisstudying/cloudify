@@ -59,6 +59,14 @@ describe('POST /api/admin/forgot-password', () => {
         assert.strictEqual(res.status, 400);
     });
 
+    it('returns 400 for email with single-char TLD', async () => {
+        // Guards against the previously permissive regex that accepted "a@b.c".
+        const res = await request(app)
+            .post('/api/admin/forgot-password')
+            .send({ email: 'a@b.c' });
+        assert.strictEqual(res.status, 400);
+    });
+
     it('returns success even for non-existent email (prevents enumeration)', async () => {
         const res = await request(app)
             .post('/api/admin/forgot-password')
