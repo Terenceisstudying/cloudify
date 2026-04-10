@@ -7,6 +7,7 @@ import { loadAssessments, getAssessmentById, setCurrentLanguage, getCurrentLangu
 import { QuestionLoader } from './questionLoader.js';
 import { loadTheme, applyTheme } from './themeLoader.js';
 import { escapeHtml } from './utils/escapeHtml.js';
+import { openModalA11y, closeModalA11y } from './utils/modal.js';
 import { fetchTranslations, t as _t } from './translationService.js';
 import { audioController } from './audioController.js'; // <-- Imported audioController
 
@@ -145,11 +146,19 @@ class RiskAssessmentApp {
         // is the correct semantic here. It also avoids the "aria-hidden on a
         // focusable element" browser warning that `aria-hidden="true"` produced.
         modal.inert = false;
+        // PDPA is a legal gate — not dismissible via Escape. Focus the consent
+        // checkbox so the keyboard user can tick and continue without hunting.
+        openModalA11y(modal, {
+            triggerEl: null,
+            dismissible: false,
+            autoFocus: '#pdpa-consent-checkbox'
+        });
     }
 
     _hidePdpaModal() {
         const modal = document.getElementById('pdpa-modal');
         if (!modal) return;
+        closeModalA11y(modal);
         modal.classList.add('hidden');
         modal.inert = true;
     }
@@ -655,6 +664,12 @@ class RiskAssessmentApp {
                 if (exitModal) {
                     exitModal.classList.remove('hidden');
                     exitModal.inert = false;
+                    // Escape acts as "Stay" — cancel the destructive action.
+                    openModalA11y(exitModal, {
+                        triggerEl: exitBtn,
+                        dismissible: true,
+                        onEscape: () => stayBtn && stayBtn.click()
+                    });
                 }
             });
         }
@@ -663,6 +678,7 @@ class RiskAssessmentApp {
             stayBtn.addEventListener('click', () => {
                 audioController.play('button'); // <-- Added audio
                 if (exitModal) {
+                    closeModalA11y(exitModal);
                     exitModal.classList.add('hidden');
                     exitModal.inert = true;
                 }
@@ -673,6 +689,7 @@ class RiskAssessmentApp {
             leaveBtn.addEventListener('click', () => {
                 audioController.play('button'); // <-- Added audio
                 if (exitModal) {
+                    closeModalA11y(exitModal);
                     exitModal.classList.add('hidden');
                     exitModal.inert = true;
                 }
