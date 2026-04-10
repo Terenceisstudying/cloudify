@@ -171,7 +171,7 @@ describe('Admin Users API', () => {
             assert.ok(res.body.error.includes('Invalid role'));
         });
 
-        it('email collision with another admin returns an error (currently 500)', async () => {
+        it('returns 400 when updating email to one already used by another admin', async () => {
             // Seed a second admin to collide with
             const create = await request(app)
                 .post('/api/admin/admins')
@@ -188,11 +188,9 @@ describe('Admin Users API', () => {
                 .put(`/api/admin/admins/${self.id}`)
                 .set('Authorization', `Bearer ${superToken}`)
                 .send({ email: 'collide-target@scs.com' });
-            // TODO: route/adminUsers.js does not include 'Email already in use' in its
-            // knownErrors whitelist, so this currently returns 500. Ideally it should
-            // be a 400. Locking in current behavior here — fix the mapping separately.
-            assert.strictEqual(res.status, 500);
+            assert.strictEqual(res.status, 400);
             assert.strictEqual(res.body.success, false);
+            assert.ok(res.body.error.includes('Email already in use'));
         });
 
         it('PUT with empty body is a no-op and returns 200 with unchanged admin', async () => {

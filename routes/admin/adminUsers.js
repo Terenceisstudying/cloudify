@@ -130,7 +130,10 @@ export function createAdminUsersRouter({ adminModel, requireSuperAdmin }) {
             const admin = await adminModel.updateAdmin(req.params.id, updates);
             res.json({ success: true, data: admin });
         } catch (error) {
-            const knownErrors = ['Cannot demote the last super admin'];
+            const knownErrors = [
+                'Cannot demote the last super admin',
+                'Email already in use by another admin'
+            ];
             if (knownErrors.some(e => error.message.includes(e))) {
                 res.status(400).json({ success: false, error: error.message });
             } else {
