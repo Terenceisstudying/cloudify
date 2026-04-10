@@ -20,8 +20,10 @@
  *      calls `onEscape` if the currently open modal is `dismissible`.
  *
  * Assumptions baked into this helper:
- *   - Only one modal is open at a time. A module-level `current` variable is
- *     simpler than a WeakMap and enforces the invariant naturally.
+ *   - Modals may nest (e.g. the "Add Existing Question" dialog opens on top of
+ *     the Cancer Type editor). A module-level stack tracks the open modals;
+ *     the top of the stack is the active one. When a nested modal closes,
+ *     the previous modal's Tab trap and background inert are resumed.
  *   - Modal roots have `tabindex="-1"` so they can receive focus before the
  *     `autoFocus` target is resolved.
  */
@@ -41,8 +43,11 @@ const FOCUSABLE_SELECTOR = [
     '[tabindex]:not([tabindex="-1"])'
 ].join(', ');
 
-// Module-level single-open-modal state. `null` when no modal is open.
-let current = null;
+// Stack of open-modal states. The top of the stack is the currently active
+// modal (the one with focus trap, inert background, and Escape handling).
+// Nested modals push onto the stack; closing pops.
+const stack = [];
+function top() { return stack.length > 0 ? stack[stack.length - 1] : null; }
 
 function getFocusableElements(container) {
     const candidates = container.querySelectorAll(FOCUSABLE_SELECTOR);
@@ -128,11 +133,16 @@ function buildKeydownHandler(modalEl) {
 export function openModalA11y(modalEl, opts = {}) {
     if (!modalEl) return;
 
-    // Idempotent: if this same modal is already open, no-op. If a DIFFERENT
-    // modal is open, close it first so background inert state doesn't leak.
-    if (current) {
-        if (current.modalEl === modalEl) return;
-        closeModalA11y(current.modalEl);
+    // Idempotent: if this exact modal is already the active one, no-op.
+    if (top() && top().modalEl === modalEl) return;
+
+    // If another modal is currently active, suspend its Tab trap and background
+    // inert (but keep its state on the stack). The new modal takes over until
+    // it closes, at which point the previous modal is resumed.
+    if (top()) {
+        const prev = top();
+        modalEl !== prev.modalEl && prev.modalEl.removeEventListener('keydown', prev.keydownHandler);
+        restoreBackground(prev.prevInert);
     }
 
     const triggerEl = opts.triggerEl !== undefined
@@ -146,15 +156,16 @@ export function openModalA11y(modalEl, opts = {}) {
     const keydownHandler = buildKeydownHandler(modalEl);
     modalEl.addEventListener('keydown', keydownHandler);
 
-    current = {
+    stack.push({
         modalEl,
         triggerEl,
         prevInert,
         prevAlreadyInert,
         dismissible,
         onEscape,
-        keydownHandler
-    };
+        keydownHandler,
+        autoFocus
+    });
 
     // Focus the modal root first (requires tabindex="-1" on the modal element),
     // then on the next frame move focus to the autoFocus target or first
@@ -163,7 +174,7 @@ export function openModalA11y(modalEl, opts = {}) {
     try { modalEl.focus({ preventScroll: true }); } catch (_) { /* ignore */ }
     requestAnimationFrame(() => {
         // Guard: the modal may have been closed before the frame fires.
-        if (!current || current.modalEl !== modalEl) return;
+        if (!top() || top().modalEl !== modalEl) return;
 
         let target = null;
         if (autoFocus) {
@@ -183,17 +194,33 @@ export function openModalA11y(modalEl, opts = {}) {
 
 /**
  * Close-time a11y wiring. Call BEFORE the modal is hidden.
- * Idempotent: calling twice or on a modal that isn't the current one is a no-op.
+ * Idempotent: calling twice or on a modal that isn't on top of the stack is a no-op.
+ * If there is a modal below this one on the stack, resume its focus trap and
+ * background inert.
  */
 export function closeModalA11y(modalEl) {
-    if (!current || current.modalEl !== modalEl) return;
+    if (!top() || top().modalEl !== modalEl) return;
 
-    modalEl.removeEventListener('keydown', current.keydownHandler);
-    restoreBackground(current.prevInert);
+    const frame = stack.pop();
+    modalEl.removeEventListener('keydown', frame.keydownHandler);
+    restoreBackground(frame.prevInert);
 
-    const { triggerEl } = current;
-    current = null;
+    // If a modal is still on the stack below this one, resume it: re-install
+    // its Tab trap and re-inert its background so the previous modal is
+    // once again the active dialog.
+    const resumed = top();
+    if (resumed) {
+        resumed.modalEl.addEventListener('keydown', resumed.keydownHandler);
+        // Re-inert the background of the resumed modal. Capture the new
+        // inert state in place of the old (the DOM tree may have changed
+        // since the resumed modal was first opened).
+        const fresh = inertBackground(resumed.modalEl);
+        resumed.prevInert = fresh.prevInert;
+        resumed.prevAlreadyInert = fresh.prevAlreadyInert;
+    }
 
+    // Return focus to the closed modal's trigger.
+    const { triggerEl } = frame;
     if (triggerEl && triggerEl.isConnected && typeof triggerEl.focus === 'function') {
         try { triggerEl.focus({ preventScroll: true }); } catch (_) { /* ignore */ }
     } else {
@@ -207,9 +234,10 @@ export function closeModalA11y(modalEl) {
 // do not accumulate listeners on repeated open/close cycles.
 document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    if (!current || !current.dismissible) return;
-    if (typeof current.onEscape === 'function') {
+    const active = top();
+    if (!active || !active.dismissible) return;
+    if (typeof active.onEscape === 'function') {
         event.preventDefault();
-        current.onEscape();
+        active.onEscape();
     }
 });

@@ -191,7 +191,7 @@ function renderCancerTypeCards(cancerTypes) {
         const hiddenClass = ct.visible === false ? ' ct-hidden' : '';
         const hiddenBadge = ct.visible === false ? '<div class="ct-hidden-badge">Hidden</div>' : '';
         return `
-        <div class="cancer-type-card${hiddenClass}" draggable="true" data-ct-id="${escapeHtml(ct.id)}" data-action="open-editor">
+        <div class="cancer-type-card${hiddenClass}" draggable="true" data-ct-id="${escapeHtml(ct.id)}" data-action="open-editor" tabindex="-1">
             <div class="card-header">
                 ${iconOrImg}
                 <div class="card-header-actions">
@@ -221,7 +221,7 @@ function renderCancerTypeCards(cancerTypes) {
     }).join('');
 
     html += `
-        <div class="cancer-type-card add-cancer-type-card" data-action="new-editor">
+        <div class="cancer-type-card add-cancer-type-card" data-action="new-editor" tabindex="-1">
             <div class="add-icon">+</div>
             <div class="add-text">Add Cancer Type</div>
         </div>
@@ -253,12 +253,16 @@ function renderCancerTypeCards(cancerTypes) {
                 case 'open-editor': {
                     const card = actionEl.closest('.cancer-type-card');
                     if (card) card.classList.add('ct-loading');
-                    openCancerTypeEditor(ctId).finally(() => {
+                    openCancerTypeEditor(ctId, card).finally(() => {
                         if (card) card.classList.remove('ct-loading');
                     });
                     break;
                 }
-                case 'new-editor': openNewCancerTypeEditor(); break;
+                case 'new-editor': {
+                    const card = actionEl.closest('.cancer-type-card');
+                    openNewCancerTypeEditor(card);
+                    break;
+                }
                 case 'move-up': e.stopPropagation(); moveCancerType(ctId, -1); break;
                 case 'move-down': e.stopPropagation(); moveCancerType(ctId, 1); break;
                 case 'delete-ct': e.stopPropagation(); deleteCancerType(ctId, actionEl.dataset.ctName); break;
@@ -386,7 +390,7 @@ async function moveCancerType(id, direction) {
     saveReorder(newOrder);
 }
 
-export function openNewCancerTypeEditor() {
+export function openNewCancerTypeEditor(triggerEl = null) {
     setIsNewCancerType(true);
     setCurrentCancerType(null);
     setCurrentAssignments([]);
@@ -437,14 +441,14 @@ export function openNewCancerTypeEditor() {
     document.getElementById('target-cancer-group').style.display = 'none';
     const ctModal = document.getElementById('cancer-type-modal');
     ctModal.classList.add('active');
-    openModalA11y(ctModal, { onEscape: closeModal });
+    openModalA11y(ctModal, { triggerEl, onEscape: closeModal });
     initCollapsibleSections();
     clearLangChangeListeners();
     initLangTabs('#cancer-type-modal');
     bindCancerTypePreview();
 }
 
-export async function openCancerTypeEditor(id) {
+export async function openCancerTypeEditor(id, triggerEl = null) {
     setIsNewCancerType(false);
 
     try {
@@ -511,7 +515,7 @@ export async function openCancerTypeEditor(id) {
 
         const ctModal = document.getElementById('cancer-type-modal');
         ctModal.classList.add('active');
-        openModalA11y(ctModal, { onEscape: closeModal });
+        openModalA11y(ctModal, { triggerEl, onEscape: closeModal });
         initCollapsibleSections();
         clearLangChangeListeners();
         initLangTabs('#cancer-type-modal');
@@ -749,6 +753,10 @@ function attachOnboardingFieldListeners() {
 }
 
 export async function showAddQuestionDialog() {
+    // Capture the trigger BEFORE any awaits so focus return lands on the button
+    // the user just clicked (document.activeElement may change during await).
+    const triggerEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     await loadQuestionBankCache();
 
     const bankEntries = Array.from(questionBank.values());
@@ -760,10 +768,15 @@ export async function showAddQuestionDialog() {
     const dialog = document.createElement('div');
     dialog.className = 'modal';
     dialog.style.display = 'block';
+    // Dialog semantics so the modal helper and screen readers know what this is.
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'add-existing-question-title');
+    dialog.setAttribute('tabindex', '-1');
     dialog.innerHTML = `
         <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header">
-                <h2>Add Existing Question</h2>
+                <h2 id="add-existing-question-title">Add Existing Question</h2>
                 <button class="close-btn" data-action="close-dialog">&times;</button>
             </div>
             <div class="modal-body">
@@ -794,17 +807,22 @@ export async function showAddQuestionDialog() {
             </div>
         </div>
     `;
+    const closeDialog = () => {
+        closeModalA11y(dialog);
+        dialog.remove();
+    };
     dialog.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-action]');
         if (!btn) return;
         if (btn.dataset.action === 'add-question') {
             addExistingQuestion(btn.dataset.qid);
-            dialog.remove();
+            closeDialog();
         } else if (btn.dataset.action === 'close-dialog') {
-            dialog.remove();
+            closeDialog();
         }
     });
     document.body.appendChild(dialog);
+    openModalA11y(dialog, { triggerEl, onEscape: closeDialog });
 }
 
 export function addExistingQuestion(questionId) {
