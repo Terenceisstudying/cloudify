@@ -2,6 +2,7 @@ import { API_BASE, adminFetch } from '../api.js';
 import { showSuccess, showError } from '../notifications.js';
 import { currentUser } from '../state.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
+import { openModalA11y, closeModalA11y } from '../../utils/modal.js';
 
 export async function loadAdminUsers() {
     const loading = document.getElementById('admin-users-loading');
@@ -64,7 +65,12 @@ export function showCreateAdminModal() {
     document.getElementById('admin-password').required = false;
 
     document.getElementById('admin-role').value = 'admin';
-    document.getElementById('admin-user-modal').classList.add('active');
+    const modal = document.getElementById('admin-user-modal');
+    modal.classList.add('active');
+    openModalA11y(modal, {
+        onEscape: closeAdminModal,
+        autoFocus: '#admin-name'
+    });
 }
 
 export async function editAdmin(id) {
@@ -84,14 +90,21 @@ export async function editAdmin(id) {
         document.getElementById('admin-password').required = false;
 
         document.getElementById('admin-role').value = admin.role;
-        document.getElementById('admin-user-modal').classList.add('active');
+        const modal = document.getElementById('admin-user-modal');
+        modal.classList.add('active');
+        openModalA11y(modal, {
+            onEscape: closeAdminModal,
+            autoFocus: '#admin-name'
+        });
     } catch (err) {
         showError(err.message);
     }
 }
 
 export function closeAdminModal() {
-    document.getElementById('admin-user-modal').classList.remove('active');
+    const modal = document.getElementById('admin-user-modal');
+    closeModalA11y(modal);
+    modal.classList.remove('active');
     document.getElementById('password-group').style.display = 'none';
 }
 

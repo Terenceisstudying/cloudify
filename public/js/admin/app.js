@@ -13,6 +13,7 @@ import { loadPdpa } from './views/pdpaView.js';
 import { loadTranslations } from './views/translationsView.js';
 import { loadAdminUsers, initAdminUsersView, showCreateAdminModal, closeAdminModal, downloadAdminUsersBackup } from './views/adminUsersView.js';
 import { togglePassword, resetPasswordIcons } from '../utils/passwordToggle.js';
+import { openModalA11y, closeModalA11y } from '../utils/modal.js';
 
 // ==================== CURRENT USER ====================
 
@@ -109,6 +110,17 @@ function showChangePasswordModal(required = false) {
         if (closeBtn) closeBtn.style.display = 'block';
         if (cancelBtn) cancelBtn.style.display = 'block';
     }
+
+    // Required password change is a gate — not dismissible via Escape. When
+    // optional, use the standard dismissible behavior. Trigger is null in
+    // required mode (it runs at startup on a forced-reset flag, not from a
+    // click), so focus return falls back to document.body.
+    openModalA11y(modal, {
+        triggerEl: required ? null : document.activeElement,
+        dismissible: !required,
+        onEscape: required ? undefined : closeChangePasswordModal,
+        autoFocus: '#current-password'
+    });
 }
 
 function closeChangePasswordModal() {
@@ -116,12 +128,14 @@ function closeChangePasswordModal() {
         alert('You must change your password to continue.');
         return;
     }
-    document.getElementById('change-password-modal').classList.remove('active');
+    const modal = document.getElementById('change-password-modal');
+    closeModalA11y(modal);
+    modal.classList.remove('active');
     document.getElementById('change-password-form').reset();
     document.querySelectorAll('#change-password-modal input[type="text"]').forEach(input => {
         input.type = 'password';
     });
-    resetPasswordIcons(document.getElementById('change-password-modal'));
+    resetPasswordIcons(modal);
 }
 
 function toggleProfileMenu() {

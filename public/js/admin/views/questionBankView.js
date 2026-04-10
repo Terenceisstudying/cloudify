@@ -4,6 +4,7 @@ import { showError, showSuccess } from '../notifications.js';
 import { questionBank, clearQuestionBank, allCancerTypes } from '../state.js';
 import { loadCancerTypesCache, addExistingQuestion, openCancerTypeEditor } from './contentView.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
+import { openModalA11y, closeModalA11y } from '../../utils/modal.js';
 import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
 
 let _qbSortColumn = 'usedIn';
@@ -197,7 +198,12 @@ export function openEditBankQuestion(questionId) {
     document.getElementById('qb-q-expNo-ms').value = entry.explanationNo_ms || '';
     document.getElementById('qb-q-expNo-ta').value = entry.explanationNo_ta || '';
 
-    document.getElementById('qb-question-modal').classList.add('active');
+    const qbModal = document.getElementById('qb-question-modal');
+    qbModal.classList.add('active');
+    openModalA11y(qbModal, {
+        onEscape: closeQbQuestionModal,
+        autoFocus: '#qb-q-prompt-en'
+    });
     clearLangChangeListeners();
     initLangTabs('#qb-question-modal');
     bindQbPreview();
@@ -229,6 +235,7 @@ function bindQbPreview() {
 
 export function closeQbQuestionModal() {
     const modal = document.getElementById('qb-question-modal');
+    closeModalA11y(modal);
     modal.classList.remove('active');
     document.getElementById('qb-question-form').reset();
 }

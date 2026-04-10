@@ -3,6 +3,7 @@ import { API_BASE, adminFetch } from '../api.js';
 import { showSuccess, showError } from '../notifications.js';
 import { fillAssetSelect, updateAssetPickerTrigger, initAssetPickerDropdown } from '../assetPickerUtils.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
+import { openModalA11y, closeModalA11y } from '../../utils/modal.js';
 import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
 import { createAssetStager } from '../assetStaging.js';
 import {
@@ -434,7 +435,9 @@ export function openNewCancerTypeEditor() {
     initRecommendationsListeners();
 
     document.getElementById('target-cancer-group').style.display = 'none';
-    document.getElementById('cancer-type-modal').classList.add('active');
+    const ctModal = document.getElementById('cancer-type-modal');
+    ctModal.classList.add('active');
+    openModalA11y(ctModal, { onEscape: closeModal });
     initCollapsibleSections();
     clearLangChangeListeners();
     initLangTabs('#cancer-type-modal');
@@ -506,7 +509,9 @@ export async function openCancerTypeEditor(id) {
         renderRecommendationsEditor();
         initRecommendationsListeners();
 
-        document.getElementById('cancer-type-modal').classList.add('active');
+        const ctModal = document.getElementById('cancer-type-modal');
+        ctModal.classList.add('active');
+        openModalA11y(ctModal, { onEscape: closeModal });
         initCollapsibleSections();
         clearLangChangeListeners();
         initLangTabs('#cancer-type-modal');
@@ -870,7 +875,9 @@ export async function addNewQuestion() {
 
     document.getElementById('question-modal-title').textContent = 'Create New Question';
     document.getElementById('question-modal-save-btn').textContent = 'Save Question';
-    document.getElementById('question-modal').classList.add('active');
+    const qModal = document.getElementById('question-modal');
+    qModal.classList.add('active');
+    openModalA11y(qModal, { onEscape: closeQuestionModal });
     clearLangChangeListeners();
     initLangTabs('#question-modal');
     bindQuestionPreview('q');
@@ -951,7 +958,9 @@ export function editAssignment(index) {
 
     document.getElementById('question-modal-title').textContent = bankEntry ? 'Edit Question Weightage' : 'Edit Question';
     document.getElementById('question-modal-save-btn').textContent = bankEntry ? 'Save Weightage' : 'Save Question';
-    document.getElementById('question-modal').classList.add('active');
+    const qModal = document.getElementById('question-modal');
+    qModal.classList.add('active');
+    openModalA11y(qModal, { onEscape: closeQuestionModal });
     clearLangChangeListeners();
     initLangTabs('#question-modal');
     bindQuestionPreview('q');
@@ -965,7 +974,9 @@ export function deleteAssignment(index) {
 }
 
 export function closeQuestionModal() {
-    document.getElementById('question-modal').classList.remove('active');
+    const qModal = document.getElementById('question-modal');
+    closeModalA11y(qModal);
+    qModal.classList.remove('active');
     document.getElementById('q-index').value = '';
     document.getElementById('q-question-id').value = '';
     document.getElementById('q-bank-text-group').style.display = 'none';
@@ -975,7 +986,9 @@ export function closeQuestionModal() {
 }
 
 export function closeModal() {
-    document.getElementById('cancer-type-modal').classList.remove('active');
+    const ctModal = document.getElementById('cancer-type-modal');
+    closeModalA11y(ctModal);
+    ctModal.classList.remove('active');
     cardImageStager.reset();
     setCurrentCancerType(null);
     setCurrentAssignments([]);
