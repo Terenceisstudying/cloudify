@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import fsp from 'fs/promises';
 import dotenv from 'dotenv';
-import { globalLimiter, apiLimiter, authLimiter } from './middleware/rateLimiter.js';
+import { globalLimiter, apiLimiter, authLimiter, staticAssetLimiter } from './middleware/rateLimiter.js';
 import { authenticateToken } from './middleware/auth.js';
 import { questionsRouter } from './routes/questions.js';
 import { assessmentsRouter } from './routes/assessments.js';
@@ -57,15 +57,37 @@ const settingsModel = new SettingsModel();
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 
-// Serve static files from public/ only (not the project root).
-// This MUST come before the rate limiters — static bytes are not a meaningful
-// attack surface, and counting every mascot PNG / CSS file / audio file
-// against the 100-req-per-minute globalLimiter caused a cascade of 429s during
-// normal dev testing (cache disabled → every reload refetches ~80 assets).
-// API and auth routes below still get the full rate-limit treatment via the
-// apiLimiter and authLimiter mounts. Production-scale flooding of static
-// assets should be handled at the Nginx / CDN layer, not Node.
-app.use(express.static(path.join(__dirname, 'public')));
+// Static files from public/ only (not the project root).
+//
+// Order matters: this runs BEFORE the globalLimiter/apiLimiter chain so that
+// serving static bytes short-circuits out of the middleware stack without
+// being counted against the dynamic-route limits (that was the Fix #13
+// reordering — counting mascot PNGs against the 100-req/min globalLimiter
+// caused 429 cascades during cache-disabled dev testing).
+//
+// Two layers of bandwidth protection on top of the reorder:
+//
+// 1. Cache headers (Cache-Control: public, max-age=86400 via maxAge + etag).
+//    Browsers and edge CDNs cache each asset for 1 day, so legitimate users
+//    only pay the byte cost once per day per asset per browser. For a booth
+//    app this is effectively "once ever" — shared device, shared cache.
+//    A flooder hitting the same asset URLs repeatedly is served from the
+//    edge cache and never touches our Node process or Render's bandwidth.
+//    Admins who upload new assets via the admin panel will see their changes
+//    within 1 day for existing visitors, or immediately on hard-reload.
+//
+// 2. staticAssetLimiter (500 req/min per IP). Defence-in-depth against
+//    cache-busting adversaries who deliberately defeat layer 1 (e.g. with
+//    ?v=${Math.random()} query strings). A full cache-disabled quiz run
+//    fetches ~85 assets, so 500/min gives ~5.8× headroom over peak
+//    aggressive testing. Booth users with cache enabled are nowhere near.
+//    See middleware/rateLimiter.js for rationale.
+app.use(staticAssetLimiter);
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d',
+    etag: true,
+    lastModified: true
+}));
 
 // Rate limiting — applied only to dynamic routes below this point
 app.use(globalLimiter);
