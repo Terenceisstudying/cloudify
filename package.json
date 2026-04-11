@@ -9,7 +9,8 @@
     "dev": "nodemon server.js",
     "test": "cross-env NODE_ENV=test node --test --test-concurrency=1 \"tests/**/*.test.js\"",
     "seed:questions": "node scripts/seed-questions.js",
-    "seed:translations": "node scripts/seed-translations.js"
+    "seed:translations": "node scripts/seed-translations.js",
+    "dump:translations": "node scripts/dump-translations.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
