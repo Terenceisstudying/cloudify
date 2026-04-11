@@ -320,6 +320,30 @@
       "ms": "Kembali ke Skrin Utama",
       "ta": "முகப்புத் திரைக்குத் திரும்பு"
     },
+    "categoryDiet": {
+      "en": "Diet & Nutrition",
+      "zh": "饮食与营养",
+      "ms": "Diet & Pemakanan",
+      "ta": "உணவு & ஊட்டச்சத்து"
+    },
+    "categoryLifestyle": {
+      "en": "Lifestyle",
+      "zh": "生活方式",
+      "ms": "Gaya Hidup",
+      "ta": "வாழ்க்கை முறை"
+    },
+    "categoryMedical": {
+      "en": "Medical History",
+      "zh": "病史",
+      "ms": "Sejarah Perubatan",
+      "ta": "மருத்துவ வரலாறு"
+    },
+    "categoryFamily": {
+      "en": "Family & Genetics",
+      "zh": "家族与遗传",
+      "ms": "Keluarga & Genetik",
+      "ta": "குடும்பம் & மரபியல்"
+    },
     "disclaimer": {
       "en": "Disclaimer: This game is for educational purposes only and is not medical advice. The result is based on your self-reported answers to common risk factors. Please consult a doctor for a personal health assessment.",
       "zh": "免责声明：此游戏仅用于教育目的，不构成医疗建议。结果基于您对常见风险因素的自我报告答案。请咨询医生进行个人健康评估。",

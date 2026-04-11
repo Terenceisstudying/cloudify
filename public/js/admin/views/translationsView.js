@@ -81,7 +81,11 @@ const KEY_DESCRIPTIONS = {
         summaryMedium: { label: 'Medium Risk Summary', hint: 'Summary text for medium-risk result' },
         summaryHigh: { label: 'High Risk Summary', hint: 'Summary text for high-risk result' },
         highRiskCta: { label: 'High Risk Call-to-Action', hint: 'Prominent message shown for high-risk results' },
-        cancerBreakdownHeading: { label: 'Cancer Breakdown Title', hint: 'Heading for the per-cancer risk section' }
+        cancerBreakdownHeading: { label: 'Cancer Breakdown Title', hint: 'Heading for the per-cancer risk section' },
+        categoryDiet: { label: '"Diet & Nutrition" Category', hint: 'Risk breakdown category label shown on the results screen' },
+        categoryLifestyle: { label: '"Lifestyle" Category', hint: 'Risk breakdown category label shown on the results screen' },
+        categoryMedical: { label: '"Medical History" Category', hint: 'Risk breakdown category label shown on the results screen' },
+        categoryFamily: { label: '"Family & Genetics" Category', hint: 'Risk breakdown category label shown on the results screen' }
     },
     common: {
         loading: { label: 'Loading Text', hint: 'Shown while assessments are loading' },

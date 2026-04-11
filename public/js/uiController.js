@@ -1,4 +1,4 @@
-import { RISK_LEVELS } from './constants.js';
+import { RISK_LEVELS, RISK_CATEGORY_KEYS } from './constants.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import { escapeHtml } from './utils/escapeHtml.js';
 import { audioController } from './audioController.js';
@@ -291,10 +291,18 @@ export class UIController {
             const count = answerCounts[category];
             const badge = this._getCategoryBadge(risk, count);
 
+            // Resolve display label via translations. Stored `category` is the
+            // stable identifier; fall back to the raw value if the category is
+            // not one of the known RISK_CATEGORIES.
+            const translationKey = RISK_CATEGORY_KEYS[category];
+            const displayLabel = translationKey
+                ? (this.t('results', translationKey) || category)
+                : category;
+
             return `
                 <div class="risk-category">
                     <div class="category-header">
-                        <span class="category-name">${escapeHtml(category)}</span>
+                        <span class="category-name">${escapeHtml(displayLabel)}</span>
                         <span class="badge ${badge.class}">${escapeHtml(badge.text)}</span>
                     </div>
                     <p class="category-count">${count} ${escapeHtml(this.t('results', 'factorsIdentified'))}</p>
