@@ -156,7 +156,7 @@ test('validateQuestionWeights: custom target weight', () => {
     assert.strictEqual(r.totalWeight, 85);
 });
 
-// === Fix 1a: Per-cancer scores must be clamped to 0-100 ===
+// Per-cancer scores must be clamped to 0-100
 test('calculateRiskScore: generic per-cancer scores are clamped to 100', () => {
     const config = { familyWeight: 20, ageRiskThreshold: 40, ageRiskWeight: 15, ethnicityRisk: { chinese: 5 } };
     const userData = { age: 50, familyHistory: 'Yes', ethnicity: 'chinese' };
@@ -172,7 +172,7 @@ test('calculateRiskScore: generic per-cancer scores are clamped to 100', () => {
     assert.strictEqual(result.cancerTypeScores.breast.score, 100);
 });
 
-// === Fix 1c: calculateAnswerContribution NaN safety ===
+// calculateAnswerContribution NaN safety
 test('calculateAnswerContribution: missing yesValue defaults to 100', () => {
     const q = { weight: 20 };
     // With no yesValue, Yes answer should use default 100 => contribution = 20

@@ -63,9 +63,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 //
 // Order matters: this runs BEFORE the globalLimiter/apiLimiter chain so that
 // serving static bytes short-circuits out of the middleware stack without
-// being counted against the dynamic-route limits (that was the Fix #13
-// reordering — counting mascot PNGs against the 100-req/min globalLimiter
-// caused 429 cascades during cache-disabled dev testing).
+// being counted against the dynamic-route limits (counting mascot PNGs
+// against the 100-req/min globalLimiter caused 429 cascades during
+// cache-disabled dev testing).
 //
 // Two layers of bandwidth protection on top of the reorder:
 //
