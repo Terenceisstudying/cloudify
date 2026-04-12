@@ -265,8 +265,15 @@ class RiskAssessmentApp {
                     this._applyLanguage(lang);
                     
                     this.assessments = newAssessments;
-                    this._renderAssessmentCards();
-                    
+                    // Prefer the in-place text update so the browser doesn't
+                    // re-fetch identical cancer-card images on every language
+                    // switch. Falls back to a full rebuild only if the cards
+                    // haven't been rendered yet (cold language switch before
+                    // the cancer-selection screen was ever shown).
+                    if (!this._updateAssessmentCardText()) {
+                        this._renderAssessmentCards();
+                    }
+
                     if (this.selectedAssessment) {
                         this._updateOnboardingForAssessment(this.selectedAssessment);
                     }
@@ -417,6 +424,64 @@ class RiskAssessmentApp {
         // All dynamic values escaped via escapeHtml — safe innerHTML usage
         container.innerHTML = `<div style="text-align: center; padding: 2rem;"><p style="color: #d32f2f; margin-bottom: 1rem;">${escapeHtml(this.t('common', 'loadError'))}</p><button class="button reload-btn">${escapeHtml(this.t('common', 'reloadPage'))}</button></div>`;
         container.querySelector('.reload-btn').addEventListener('click', () => location.reload());
+    }
+
+    /**
+     * In-place language refresh for already-rendered assessment cards.
+     * On language switch, only the name/description/button-label inside each
+     * card changes — the image, id, and DOM structure stay identical. This
+     * method updates just the text nodes, leaving the existing <img> elements
+     * untouched so the browser never re-fetches the card icons.
+     *
+     * Returns true on success, false if the cards aren't rendered yet or if
+     * the container is missing. In the "false" case callers should fall back
+     * to the full _renderAssessmentCards() path.
+     *
+     * Rationale: _renderAssessmentCards() wipes the container and rebuilds
+     * every card, which causes the browser (with cache disabled during dev
+     * testing) to re-fetch all 7 cancer-card PNGs on every language switch.
+     * 5 switches × 7 images = 35 wasted image fetches per session. This path
+     * drops that to zero.
+     */
+    _updateAssessmentCardText() {
+        const container = document.querySelector('#screen-cancer-selection .assessment-cards');
+        if (!container) return false;
+
+        const existingCards = container.querySelectorAll('.assessment-card');
+        if (existingCards.length === 0) return false;
+
+        // Index the new assessments so we can match existing cards by data-assessment.
+        const assessmentsById = new Map();
+        for (const a of (this.assessments || [])) {
+            assessmentsById.set(a.id, a);
+        }
+
+        const startLabel = this.t('cancerSelection', 'startAssessment');
+
+        for (const card of existingCards) {
+            const id = card.dataset.assessment;
+            if (!id) continue;
+            const assessment = assessmentsById.get(id);
+            if (!assessment) continue;
+
+            const h3 = card.querySelector('h3');
+            if (h3) h3.textContent = assessment.name;
+
+            const desc = card.querySelector('p');
+            if (desc) desc.textContent = assessment.description;
+
+            const btn = card.querySelector('.card-btn');
+            if (btn) btn.textContent = startLabel;
+        }
+
+        // If the gender-required overlay is currently shown (no gender picked
+        // yet), its prompt text also needs to follow the language.
+        const overlayText = container.querySelector('.gender-required-overlay .overlay-content p');
+        if (overlayText) {
+            overlayText.textContent = this.t('landing', 'genderPrompt');
+        }
+
+        return true;
     }
 
     _renderAssessmentCards() {
