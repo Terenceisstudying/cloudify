@@ -661,24 +661,6 @@ class RiskAssessmentApp {
             return;
         }
         this.state.setQuestions(questions);
-        const currentAssessment = await getAssessmentById(this.selectedAssessment, this.currentLanguage);
-        const familyHistoryWeight = currentAssessment?.familyWeight || 10;
-        if (familyHistory === 'Yes') {
-            this.state.addRiskScore(familyHistoryWeight);
-            this.state.addCategoryRisk(this.t('common', 'familyGenetics'), familyHistoryWeight);
-        }
-        const ageThreshold = currentAssessment?.ageRiskThreshold || 0;
-        const ageWeight = currentAssessment?.ageRiskWeight || 0;
-        if (ageThreshold > 0 && age >= ageThreshold && ageWeight > 0) {
-            this.state.addRiskScore(ageWeight);
-            this.state.addCategoryRisk(this.t('common', 'ageFactor'), ageWeight);
-        }
-        const ethnicityRisk = currentAssessment?.ethnicityRisk || {};
-        const ethnicityWeight = parseFloat(ethnicityRisk[ethnicity.toLowerCase()]) || 0;
-        if (ethnicityWeight > 0) {
-            this.state.addRiskScore(ethnicityWeight);
-            this.state.addCategoryRisk(this.t('common', 'ethnicityFactor'), ethnicityWeight);
-        }
         this._changeScreen('game');
         this.mascot.show();
         this.mascot.updateState('Idle');
