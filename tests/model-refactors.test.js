@@ -2,19 +2,14 @@
  * Tests for model-layer refactors:
  * - AdminModel.updateAdmin() last-super-admin guard
  * - CancerTypeModel.getAssessmentConfig()
- * - CancerTypeModel.writeAssessmentsSnapshot() / ensureSnapshot()
  * Run: NODE_ENV=test node --test tests/model-refactors.test.js
  */
 
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert';
-import fs from 'fs/promises';
-import path from 'path';
 import { setup, teardown } from './helpers/setup.js';
 import { AdminModel } from '../models/adminModel.js';
 import { CancerTypeModel } from '../models/cancerTypeModel.js';
-
-const SNAPSHOT_PATH = path.join(process.cwd(), 'data', 'assessments-snapshot.json');
 
 describe('AdminModel.updateAdmin — last super admin guard', () => {
     before(async () => { await setup(); });
@@ -93,59 +88,6 @@ describe('CancerTypeModel.getAssessmentConfig', () => {
         assert.strictEqual(config.familyWeight, 10);
         assert.strictEqual(config.ageRiskThreshold, 50);
         assert.strictEqual(config.ageRiskWeight, 5);
-    });
-});
-
-describe('CancerTypeModel.writeAssessmentsSnapshot / ensureSnapshot', () => {
-    before(async () => {
-        await setup();
-        // Remove any existing snapshot
-        try { await fs.unlink(SNAPSHOT_PATH); } catch {}
-    });
-    after(async () => {
-        try { await fs.unlink(SNAPSHOT_PATH); } catch {}
-        await teardown();
-    });
-
-    it('ensureSnapshot creates snapshot when file does not exist', async () => {
-        const model = new CancerTypeModel();
-        await model.ensureSnapshot();
-
-        const raw = await fs.readFile(SNAPSHOT_PATH, 'utf8');
-        const snapshot = JSON.parse(raw);
-        assert.strictEqual(snapshot.success, true);
-        assert.ok(Array.isArray(snapshot.data));
-        assert.ok(snapshot.data.length > 0, 'snapshot should contain cancer types from fixtures');
-    });
-
-    it('ensureSnapshot does NOT overwrite existing snapshot', async () => {
-        // Write a marker snapshot
-        const marker = JSON.stringify({ success: true, data: [{ id: 'marker' }] });
-        await fs.writeFile(SNAPSHOT_PATH, marker);
-
-        const model = new CancerTypeModel();
-        await model.ensureSnapshot();
-
-        const raw = await fs.readFile(SNAPSHOT_PATH, 'utf8');
-        const snapshot = JSON.parse(raw);
-        assert.strictEqual(snapshot.data[0].id, 'marker', 'should not overwrite existing snapshot');
-    });
-
-    it('writeAssessmentsSnapshot writes all cancer types localized for en', async () => {
-        const model = new CancerTypeModel();
-        await model.writeAssessmentsSnapshot();
-
-        const raw = await fs.readFile(SNAPSHOT_PATH, 'utf8');
-        const snapshot = JSON.parse(raw);
-        assert.strictEqual(snapshot.success, true);
-
-        // Verify structure matches getAllCancerTypesLocalized output
-        const first = snapshot.data[0];
-        assert.ok('id' in first);
-        assert.ok('name' in first);
-        assert.ok('description' in first);
-        assert.ok('familyWeight' in first);
-        assert.ok('ethnicityRisk' in first);
     });
 });
 

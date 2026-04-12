@@ -125,7 +125,7 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
             }
 
             const reordered = await cancerTypeModel.reorderCancerTypes(orderedIds);
-            await cancerTypeModel.writeAssessmentsSnapshot();
+
             res.json({ success: true, data: reordered });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Internal server error' });
@@ -216,7 +216,7 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
                 ...cancerTypeData
             });
 
-            await cancerTypeModel.writeAssessmentsSnapshot();
+
             res.json({ success: true, data: cancerType });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Internal server error' });
@@ -249,7 +249,7 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
 
             const updatedCancerType = await cancerTypeModel.updateCancerType(req.params.id, cancerTypeData);
 
-            await cancerTypeModel.writeAssessmentsSnapshot();
+
             res.json({
                 success: true,
                 data: updatedCancerType
@@ -270,7 +270,7 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
                 return res.status(400).json({ success: false, error: 'visible must be a boolean' });
             }
             const updated = await cancerTypeModel.updateCancerType(req.params.id, { visible });
-            await cancerTypeModel.writeAssessmentsSnapshot();
+
             res.json({ success: true, data: updated });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Internal server error' });
@@ -286,7 +286,7 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
             await questionModel.deleteAssignmentsByAssessmentId(req.params.id);
             await cancerTypeModel.deleteCancerType(req.params.id);
 
-            await cancerTypeModel.writeAssessmentsSnapshot();
+
             res.json({ success: true, message: 'Cancer type and all associated questions deleted' });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Internal server error' });

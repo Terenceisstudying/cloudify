@@ -4,7 +4,7 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import fsp from 'fs/promises';
+
 import dotenv from 'dotenv';
 import { globalLimiter, apiLimiter, authLimiter, staticAssetLimiter } from './middleware/rateLimiter.js';
 import { authenticateToken } from './middleware/auth.js';
@@ -13,7 +13,7 @@ import { assessmentsRouter } from './routes/assessments.js';
 import { adminRouter, normalizeTheme } from './routes/admin/index.js';
 import { createPublicAuthRouter } from './routes/admin/auth.js';
 import { AdminModel } from './models/adminModel.js';
-import { CancerTypeModel } from './models/cancerTypeModel.js';
+
 import { SettingsModel } from './models/settingsModel.js';
 import emailService from './services/emailService.js';
 import { validateEnv } from './utils/validateEnv.js';
@@ -109,21 +109,6 @@ app.get('/api/theme', async (req, res) => {
     }
 });
 
-// Public assessments snapshot (fallback when API is unavailable)
-app.get('/api/assessments-snapshot', async (req, res) => {
-    try {
-        const snapshotPath = path.join(__dirname, 'data', 'assessments-snapshot.json');
-        const raw = await fsp.readFile(snapshotPath, 'utf8');
-        res.set('Cache-Control', 'public, max-age=3600');
-        res.json(JSON.parse(raw));
-    } catch (err) {
-        if (err.code === 'ENOENT') {
-            return res.status(404).json({ success: false, error: 'Snapshot not available' });
-        }
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
-
 // Public PDPA config (user-facing app)
 app.get('/api/pdpa', async (req, res) => {
     try {
@@ -174,14 +159,6 @@ if (process.env.NODE_ENV !== 'test') {
         } catch (err) {
             console.warn('Warning: Database connection failed:', err.message);
             console.warn('Server will continue without database — some features may be unavailable');
-        }
-
-        // Generate assessments snapshot if it doesn't exist
-        try {
-            const cancerTypeModel = new CancerTypeModel();
-            await cancerTypeModel.ensureSnapshot();
-        } catch (err) {
-            console.warn('Warning: Could not generate assessments snapshot:', err.message);
         }
 
         // Verify email service

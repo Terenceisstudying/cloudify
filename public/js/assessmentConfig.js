@@ -88,31 +88,6 @@ export async function loadAssessments(lang = null) {
         throw new Error('Failed to load cancer types');
     } catch (error) {
         console.error('Error loading assessments from API:', error);
-        // Try snapshot fallback
-        try {
-            const snapshotResponse = await fetch('/api/assessments-snapshot');
-            const snapshotResult = await snapshotResponse.json();
-            if (snapshotResult.success && snapshotResult.data) {
-                cachedAssessments = snapshotResult.data.map(ct => ({
-                    id: ct.id,
-                    name: ct.name,
-                    icon: ct.icon,
-                    description: ct.description,
-                    title: ct.name,
-                    subtitle: '',
-                    familyLabel: ct.familyLabel,
-                    familyWeight: ct.familyWeight || 10,
-                    genderFilter: ct.genderFilter || 'all',
-                    ageRiskThreshold: ct.ageRiskThreshold || 0,
-                    ageRiskWeight: ct.ageRiskWeight || 0,
-                    ethnicityRisk: ct.ethnicityRisk || { chinese: 0, malay: 0, indian: 0, caucasian: 0, others: 0 }
-                }));
-                currentLanguage = language;
-                return cachedAssessments;
-            }
-        } catch (snapshotError) {
-            console.error('Snapshot fallback also failed:', snapshotError);
-        }
         return [];
     }
 }

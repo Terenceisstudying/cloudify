@@ -1,11 +1,4 @@
 import pool from '../config/db.js';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const SNAPSHOT_FILE = path.join(__dirname, '..', 'data', 'assessments-snapshot.json');
 
 function mapRow(ct) {
     if (!ct) return null;
@@ -272,17 +265,4 @@ export class CancerTypeModel {
         }));
     }
 
-    async writeAssessmentsSnapshot() {
-        const allData = await this.getAllCancerTypesLocalized('en');
-        const data = allData.filter(ct => ct.visible !== false);
-        await fs.writeFile(SNAPSHOT_FILE, JSON.stringify({ success: true, data }, null, 2));
-    }
-
-    async ensureSnapshot() {
-        try {
-            await fs.access(SNAPSHOT_FILE);
-        } catch {
-            await this.writeAssessmentsSnapshot();
-        }
-    }
 }
