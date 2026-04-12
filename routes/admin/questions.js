@@ -31,6 +31,14 @@ export function createQuestionsRouter({ questionModel }) {
                 explanationNo_en, explanationNo_zh, explanationNo_ms, explanationNo_ta
             } = req.body;
 
+            const missingEn = [];
+            if (!prompt_en || !prompt_en.trim()) missingEn.push('English prompt');
+            if (!explanationYes_en || !explanationYes_en.trim()) missingEn.push('English explanation (Yes)');
+            if (!explanationNo_en || !explanationNo_en.trim()) missingEn.push('English explanation (No)');
+            if (missingEn.length > 0) {
+                return res.status(400).json({ success: false, error: `Required: ${missingEn.join(', ')}` });
+            }
+
             const newEntry = await questionModel.createBankQuestion({
                 id,
                 prompt_en, prompt_zh, prompt_ms, prompt_ta,
@@ -76,6 +84,14 @@ export function createQuestionsRouter({ questionModel }) {
                 explanationYes_en, explanationYes_zh, explanationYes_ms, explanationYes_ta,
                 explanationNo_en, explanationNo_zh, explanationNo_ms, explanationNo_ta
             } = req.body;
+
+            const emptyEn = [];
+            if (prompt_en !== undefined && !prompt_en.trim()) emptyEn.push('English prompt');
+            if (explanationYes_en !== undefined && !explanationYes_en.trim()) emptyEn.push('English explanation (Yes)');
+            if (explanationNo_en !== undefined && !explanationNo_en.trim()) emptyEn.push('English explanation (No)');
+            if (emptyEn.length > 0) {
+                return res.status(400).json({ success: false, error: `Cannot be empty: ${emptyEn.join(', ')}` });
+            }
 
             const updates = {
                 ...(prompt_en !== undefined ? { prompt_en } : {}),

@@ -25,11 +25,11 @@ describe('Admin question-bank concurrency', () => {
             prompt_zh: '',
             prompt_ms: '',
             prompt_ta: '',
-            explanationYes_en: '',
+            explanationYes_en: `Yes explanation for ${id}`,
             explanationYes_zh: '',
             explanationYes_ms: '',
             explanationYes_ta: '',
-            explanationNo_en: '',
+            explanationNo_en: `No explanation for ${id}`,
             explanationNo_zh: '',
             explanationNo_ms: '',
             explanationNo_ta: ''
@@ -68,8 +68,8 @@ describe('Admin question-bank concurrency', () => {
             id: duplicateId,
             prompt_en: 'Race on same id',
             prompt_zh: '', prompt_ms: '', prompt_ta: '',
-            explanationYes_en: '', explanationYes_zh: '', explanationYes_ms: '', explanationYes_ta: '',
-            explanationNo_en: '', explanationNo_zh: '', explanationNo_ms: '', explanationNo_ta: ''
+            explanationYes_en: 'Yes race', explanationYes_zh: '', explanationYes_ms: '', explanationYes_ta: '',
+            explanationNo_en: 'No race', explanationNo_zh: '', explanationNo_ms: '', explanationNo_ta: ''
         };
 
         const results = await Promise.all([

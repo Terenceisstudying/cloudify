@@ -29,12 +29,23 @@ export function createTranslationsRouter({ settingsModel }) {
 
             // Normalize incoming patch: each group is an object of key -> {en,zh,ms,ta}
             const patch = {};
+            const missingEn = [];
             for (const [group, keys] of Object.entries(body)) {
                 if (!keys || typeof keys !== 'object') continue;
                 patch[group] = {};
                 for (const [key, val] of Object.entries(keys)) {
-                    patch[group][key] = langObj(val);
+                    const normalized = langObj(val);
+                    if (!normalized.en.trim()) {
+                        missingEn.push(`${group}.${key}`);
+                    }
+                    patch[group][key] = normalized;
                 }
+            }
+            if (missingEn.length > 0) {
+                return res.status(400).json({
+                    success: false,
+                    error: `English value required for: ${missingEn.join(', ')}`
+                });
             }
 
             // Deep-merge with existing DB state: groups and keys not in the patch

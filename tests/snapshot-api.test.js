@@ -62,7 +62,7 @@ describe('Cancer type mutations auto-update snapshot', () => {
         const res = await request(app)
             .post('/api/admin/cancer-types')
             .set('Authorization', `Bearer ${token}`)
-            .send({ id: 'snapshot-test', name_en: 'Snapshot Test', visible: true });
+            .send({ id: 'snapshot-test', name_en: 'Snapshot Test', description_en: 'Snapshot desc', familyLabel_en: 'Family snapshot', visible: true });
         assert.strictEqual(res.status, 200);
 
         const raw = await fs.readFile(SNAPSHOT_PATH, 'utf8');

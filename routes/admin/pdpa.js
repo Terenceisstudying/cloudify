@@ -25,6 +25,17 @@ export function createPdpaRouter({ settingsModel }) {
                 return { en: str(obj.en), zh: str(obj.zh), ms: str(obj.ms), ta: str(obj.ta) };
             };
 
+            const getEn = (obj) => (obj && typeof obj === 'object' && typeof obj.en === 'string') ? obj.en : '';
+            const missingEn = [];
+            if (!getEn(body.title).trim()) missingEn.push('Title');
+            if (!getEn(body.purpose).trim()) missingEn.push('Purpose');
+            if (!getEn(body.dataCollected).trim()) missingEn.push('Data Collected');
+            if (!getEn(body.checkboxLabel).trim()) missingEn.push('Checkbox Label');
+            if (!getEn(body.agreeButtonText).trim()) missingEn.push('Agree Button Text');
+            if (missingEn.length > 0) {
+                return res.status(400).json({ success: false, error: `English required for: ${missingEn.join(', ')}` });
+            }
+
             const pdpa = {
                 enabled: !!body.enabled,
                 title: langObj(body.title),

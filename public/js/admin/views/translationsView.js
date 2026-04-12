@@ -1,6 +1,6 @@
 import { API_BASE, adminFetch } from '../api.js';
 import { showSuccess, showError } from '../notifications.js';
-import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
+import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners, validateEnglishFields } from '../langTabs.js';
 import { escapeHtml as esc } from '../../utils/escapeHtml.js';
 
 const SCREEN_GROUPS = {
@@ -504,6 +504,17 @@ function getLangValues(prefix) {
 
 async function saveTranslations() {
     const btn = document.getElementById('save-translations-btn');
+
+    // Collect all English field IDs and validate
+    const enFieldIds = [];
+    for (const [group, keys] of Object.entries(translationsData)) {
+        for (const key of Object.keys(keys)) {
+            enFieldIds.push(`trans-${group}-${key}-en`);
+        }
+    }
+    const { valid } = validateEnglishFields('#translations-tab', enFieldIds);
+    if (!valid) return;
+
     btn.disabled = true;
     btn.textContent = 'Saving...';
     try {

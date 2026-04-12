@@ -20,6 +20,43 @@ function extractCancerTypeFields(body) {
     return result;
 }
 
+const REQUIRED_EN_FIELDS = [
+    { field: 'name_en', label: 'English name' },
+    { field: 'description_en', label: 'English description' },
+    { field: 'familyLabel_en', label: 'English family history label' }
+];
+
+function validateRequiredEn(data, requireAll) {
+    const missing = [];
+    for (const { field, label } of REQUIRED_EN_FIELDS) {
+        if (requireAll) {
+            if (!data[field] || !data[field].trim()) missing.push(label);
+        } else {
+            if (data[field] !== undefined && !data[field].trim()) missing.push(label);
+        }
+    }
+    return missing;
+}
+
+function validateRecsEn(recommendations) {
+    if (!Array.isArray(recommendations) || recommendations.length === 0) return [];
+    const errors = [];
+    recommendations.forEach((rec, i) => {
+        if (!rec.title || !rec.title.en || !rec.title.en.trim()) {
+            errors.push(`Recommendation ${i + 1} title`);
+        }
+        if (Array.isArray(rec.actions)) {
+            rec.actions.forEach((action, j) => {
+                const en = typeof action === 'object' ? action.en : action;
+                if (!en || !String(en).trim()) {
+                    errors.push(`Recommendation ${i + 1}, action ${j + 1}`);
+                }
+            });
+        }
+    });
+    return errors;
+}
+
 function isValidIconPath(icon) {
     if (typeof icon !== 'string') return false;
     if (icon === '') return true;
@@ -160,8 +197,18 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
             const normalizedId = id.toLowerCase().trim();
             const cancerTypeData = extractCancerTypeFields(req.body);
 
+            const missing = validateRequiredEn(cancerTypeData, true);
+            if (missing.length > 0) {
+                return res.status(400).json({ success: false, error: `Required: ${missing.join(', ')}` });
+            }
+
             if (cancerTypeData.icon && !isValidIconPath(cancerTypeData.icon)) {
                 return res.status(400).json({ success: false, error: 'Invalid icon path' });
+            }
+
+            const recErrors = validateRecsEn(cancerTypeData.recommendations);
+            if (recErrors.length > 0) {
+                return res.status(400).json({ success: false, error: `English required for: ${recErrors.join(', ')}` });
             }
 
             const cancerType = await cancerTypeModel.createCancerType({
@@ -184,8 +231,20 @@ export function createCancerTypesRouter({ cancerTypeModel, questionModel, comput
         try {
             const cancerTypeData = extractCancerTypeFields(req.body);
 
+            const missing = validateRequiredEn(cancerTypeData, false);
+            if (missing.length > 0) {
+                return res.status(400).json({ success: false, error: `Cannot be empty: ${missing.join(', ')}` });
+            }
+
             if (cancerTypeData.icon && !isValidIconPath(cancerTypeData.icon)) {
                 return res.status(400).json({ success: false, error: 'Invalid icon path' });
+            }
+
+            if (cancerTypeData.recommendations !== undefined) {
+                const recErrors = validateRecsEn(cancerTypeData.recommendations);
+                if (recErrors.length > 0) {
+                    return res.status(400).json({ success: false, error: `English required for: ${recErrors.join(', ')}` });
+                }
             }
 
             const updatedCancerType = await cancerTypeModel.updateCancerType(req.params.id, cancerTypeData);

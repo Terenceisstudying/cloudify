@@ -1,6 +1,6 @@
 import { API_BASE, adminFetch } from '../api.js';
 import { showSuccess, showError } from '../notifications.js';
-import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
+import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners, validateEnglishFields } from '../langTabs.js';
 
 export async function loadPdpa() {
     const loading = document.getElementById('pdpa-loading');
@@ -82,6 +82,13 @@ function bindPdpaPreview() {
 
 async function savePdpa() {
     const btn = document.getElementById('pdpa-save-btn');
+    // Validate all required English fields
+    const { valid } = validateEnglishFields('#pdpa-tab', [
+        'pdpa-title-en', 'pdpa-purpose-en', 'pdpa-data-en',
+        'pdpa-checkbox-en', 'pdpa-agree-en'
+    ]);
+    if (!valid) return;
+
     btn.disabled = true;
     btn.textContent = 'Saving...';
     try {

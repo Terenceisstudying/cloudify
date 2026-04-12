@@ -63,10 +63,10 @@ describe('Admin PDPA API', () => {
                 .send({
                     enabled: false,
                     title: { en: 'Changed', zh: '', ms: '', ta: '' },
-                    purpose: { en: '', zh: '', ms: '', ta: '' },
-                    dataCollected: { en: '', zh: '', ms: '', ta: '' },
-                    checkboxLabel: { en: '', zh: '', ms: '', ta: '' },
-                    agreeButtonText: { en: '', zh: '', ms: '', ta: '' }
+                    purpose: { en: 'Updated purpose', zh: '', ms: '', ta: '' },
+                    dataCollected: { en: 'Updated data', zh: '', ms: '', ta: '' },
+                    checkboxLabel: { en: 'Updated check', zh: '', ms: '', ta: '' },
+                    agreeButtonText: { en: 'Updated agree', zh: '', ms: '', ta: '' }
                 });
             // Then read
             const res = await request(app)
@@ -76,22 +76,23 @@ describe('Admin PDPA API', () => {
             assert.strictEqual(res.body.data.title.en, 'Changed');
         });
 
-        it('normalizes all language fields', async () => {
+        it('normalizes missing non-EN language keys to empty string', async () => {
             const res = await request(app)
                 .put('/api/admin/pdpa')
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     enabled: true,
                     title: { en: 'Only EN' },
-                    purpose: null,
-                    dataCollected: {},
+                    purpose: { en: 'Purpose' },
+                    dataCollected: { en: 'Data' },
                     checkboxLabel: { en: 'Check' },
                     agreeButtonText: { en: 'Agree' }
                 });
             assert.strictEqual(res.status, 200);
-            // Missing language keys should default to empty string
+            // Missing non-EN language keys should default to empty string
             assert.strictEqual(res.body.data.title.zh, '');
-            assert.strictEqual(res.body.data.purpose.en, '');
+            assert.strictEqual(res.body.data.title.ms, '');
+            assert.strictEqual(res.body.data.title.ta, '');
         });
     });
 });

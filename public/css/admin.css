@@ -989,6 +989,35 @@ body {
     grid-column: 1 / -1;
 }
 
+/* Validation error state for required fields */
+.validation-error input,
+.validation-error textarea {
+    border-color: #f44336;
+    box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+}
+.lang-field.validation-error .lang-label {
+    background: #ffebee;
+    color: #c62828;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+.validation-error {
+    animation: shake 0.4s ease-in-out;
+}
+.lang-validation-msg {
+    background: #ffebee;
+    color: #c62828;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    border-left: 3px solid #f44336;
+}
+
 /* ======== TRANSLATIONS TAB — TWO-COLUMN LAYOUT ======== */
 .translations-tab-inner {
     display: flex;

@@ -40,7 +40,7 @@ describe('Admin Question Bank API', () => {
                     explanationYes_zh: '',
                     explanationYes_ms: '',
                     explanationYes_ta: '',
-                    explanationNo_en: '',
+                    explanationNo_en: 'Good, not smoking helps.',
                     explanationNo_zh: '',
                     explanationNo_ms: '',
                     explanationNo_ta: ''
@@ -55,7 +55,9 @@ describe('Admin Question Bank API', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     id: 'test-q-001',
-                    prompt_en: 'Duplicate question'
+                    prompt_en: 'Duplicate question',
+                    explanationYes_en: 'Yes dup',
+                    explanationNo_en: 'No dup'
                 });
             assert.strictEqual(res.status, 500);
         });

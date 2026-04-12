@@ -4,7 +4,7 @@ import { showSuccess, showError } from '../notifications.js';
 import { fillAssetSelect, updateAssetPickerTrigger, initAssetPickerDropdown } from '../assetPickerUtils.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
 import { openModalA11y, closeModalA11y } from '../../utils/modal.js';
-import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
+import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners, validateEnglishFields } from '../langTabs.js';
 import { createAssetStager } from '../assetStaging.js';
 import {
     currentCancerType, setCurrentCancerType,
@@ -1339,6 +1339,67 @@ function removeRecAction(recIdx, actIdx) {
     renderRecommendationsEditor();
 }
 
+/**
+ * Validate that every recommendation title and action has a non-empty EN value.
+ * Uses the same visual pattern as validateEnglishFields (red border + shake + inline msg)
+ * but works with class+data-attr selectors instead of element IDs.
+ * Returns true if valid (or no recommendations exist).
+ */
+function validateRecommendationsEn() {
+    // Clear previous rec validation errors
+    document.querySelectorAll('#ct-recommendations-container .validation-error').forEach(el => {
+        el.classList.remove('validation-error');
+    });
+    document.querySelectorAll('#ct-recommendations-container .lang-validation-msg').forEach(el => {
+        el.remove();
+    });
+
+    const emptyFields = [];
+
+    // Check each rec title EN
+    document.querySelectorAll('.rec-title-input[data-lang="en"]').forEach(el => {
+        if (!el.value.trim()) emptyFields.push(el);
+    });
+
+    // Check each rec action EN
+    document.querySelectorAll('.rec-action-input[data-lang="en"]').forEach(el => {
+        if (!el.value.trim()) emptyFields.push(el);
+    });
+
+    if (emptyFields.length === 0) return true;
+
+    // Highlight each empty field and add inline error above each one
+    for (const el of emptyFields) {
+        const wrapper = el.parentElement;
+        if (wrapper && wrapper.parentElement) {
+            wrapper.classList.add('validation-error');
+            wrapper.style.animation = 'none';
+            wrapper.offsetHeight;
+            wrapper.style.animation = '';
+
+            // Add inline error message above this row
+            const msgEl = document.createElement('div');
+            msgEl.className = 'lang-validation-msg';
+            msgEl.textContent = 'English text is required.';
+            wrapper.parentElement.insertBefore(msgEl, wrapper);
+
+            el.addEventListener('input', function clearError() {
+                wrapper.classList.remove('validation-error');
+                const prev = wrapper.previousElementSibling;
+                if (prev && prev.classList.contains('lang-validation-msg')) prev.remove();
+                el.removeEventListener('input', clearError);
+            });
+        }
+    }
+
+    // Scroll to and focus the first empty field
+    const first = emptyFields[0];
+    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    first.focus();
+
+    return false;
+}
+
 function initRecommendationsListeners() {
     const addBtn = document.getElementById('ct-add-rec-btn');
     if (addBtn && !addBtn._recListenerAttached) {
@@ -1396,6 +1457,21 @@ export function initContentView() {
                 saveBtn.textContent = 'Save Changes';
                 return;
             }
+        }
+
+        // Validate required English fields
+        const { valid } = validateEnglishFields('#cancer-type-form', ['ct-name-en', 'ct-desc-en', 'ct-family-en']);
+        if (!valid) {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Changes';
+            return;
+        }
+
+        // Validate recommendation EN fields (titles + actions)
+        if (!validateRecommendationsEn()) {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Changes';
+            return;
         }
 
         const cancerTypeData = {

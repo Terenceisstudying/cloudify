@@ -84,7 +84,7 @@ describe('Admin Cancer Types API', () => {
             const res = await request(app)
                 .post('/api/admin/cancer-types')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ id: 'test-cancer', name_en: 'Test Cancer Type' });
+                .send({ id: 'test-cancer', name_en: 'Test Cancer Type', description_en: 'A test cancer', familyLabel_en: 'Family history' });
             assert.strictEqual(res.status, 200);
             assert.strictEqual(res.body.success, true);
         });
@@ -93,7 +93,7 @@ describe('Admin Cancer Types API', () => {
             const res = await request(app)
                 .post('/api/admin/cancer-types')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ id: 'test-hidden-default', name_en: 'Hidden Default Test' });
+                .send({ id: 'test-hidden-default', name_en: 'Hidden Default Test', description_en: 'Test desc', familyLabel_en: 'Family test' });
             assert.strictEqual(res.status, 200);
             assert.strictEqual(res.body.data.visible, false, 'new cancer type should default to hidden');
         });

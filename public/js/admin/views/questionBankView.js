@@ -5,7 +5,7 @@ import { questionBank, clearQuestionBank, allCancerTypes } from '../state.js';
 import { loadCancerTypesCache, addExistingQuestion, openCancerTypeEditor } from './contentView.js';
 import { escapeHtml } from '../../utils/escapeHtml.js';
 import { openModalA11y, closeModalA11y } from '../../utils/modal.js';
-import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners } from '../langTabs.js';
+import { initLangTabs, getActiveLang, onLangChange, clearLangChangeListeners, validateEnglishFields } from '../langTabs.js';
 
 let _qbSortColumn = 'usedIn';
 let _qbSortDirection = 'desc';
@@ -355,6 +355,11 @@ export function initQuestionBankView() {
         const explanationNo_ta = document.getElementById('qb-q-expNo-ta').value;
 
         const submitBtn = this.querySelector('button[type="submit"]');
+
+        // Validate required English fields
+        const { valid } = validateEnglishFields('#qb-question-modal', ['qb-q-prompt-en', 'qb-q-expYes-en', 'qb-q-expNo-en']);
+        if (!valid) return;
+
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Saving...';
