@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import compression from 'compression';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
@@ -54,6 +55,7 @@ const adminModel = new AdminModel();
 const settingsModel = new SettingsModel();
 
 // Middleware
+app.use(compression());
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 
@@ -100,6 +102,7 @@ app.use('/api/admin/reset-password', authLimiter);
 app.get('/api/theme', async (req, res) => {
     try {
         const theme = await settingsModel.getTheme();
+        res.set('Cache-Control', 'public, max-age=300');
         res.json(normalizeTheme(theme));
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -111,6 +114,7 @@ app.get('/api/assessments-snapshot', async (req, res) => {
     try {
         const snapshotPath = path.join(__dirname, 'data', 'assessments-snapshot.json');
         const raw = await fsp.readFile(snapshotPath, 'utf8');
+        res.set('Cache-Control', 'public, max-age=3600');
         res.json(JSON.parse(raw));
     } catch (err) {
         if (err.code === 'ENOENT') {
@@ -124,6 +128,7 @@ app.get('/api/assessments-snapshot', async (req, res) => {
 app.get('/api/pdpa', async (req, res) => {
     try {
         const pdpa = await settingsModel.getPdpa();
+        res.set('Cache-Control', 'public, max-age=3600');
         res.json(pdpa);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -134,6 +139,7 @@ app.get('/api/pdpa', async (req, res) => {
 app.get('/api/translations', async (req, res) => {
     try {
         const translations = await settingsModel.getTranslations();
+        res.set('Cache-Control', 'public, max-age=3600');
         res.json(translations);
     } catch (err) {
         res.status(500).json({ error: err.message });

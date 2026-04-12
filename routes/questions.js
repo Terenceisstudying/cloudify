@@ -21,6 +21,7 @@ router.get('/cancer-types', async (req, res) => {
         const lang = sanitizeLang(req.query.lang);
         const allCancerTypes = await cancerTypeModel.getAllCancerTypesLocalized(lang);
         const cancerTypes = allCancerTypes.filter(ct => ct.visible !== false);
+        res.set('Cache-Control', 'public, max-age=300');
         res.json({ success: true, data: cancerTypes });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
@@ -41,6 +42,7 @@ router.get('/cancer-types/:id', async (req, res) => {
             return res.status(404).json({ success: false, error: 'Cancer type not found' });
         }
 
+        res.set('Cache-Control', 'public, max-age=300');
         res.json({ success: true, data: cancerType });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
@@ -74,6 +76,7 @@ router.get('/by-assessment', async (req, res) => {
             userAge
         );
 
+        res.set('Cache-Control', 'public, max-age=300');
         res.json({ success: true, data: questions });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Internal server error' });
