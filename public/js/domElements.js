@@ -43,10 +43,7 @@ export class DOMElements {
         };
 
         this.results = {
-            riskLevel: document.getElementById('results-risk-level'),
             summary: document.getElementById('results-summary'),
-            scoreNumber: document.getElementById('score-number'),
-            scoreArc: document.getElementById('score-arc'),
             breakdownContainer: document.getElementById('breakdown-categories'),
             cancerBreakdownContainer: document.getElementById('cancer-breakdown-container'),
             recommendationsContainer: document.getElementById('recommendations-container'),

@@ -217,6 +217,14 @@ class RiskAssessmentApp {
         });
     }
 
+    // TODO(extract-language-switcher): lift this handler into a dedicated
+    // services/languageSwitcher.js module when either (a) a second trigger
+    // for language switching appears (URL ?lang= param, programmatic
+    // preference sync, saved participant preference, admin preview) or
+    // (b) the per-screen branch count reaches 4+, or any single branch
+    // exceeds ~40 lines. The orchestrator should own: request-id staleness,
+    // loading overlay lifecycle, QuestionLoader cache invalidation, and
+    // error recovery. Per-screen re-render stays with the screen.
     _setupLanguageSelector() {
         const selector = document.getElementById('language-selector');
         if (!selector) return;
@@ -226,6 +234,11 @@ class RiskAssessmentApp {
                 // Translation button click intentionally does NOT have the 'button' sound here
                 const lang = btn.dataset.lang;
                 if (lang === this.currentLanguage) return;
+
+                // Snapshot the currently-active button before the optimistic
+                // update — if the fetch throws, we restore this so the
+                // highlight doesn't lie about which language is really live.
+                const previouslyActive = selector.querySelector('button.active');
 
                 // Update button active states immediately
                 selector.querySelectorAll('button').forEach(b => b.classList.remove('active'));
@@ -306,6 +319,12 @@ class RiskAssessmentApp {
                         // summary, category breakdown, and recommendations stay in the
                         // original language.
                         //
+                        // Re-localize stored answer prompts (shared helper — also
+                        // runs on first arrival at results to normalize any
+                        // mid-game language switches).
+                        await this._localizeAnswerPrompts(lang);
+                        if (requestId !== this._langRequestId) return;
+
                         // We pass { silent: true } to suppress the success sound and
                         // confetti (they already fired when the participant first
                         // reached the results screen). We also re-localize the raw
@@ -322,6 +341,10 @@ class RiskAssessmentApp {
                     }
                 } catch (error) {
                     console.error('Error switching language:', error);
+                    // Roll back the optimistic button highlight so it matches
+                    // the real this.currentLanguage (which never flipped).
+                    selector.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                    previouslyActive?.classList.add('active');
                 } finally {
                     // 5. Hide loading overlay — only if this is still the latest switch.
                     // A stale handler that was superseded must not hide the overlay
@@ -944,8 +967,36 @@ class RiskAssessmentApp {
         });
     }
 
+    /**
+     * Rewrite `questionText` on every answer row to the given language.
+     *
+     * Answer rows cache `questionText` at quiz-time in whatever language was
+     * active when the participant answered. If they switch language mid-game,
+     * the log ends up mixed — some rows in EN, some in BM, etc. Call this
+     * before rendering the results breakdown (and on results-screen language
+     * switches) so the accordion reads uniformly in the active language.
+     *
+     * QuestionLoader caches per (assessmentType, age, lang), so this is
+     * typically a cache hit — no extra API round-trip.
+     */
+    async _localizeAnswerPrompts(lang) {
+        const { assessmentType, age } = this.state.getUserData();
+        if (!assessmentType || this.answers.length === 0) return;
+        try {
+            const qs = await QuestionLoader.loadQuestions(assessmentType, age, lang);
+            const promptById = new Map(qs.map(q => [q.id, q.prompt]));
+            this.answers.forEach(a => {
+                const next = promptById.get(a.questionId);
+                if (next) a.questionText = next;
+            });
+        } catch (err) {
+            console.error('Failed to localize answer prompts:', err);
+        }
+    }
+
     async _showResults() {
         this.mascot.hide();
+        await this._localizeAnswerPrompts(this.currentLanguage);
         const riskResult = this.ui.showResults(this.state, this.answers, this.assessments);
         this.ui.renderRiskBreakdown(this.state.getCategoryRisks(), this.state.getAnswerCounts(), this.answers);
 
@@ -987,13 +1038,15 @@ class RiskAssessmentApp {
         // Clear PDPA consent so next participant must re-accept
         sessionStorage.removeItem('pdpaConsented');
 
-        // Reset UI elements on results page
+        // Reset UI elements on results page. showResults() reconciles the
+        // display per-branch on the next render; setting 'none' here just
+        // avoids a brief flash of stale content.
         const riskBreakdown = document.querySelector('.risk-breakdown');
         const cancerBreakdown = document.getElementById('cancer-breakdown');
 
-        if (riskBreakdown) riskBreakdown.style.display = '';
+        if (riskBreakdown) riskBreakdown.style.display = 'none';
         if (cancerBreakdown) cancerBreakdown.style.display = 'none';
-        
+
         // Clear out the onboarding form inputs so it's fresh for the next quiz
         this.dom.onboarding.form?.reset();
         this.dom.onboarding.ethnicityOthersContainer?.classList.add('hidden');
@@ -1030,11 +1083,12 @@ class RiskAssessmentApp {
         // Clear out PDPA consent so the modal shows again
         sessionStorage.removeItem('pdpaConsented');
 
-        // Reset UI elements on results page
+        // Reset UI elements on results page. showResults() reconciles the
+        // display per-branch on the next render; setting 'none' here just
+        // avoids a brief flash of stale content.
         const riskBreakdown = document.querySelector('.risk-breakdown');
         const cancerBreakdown = document.getElementById('cancer-breakdown');
 
-        // if (riskBreakdown) riskBreakdown.style.display = '';
         if (riskBreakdown) riskBreakdown.style.display = 'none';
         if (cancerBreakdown) cancerBreakdown.style.display = 'none';
         

@@ -12,34 +12,6 @@
     margin-top: 0;
 }
 
-/* Risk level badge — colored pill */
-#results-risk-level {
-    display: block; /* Changed from inline-block */
-    width: fit-content; /* Added to wrap the pill tightly around the text */
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin: 10px auto 5px; /* Margin auto will now successfully center it */
-}
-#results-risk-level.risk-low {
-    background: #dcfce7;
-    color: #166534; /* Improved contrast */
-    box-shadow: 0 4px 12px rgba(22, 101, 52, 0.15);
-}
-
-#results-risk-level.risk-medium {
-    background: #fef3c7;
-    color: #92400e; /* Improved contrast */
-    box-shadow: 0 4px 12px rgba(146, 64, 14, 0.15);
-}
-
-#results-risk-level.risk-high {
-    background: #fee2e2;
-    color: #991b1b; /* Improved contrast */
-    box-shadow: 0 4px 12px rgba(153, 27, 27, 0.15);
-}
-
 #results-summary {
     text-align: center;
     font-size: 1.2rem;
@@ -260,35 +232,6 @@
 }
 
 /* ======== INTERACTIVE RESULTS PAGE ======== */
-/* Score Gauge Visualization */
-.results-score-container {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 16px;
-    padding: 30px 20px;
-    margin: 25px 0;
-    text-align: center;
-}
-
-.score-visual {
-    max-width: 300px;
-    margin: 0 auto 15px;
-}
-
-.score-gauge {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
-}
-
-#score-arc {
-    transition: stroke-dashoffset 2s ease-out, stroke 0.5s ease;
-}
-
-#score-number {
-    fill: var(--color-dark-text);
-    transition: fill 0.5s ease;
-}
-
 /* Risk Factor Breakdown */
 .risk-breakdown {
     margin: 30px 0;
@@ -306,77 +249,34 @@
     gap: 12px;
 }
 
-.risk-category {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.risk-category:hover {
-    transform: translateY(-6px) scale(1.02);
-    background: white;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-    border-color: var(--color-primary);
-}
-
-.category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
 .category-name {
     font-weight: 600;
     font-size: 1.1rem;
     color: var(--color-dark-text);
 }
 
-.category-badge {
-    padding: 4px 12px;
+/* Risk-factor breakdown — reuses .accordion-* markup (see below) with extras */
+.accordion-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.risk-factor-count {
+    padding: 3px 10px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
+    white-space: nowrap;
+    background: rgba(8, 145, 178, 0.1);
+    color: var(--color-primary);
 }
 
-.badge-high {
-    background: #ffe5e5;
+/* Inside the risk-factor accordion, replace the recommendation ✓ with a
+   red "!" marker — these items are risks, not positive actions. */
+#breakdown-categories .accordion-content li:before {
+    content: "!";
     color: var(--color-risk-high);
-}
-
-.badge-medium {
-    background: #fff4e5;
-    color: #f57c00;
-}
-
-.badge-low {
-    background: #e8f5e9;
-    color: var(--color-risk-low);
-}
-
-.category-bar {
-    width: 100%;
-    height: 8px;
-    background: #e0e0e0;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-.category-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 1s ease-out;
-}
-
-.category-count {
-    font-size: 0.95rem;
-    color: var(--color-light-text);
-    margin-top: 5px;
 }
 
 /* Accordion Action Items */
@@ -490,26 +390,9 @@
     }
 }
 
-.risk-category,
 .accordion-item {
     animation: slideInUpBounce 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     opacity: 0;
-}
-
-.risk-category:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.risk-category:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.risk-category:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.risk-category:nth-child(4) {
-    animation-delay: 0.4s;
 }
 
 .accordion-item:nth-child(1) {
@@ -530,16 +413,6 @@
 
 /* Responsive adjustments for results */
 @media (max-width: 450px) {
-    .results-score-container {
-        padding: 20px 15px;
-    }
-
-    .category-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
     .accordion-header {
         font-size: 1.05rem;
         padding: 15px;
@@ -548,33 +421,6 @@
     .accordion-content li {
         font-size: 1rem;
     }
-}
-
-/* ======== WCAG ACCESSIBILITY IMPROVEMENTS ======== */
-/* Updated badge colors for 4.5:1 contrast ratio */
-.badge-high {
-    background: #ffe5e5;
-    color: #c62828 !important;
-    /* Darker red for WCAG AAA contrast */
-}
-
-.badge-medium {
-    background: #fff4e5;
-    color: #e65100 !important;
-    /* Darker orange for WCAG AAA contrast */
-}
-
-.badge-low {
-    background: #e8f5e9;
-    color: #2e7d32 !important;
-    /* Darker green for WCAG AAA contrast */
-}
-
-/* Badge icon spacing for accessibility symbols */
-.badge-icon {
-    margin-right: 4px;
-    outline-offset: -2px;
-    box-shadow: inset 0 0 0 4px rgba(33, 150, 243, 0.2);
 }
 
 /* ======== TOUCH INTERACTION FEEDBACK ======== */
@@ -613,10 +459,6 @@ button:active,
         padding: 0 30px;
     }
 
-    .results-score-container {
-        padding: 25px 20px;
-    }
-
     .accordion-header {
         font-size: 1.2rem;
     }
@@ -648,16 +490,6 @@ button:active,
 
     .feedback-overlay {
         font-size: 1.5rem;
-    }
-
-    .results-score-container {
-        padding: 15px 10px;
-    }
-
-    .category-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
     }
 
     .accordion-header {
@@ -1070,18 +902,6 @@ label[for="gender-female"]::before {
     margin-bottom: 0;
 }
 
-.cancer-risk-item.cancer-risk-low {
-    border-left-color: #28a745;
-}
-
-.cancer-risk-item.cancer-risk-medium {
-    border-left-color: #ffc107;
-}
-
-.cancer-risk-item.cancer-risk-high {
-    border-left-color: #dc3545;
-}
-
 .cancer-risk-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1124,73 +944,6 @@ label[for="gender-female"]::before {
     color: #333;
 }
 
-.cancer-risk-score {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.cancer-risk-detail {
-    margin-top: 8px;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-.cancer-risk-detail .score-value {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #333;
-}
-
-.risk-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.risk-badge.risk-low {
-    background: #d4edda;
-    color: #155724;
-}
-
-.risk-badge.risk-medium {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.risk-badge.risk-high {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.cancer-risk-gauge {
-    height: 8px;
-    background: #e9ecef;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.gauge-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.8s ease;
-}
-
-.gauge-fill.gauge-low {
-    background: linear-gradient(90deg, #28a745, #20c997);
-}
-
-.gauge-fill.gauge-medium {
-    background: linear-gradient(90deg, #ffc107, #fd7e14);
-}
-
-.gauge-fill.gauge-high {
-    background: linear-gradient(90deg, #dc3545, #e74c3c);
-}
-
 /* Mobile responsiveness for cancer breakdown */
 @media (max-width: 600px) {
     .cancer-breakdown {
@@ -1203,10 +956,6 @@ label[for="gender-female"]::before {
         gap: 8px;
     }
 
-    .cancer-risk-score {
-        align-self: flex-end;
-    }
-
     .cancer-type-name {
         font-size: 0.95rem;
     }
@@ -1214,8 +963,4 @@ label[for="gender-female"]::before {
     .cancer-type-icon {
         font-size: 1.3rem;
     }
-}
-
-.cancer-risk-item {
-    border-left-color: #e9ecef !important;
 }

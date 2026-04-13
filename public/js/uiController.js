@@ -1,4 +1,4 @@
-import { RISK_LEVELS, RISK_CATEGORY_KEYS } from './constants.js';
+import { RISK_CATEGORY_KEYS } from './constants.js';
 import { calculateRiskScore } from '../controllers/riskCalculator.js';
 import { escapeHtml } from './utils/escapeHtml.js';
 import { audioController } from './audioController.js';
@@ -265,11 +265,15 @@ export class UIController {
         });
     }
 
-    renderRiskBreakdown(categoryRisks, answerCounts, answers) {
+    renderRiskBreakdown(categoryRisks, answerCounts, answers = []) {
         if (!this.elements.results.breakdownContainer) return;
 
-        const categories = Object.keys(categoryRisks);
-        const html = categories.map(category => {
+        const factorsLabel = this.t('results', 'factorsIdentified') || 'factor(s) identified';
+
+        // Hide categories with zero risk factors, matching how recommendations
+        // only render categories that have actionable items.
+        const categories = Object.keys(categoryRisks).filter(c => (answerCounts[c] || 0) > 0);
+        const html = categories.map((category, index) => {
             const count = answerCounts[category];
 
             const translationKey = RISK_CATEGORY_KEYS[category];
@@ -277,56 +281,26 @@ export class UIController {
                 ? (this.t('results', translationKey) || category)
                 : category;
 
-            // Collect the actual question texts that were risk factors in this category
-            const riskFactors = (answers || [])
+            const factorItems = answers
                 .filter(a => a.category === category && a.isRisk)
-                .map(a => a.questionText);
+                .map(a => `<li>${escapeHtml(a.questionText)}</li>`)
+                .join('');
 
-            const factorItems = riskFactors.length > 0
-                ? riskFactors.map(q => `
-                    <li style="
-                        display:flex; align-items:flex-start; gap:10px;
-                        padding:10px 14px; margin-bottom:8px;
-                        background:#f8f9fa; border-radius:10px;
-                        font-size:0.95rem; line-height:1.5; color:#333;">
-                        <span style="
-                            flex-shrink:0; width:20px; height:20px;
-                            background:var(--color-primary); color:white;
-                            border-radius:50%; display:flex; align-items:center;
-                            justify-content:center; font-size:0.7rem; margin-top:1px;">!</span>
-                        <span>${escapeHtml(q)}</span>
-                    </li>`).join('')
-                : `<li style="
-                    padding:10px 14px; background:#f8f9fa; border-radius:10px;
-                    color:#999; font-size:0.95rem; font-style:italic;">
-                    ✓ No risk factors identified in this category
-                </li>`;
+            const panelId = `risk-category-panel-${index}`;
 
             return `
-                <div class="risk-category">
-                    <button class="risk-category-toggle" aria-expanded="false" style="
-                        width:100%; background:none; border:none; padding:0;
-                        cursor:pointer; text-align:left; display:flex;
-                        justify-content:space-between; align-items:center;">
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button" aria-expanded="false" aria-controls="${panelId}">
                         <span class="category-name">${escapeHtml(displayLabel)}</span>
-                        <span style="display:flex; align-items:center; gap:8px;">
-                            <span style="
-                                background:${count > 0 ? 'rgba(8,145,178,0.1)' : '#f0f0f0'};
-                                color:${count > 0 ? 'var(--color-primary)' : '#999'};
-                                padding:3px 10px; border-radius:20px;
-                                font-size:0.85rem; font-weight:600;">
-                                ${count} factor${count !== 1 ? 's' : ''}
+                        <span class="accordion-header-meta">
+                            <span class="risk-factor-count">
+                                ${count} ${escapeHtml(factorsLabel)}
                             </span>
-                            <span class="category-toggle-icon" style="
-                                font-size:1.2rem; color:var(--color-primary);
-                                font-weight:300; min-width:16px; text-align:center;">+</span>
+                            <span class="accordion-icon">+</span>
                         </span>
                     </button>
-                    <div class="risk-category-content" style="
-                        max-height:0; overflow:hidden;
-                        transition:max-height 0.3s ease, padding 0.3s ease;
-                        padding:0;">
-                        <ul style="margin:12px 0 4px 0; padding:0; list-style:none;">
+                    <div id="${panelId}" class="accordion-content" role="region">
+                        <ul>
                             ${factorItems}
                         </ul>
                     </div>
@@ -336,16 +310,21 @@ export class UIController {
 
         this.elements.results.breakdownContainer.innerHTML = html;
 
-        // Attach accordion listeners
-        this.elements.results.breakdownContainer.querySelectorAll('.risk-category-toggle').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const content = btn.nextElementSibling;
-                const icon = btn.querySelector('.category-toggle-icon');
-                const isOpen = btn.getAttribute('aria-expanded') === 'true';
-                btn.setAttribute('aria-expanded', String(!isOpen));
-                content.style.maxHeight = isOpen ? '0' : content.scrollHeight + 'px';
-                content.style.padding = isOpen ? '0' : '4px 0 8px';
-                icon.textContent = isOpen ? '+' : '−';
+        this._attachBreakdownAccordionListeners();
+    }
+
+    _attachBreakdownAccordionListeners() {
+        const container = this.elements.results.breakdownContainer;
+        if (!container) return;
+        container.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('active');
+                const isActive = header.classList.contains('active');
+                header.setAttribute('aria-expanded', String(isActive));
+                const content = header.nextElementSibling;
+                content?.classList.toggle('active');
+                const icon = header.querySelector('.accordion-icon');
+                if (icon) icon.textContent = isActive ? '−' : '+';
             });
         });
     }
@@ -369,37 +348,6 @@ export class UIController {
 
         this.elements.results.recommendationsContainer.innerHTML = html;
         this._attachAccordionListeners();
-    }
-
-    _getRiskLevelFromScore(score) {
-        if (score < RISK_LEVELS.MEDIUM.threshold) return RISK_LEVELS.LOW;
-        if (score < RISK_LEVELS.HIGH.threshold) return RISK_LEVELS.MEDIUM;
-        return RISK_LEVELS.HIGH;
-    }
-
-    _updateScoreGauge(score) {
-        if (this.elements.results.scoreNumber) {
-            this.elements.results.scoreNumber.textContent = score;
-        }
-
-        if (this.elements.results.scoreArc) {
-            const circumference = 188.5;
-            const progressLength = (score / 100) * circumference;
-
-            if (score >= 100) {
-                this.elements.results.scoreArc.style.strokeDasharray = `${circumference} 0`;
-            } else {
-                this.elements.results.scoreArc.style.strokeDasharray = `${progressLength} 9999`;
-            }
-            this.elements.results.scoreArc.style.strokeDashoffset = '0';
-
-            const level = this._getRiskLevelFromScore(score);
-            if (score === 0) {
-                this.elements.results.scoreArc.style.stroke = '#e0e0e0';
-            } else {
-                this.elements.results.scoreArc.style.stroke = level.color;
-            }
-        }
     }
 
     _updateSummary(gameState, riskResult = null) {
@@ -434,16 +382,13 @@ export class UIController {
         }
     }
 
-    _getCategoryBadge(risk, count) {
-        if (count === 0) return { class: 'badge-low', text: this.t('results', 'noIssues') };
-        if (risk < 20) return { class: 'badge-low', text: this.t('results', 'lowRiskBadge') };
-        if (risk < 40) return { class: 'badge-medium', text: this.t('results', 'someRisk') };
-        return { class: 'badge-high', text: this.t('results', 'highRiskBadge') };
-    }
-
     _attachAccordionListeners() {
-        const headers = document.querySelectorAll('.accordion-header');
-        headers.forEach(header => {
+        // Scoped to the recommendations container so this doesn't double-bind
+        // onto the risk-factor accordion (which shares .accordion-header and
+        // attaches its own listener via _attachBreakdownAccordionListeners).
+        const container = this.elements.results.recommendationsContainer;
+        if (!container) return;
+        container.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 header.classList.toggle('active');
                 const isActive = header.classList.contains('active');
