@@ -878,7 +878,7 @@ class RiskAssessmentApp {
         // Attach Undo logic here after swiping
         this.ui.animateCardSwipe(dir, () => {
             const explanationText = (userAnswer === 'Yes') ? question.explanationYes : question.explanationNo;
-            if (explanationText) {
+            if (explanationText && question.showExplanation !== false) {
                 this._isExplanationVisible = true;
                 const continueLabel = this.t('game', 'continueButton') || 'Continue';
                 const undoLabel = this.t('game', 'undoButton') || 'Undo'; 

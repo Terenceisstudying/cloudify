@@ -70,6 +70,31 @@ describe('Admin Assessments API', () => {
             assert.strictEqual(res.body.success, true);
             assert.strictEqual(res.body.data.updated, 1);
         });
+
+        it('persists showExplanation=false and defaults omitted values to true', async () => {
+            const putRes = await request(app)
+                .put('/api/admin/assessments/test-show-exp/assignments')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                    assignments: [
+                        { questionId: 'q-off', weight: '10', yesValue: '100', noValue: '0', category: 'Lifestyle', showExplanation: false },
+                        { questionId: 'q-default', weight: '10', yesValue: '100', noValue: '0', category: 'Lifestyle' }
+                    ]
+                });
+            assert.strictEqual(putRes.status, 200);
+
+            const getRes = await request(app)
+                .get('/api/admin/assessments/test-show-exp/assignments')
+                .set('Authorization', `Bearer ${token}`);
+            assert.strictEqual(getRes.status, 200);
+
+            const off = getRes.body.data.find(a => a.questionId === 'q-off');
+            const dflt = getRes.body.data.find(a => a.questionId === 'q-default');
+            assert.ok(off, 'off assignment returned');
+            assert.ok(dflt, 'default assignment returned');
+            assert.strictEqual(off.showExplanation, false);
+            assert.strictEqual(dflt.showExplanation, true);
+        });
     });
 
     describe('GET /api/admin/assessments/export', () => {

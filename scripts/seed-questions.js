@@ -105,8 +105,8 @@ async function seed() {
             await client.query(
                 `INSERT INTO question_assignments (
                     questionid, assessmentid, targetcancertype,
-                    weight, yesvalue, novalue, category, minage
-                ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+                    weight, yesvalue, novalue, category, minage, showexplanation
+                ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
                 [
                     a.questionid,
                     a.assessmentid,
@@ -115,7 +115,8 @@ async function seed() {
                     a.yesvalue !== '' ? parseFloat(a.yesvalue) : null,
                     a.novalue !== '' ? parseFloat(a.novalue) : null,
                     a.category || '',
-                    a.minage !== '' ? parseInt(a.minage) : null
+                    a.minage !== '' ? parseInt(a.minage) : null,
+                    a.showexplanation === 'false' || a.showexplanation === '0' ? false : true
                 ]
             );
         }

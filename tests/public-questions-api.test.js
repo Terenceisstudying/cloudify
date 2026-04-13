@@ -108,6 +108,17 @@ describe('GET /api/questions/by-assessment', () => {
         }
     });
 
+    it('includes showExplanation on each question (defaults to true)', async () => {
+        const res = await request(app).get('/api/questions/by-assessment?assessmentId=colorectal');
+        assert.strictEqual(res.status, 200);
+        assert.ok(res.body.data.length > 0, 'has questions');
+        for (const q of res.body.data) {
+            assert.ok('showExplanation' in q, `question ${q.id} missing showExplanation`);
+            assert.strictEqual(typeof q.showExplanation, 'boolean');
+            assert.strictEqual(q.showExplanation, true, `default showExplanation should be true for ${q.id}`);
+        }
+    });
+
     it('supports lang query parameter', async () => {
         const res = await request(app).get('/api/questions/by-assessment?assessmentId=colorectal&lang=zh');
         assert.strictEqual(res.status, 200);

@@ -11,7 +11,8 @@ function mapAssignment(row) {
         yesValue: row.yesvalue,
         noValue: row.novalue,
         category: row.category,
-        minAge: row.minage
+        minAge: row.minage,
+        showExplanation: row.showexplanation !== false
     };
 }
 
@@ -58,8 +59,8 @@ export class QuestionModel {
                 await client.query(
                     `INSERT INTO question_assignments (
                         questionid, assessmentid, targetcancertype,
-                        weight, yesvalue, novalue, category, minage
-                    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+                        weight, yesvalue, novalue, category, minage, showexplanation
+                    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
                     [
                         a.questionId ?? a.questionid,
                         a.assessmentId ?? a.assessmentid ?? normalizedId,
@@ -68,7 +69,8 @@ export class QuestionModel {
                         a.yesValue ?? a.yesvalue ?? null,
                         a.noValue ?? a.novalue ?? null,
                         a.category ?? '',
-                        a.minAge ?? a.minage ?? null
+                        a.minAge ?? a.minage ?? null,
+                        a.showExplanation === false ? false : true
                     ]
                 );
             }
@@ -174,7 +176,8 @@ export class QuestionModel {
                 explanationNo,
                 cancerType: assign.targetCancerType,
                 targetCancerType: assign.targetCancerType,
-                minAge: assign.minAge
+                minAge: assign.minAge,
+                showExplanation: assign.showExplanation !== false
             };
         });
     }

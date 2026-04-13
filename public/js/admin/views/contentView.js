@@ -598,11 +598,12 @@ function renderAssignmentsList() {
                                     <code style="font-size: 0.75rem; margin-left: 8px; color: var(--color-light-text);">${escapeHtml(assign.questionId)}</code>
                                     ${targetCancer ? `<span style="font-size: 0.75rem; color: var(--color-light-text); margin-left: 8px;">${escapeHtml(targetCancer)}</span>` : ''}
                                 </div>
-                                <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--color-light-text);">
+                                <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--color-light-text); flex-wrap: wrap; align-items: center;">
                                     <span>Weight: <strong>${escapeHtml(assign.weight || 0)}%</strong></span>
                                     <span>Category: ${escapeHtml(assign.category || '-')}</span>
                                     <span>Yes: ${escapeHtml(assign.yesValue || 100)}% / No: ${escapeHtml(assign.noValue || 0)}%</span>
                                     ${assign.minAge ? `<span>Min Age: ${escapeHtml(assign.minAge)}</span>` : ''}
+                                    ${assign.showExplanation === false ? `<span style="background: var(--color-bg-secondary); color: var(--color-light-text); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">explanation off</span>` : ''}
                                 </div>
                             </div>
                         `;
@@ -913,6 +914,12 @@ export function editAssignment(index) {
     document.getElementById('q-category').value = assign.category || 'Medical History';
     document.getElementById('q-minage').value = assign.minAge || '';
     document.getElementById('q-target-cancer').value = assign.targetCancerType || '';
+
+    const showExpToggle = document.getElementById('q-show-explanation');
+    const showExpLabel = document.getElementById('q-show-explanation-label');
+    const showExpValue = assign.showExplanation !== false;
+    if (showExpToggle) showExpToggle.checked = showExpValue;
+    if (showExpLabel) showExpLabel.textContent = showExpValue ? 'Shown' : 'Hidden';
 
     const isGeneric = currentCancerType && currentCancerType.id.toLowerCase() === 'generic';
     document.getElementById('target-cancer-group').style.display = isGeneric ? 'block' : 'none';
@@ -1620,7 +1627,8 @@ export function initContentView() {
             yesValue: document.getElementById('q-yes').value,
             noValue: document.getElementById('q-no').value,
             category: document.getElementById('q-category').value,
-            minAge: document.getElementById('q-minage').value || null
+            minAge: document.getElementById('q-minage').value || null,
+            showExplanation: document.getElementById('q-show-explanation').checked
         };
 
         if (index >= 0) {
@@ -1638,6 +1646,14 @@ export function initContentView() {
         ctVisibleToggle.addEventListener('change', () => {
             const label = document.getElementById('ct-visible-label');
             if (label) label.textContent = ctVisibleToggle.checked ? 'Visible' : 'Hidden';
+        });
+    }
+
+    const showExpToggle = document.getElementById('q-show-explanation');
+    if (showExpToggle) {
+        showExpToggle.addEventListener('change', () => {
+            const label = document.getElementById('q-show-explanation-label');
+            if (label) label.textContent = showExpToggle.checked ? 'Shown' : 'Hidden';
         });
     }
 }

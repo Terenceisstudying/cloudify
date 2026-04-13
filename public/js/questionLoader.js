@@ -123,6 +123,7 @@ export class QuestionLoader {
             explanationYes: q.explanationYes,  // Already localized from API
             explanationNo: q.explanationNo,
             minAge: q.minAge ? parseInt(q.minAge) : null,
+            showExplanation: q.showExplanation !== false,
             // Prefer targetCancerType when present (Assignments model),
             // fall back to cancerType for backward compatibility.
             cancerType: q.targetCancerType || q.cancerType

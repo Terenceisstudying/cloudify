@@ -128,7 +128,8 @@ export function loadFixtures() {
         yesvalue: row.yesvalue !== '' ? parseFloat(row.yesvalue) : null,
         novalue: row.novalue !== '' ? parseFloat(row.novalue) : null,
         category: row.category || '',
-        minage: row.minage !== '' && row.minage !== undefined ? parseInt(row.minage) : null
+        minage: row.minage !== '' && row.minage !== undefined ? parseInt(row.minage) : null,
+        showexplanation: row.showexplanation === 'false' || row.showexplanation === '0' ? false : true
     }));
 
     // Load assessments from CSV

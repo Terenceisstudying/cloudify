@@ -147,6 +147,7 @@ export function createAssessmentsRouter({ assessmentModel, questionModel }) {
                 }
 
                 const rawTarget = a.targetCancerType || a.cancerType || (normalizedId === 'generic' ? '' : normalizedId);
+                const showExplanation = a.showExplanation === false ? false : true;
                 newAssignments.push({
                     questionId: a.questionId,
                     assessmentId: normalizedId,
@@ -155,7 +156,8 @@ export function createAssessmentsRouter({ assessmentModel, questionModel }) {
                     yesValue,
                     noValue,
                     category,
-                    minAge
+                    minAge,
+                    showExplanation
                 });
             }
 
