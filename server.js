@@ -98,33 +98,42 @@ app.use('/api/admin/login', authLimiter);
 app.use('/api/admin/forgot-password', authLimiter);
 app.use('/api/admin/reset-password', authLimiter);
 
-// Public theme (user-facing app)
+// Public theme (user-facing app).
+// `no-cache` + Express's default weak ETag: browser revalidates on every load,
+// server returns 304 (empty body) when unchanged, 200 (fresh body) when admins
+// edit appearance. Admin edits are visible on next booth hard-refresh with no
+// staleness window, and unchanged revalidations cost ~0 bytes.
 app.get('/api/theme', async (req, res) => {
     try {
         const theme = await settingsModel.getTheme();
-        res.set('Cache-Control', 'public, max-age=300');
+        res.set('Cache-Control', 'no-cache');
         res.json(normalizeTheme(theme));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-// Public PDPA config (user-facing app)
+// Public PDPA config (user-facing app).
+// `no-cache` + weak ETag: admin edits visible on next booth hard-refresh with
+// zero staleness; unchanged responses return 304.
 app.get('/api/pdpa', async (req, res) => {
     try {
         const pdpa = await settingsModel.getPdpa();
-        res.set('Cache-Control', 'public, max-age=3600');
+        res.set('Cache-Control', 'no-cache');
         res.json(pdpa);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-// Public translations (user-facing app)
+// Public translations (user-facing app).
+// `no-cache` + weak ETag: admin edits to UI strings visible on next booth
+// hard-refresh with zero staleness. The payload is sizeable (~30-50 KB across
+// 4 languages) so 304 revalidations meaningfully save bandwidth when unchanged.
 app.get('/api/translations', async (req, res) => {
     try {
         const translations = await settingsModel.getTranslations();
-        res.set('Cache-Control', 'public, max-age=3600');
+        res.set('Cache-Control', 'no-cache');
         res.json(translations);
     } catch (err) {
         res.status(500).json({ error: err.message });
