@@ -391,6 +391,7 @@ export class UIController {
     _updateHighRiskCTA(riskLevel) {
         const ctaEl = document.getElementById('high-risk-cta');
         const bookBtn = document.getElementById('book-screening-btn');
+        const healthierBtn = document.getElementById('book-healthiersg-btn');
         const isHighRisk = riskLevel === 'HIGH';
         if (ctaEl) {
             ctaEl.classList.toggle('hidden', !isHighRisk);
@@ -402,6 +403,15 @@ export class UIController {
             } else {
                 bookBtn.removeAttribute('data-high-risk');
                 bookBtn.classList.remove('high-risk-cta-button');
+            }
+        }
+        if (healthierBtn) {
+            if (isHighRisk) {
+                healthierBtn.setAttribute('data-high-risk', 'true');
+                healthierBtn.classList.add('high-risk-cta-button');
+            } else {
+                healthierBtn.removeAttribute('data-high-risk');
+                healthierBtn.classList.remove('high-risk-cta-button');
             }
         }
     }
