@@ -246,3 +246,18 @@ button:disabled {
     color: var(--color-primary);
     border: 1px solid var(--color-primary);
 }
+
+#book-healthiersg-btn {
+    background-color: transparent !important;
+    color: #0891B2 !important;
+    border: 2px solid #0891B2 !important;
+    padding: 18px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    border-radius: 8px !important;
+}
