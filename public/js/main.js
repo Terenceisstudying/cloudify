@@ -966,7 +966,8 @@ class RiskAssessmentApp {
                     categoryRisks: this.state.getCategoryRisks(), 
                     recommendations: this.lastRecommendations || [], 
                     assessmentType: this.selectedAssessment,
-                    cancerTypeScores: this.lastApiResult?.cancerTypeScores || null 
+                    cancerTypeScores: this.lastApiResult?.cancerTypeScores || null ,
+                    answers: this.answers 
              };
                 const result = await ApiService.sendResults(email, assessmentData);
                 if (result.success) { messageEl.textContent = this.t('common', 'resultsSentSuccess'); messageEl.classList.add('success'); }

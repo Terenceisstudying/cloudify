@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 async function sendEmail({ to, subject, html, text }) {
-    const apiKey = process.env.EMAIL_PASSWORD; // reusing your existing env var
+    const apiKey = process.env.EMAIL_PASSWORD;
     const from = process.env.EMAIL_FROM || 'Singapore Cancer Society <onboarding@resend.dev>';
 
     const response = await fetch('https://api.resend.com/emails', {
@@ -94,121 +94,231 @@ class EmailService {
             riskScore: escapeHtml(riskScore),
         };
 
-        const isGeneric = assessmentType === 'generic' && cancerTypeScores && Object.keys(cancerTypeScores).length > 0;
-        const riskColor = riskLevel === 'HIGH' ? '#d32f2f' : riskLevel === 'MEDIUM' ? '#f57c00' : '#388e3c';
-        const cancerBreakdownHtml = isGeneric
-            ? Object.entries(cancerTypeScores).map(([cancer, info]) => {
-                const safeCancer = escapeHtml(cancer);
-                const score = typeof info === 'object' ? info.score ?? info : info;
-                const level = typeof info === 'object' ? info.level ?? '' : '';
-                const safeLevel = escapeHtml(level);
-                const levelColor = level === 'HIGH' ? '#d32f2f' : level === 'MEDIUM' ? '#f57c00' : '#388e3c';
-                const barWidth = Math.min(Math.round(score), 100);
-                return `
-                <div style="margin-bottom: 14px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <strong style="font-size: 0.95em;">${safeCancer}</strong>
-                        ${safeLevel ? `<span style="font-size: 0.8em; font-weight: bold; color: ${levelColor}; padding: 2px 8px; background: ${levelColor}22; border-radius: 4px;">${safeLevel}</span>` : ''}
-                    </div>
-                    <div style="background: #e0e0e0; border-radius: 6px; height: 10px; overflow: hidden;">
-                        <div style="width: ${barWidth}%; background: ${levelColor}; height: 100%; border-radius: 6px;"></div>
-                    </div>
-                    <div style="font-size: 0.8em; color: #888; margin-top: 2px;">${Math.round(score)}% risk score</div>
-                </div>`;
-            }).join('')
-            : '';
+        const isGeneric = assessmentType === 'generic';
 
-        const categoryRisksHtml = !isGeneric && categoryRisks && Object.keys(categoryRisks).length > 0
-            ? Object.entries(categoryRisks).map(([category, score]) => 
-                `<li>${escapeHtml(category)}: ${escapeHtml(score.toFixed(1))}%</li>`
-            ).join('')
-            : '';
+        // ── SUMMARY TEXT ──────────────────────────
+        const cancerLabel = isGeneric ? 'cancer' : `${assessmentType} cancer`;
+        const summaryMap = {
+            LOW:    `Based on your responses, you are currently doing well in maintaining your health.`,
+            MEDIUM: `Based on your responses, there are some areas you may want to pay attention to for your overall well-being.`,
+            HIGH:   `Based on your responses, it may be helpful to consider speaking with a healthcare professional for further guidance.`,
+        };
 
+        let displayRiskLevel = riskLevel;
+        let filteredCancerScores = {};
+
+        if (isGeneric && cancerTypeScores) {
+            const gender = userData?.gender?.toLowerCase();
+            for (const [type, info] of Object.entries(cancerTypeScores)) {
+                const score = typeof info === 'object' ? (info.score ?? info) : info;
+                const gf = (typeof info === 'object' && info.genderFilter) ? info.genderFilter.toLowerCase() : 'all';
+                if (gender && gf !== 'all' && gf !== gender) continue;
+                if (score >= 30) filteredCancerScores[type] = info;
+            }
+            const scores = Object.values(filteredCancerScores);
+            if (scores.length > 0) {
+                const highest = scores.reduce((max, s) => {
+                    const score = typeof s === 'object' ? (s.score ?? s) : s;
+                    const maxScore = typeof max === 'object' ? (max.score ?? max) : max;
+                    return score > maxScore ? s : max;
+                });
+                displayRiskLevel = (typeof highest === 'object' && highest.riskLevel) ? highest.riskLevel : riskLevel;
+            }
+        }
+
+        const summaryText = summaryMap[displayRiskLevel] || summaryMap.MEDIUM;
+
+        // ── RISK FACTOR BREAKDOWN ────────────
+        let riskBreakdownHtml = '';
+        if (categoryRisks && Object.keys(categoryRisks).length > 0) {
+            const categoryRows = Object.entries(categoryRisks)
+                .map(([category, info]) => {
+                    const factors = info?.factors || [];
+
+                    // Skip category if no factors
+                    const score = typeof info === 'object' ? (info.score ?? 0) : (info ?? 0);
+                    if (factors.length === 0 && score === 0) return '';
+                    const factorItems = factors.length > 0 
+                        ? factors.map(f => `<li style="margin: 6px 0; color: #555; font-size: 14px;">${escapeHtml(f)}</li>`).join('')
+                        : `<li style="margin: 6px 0; color: #555; font-size: 14px; font-style: italic;">Risk factors identified in this category.</li>`;
+                    return `
+                        <div style="background: white; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #e8e8e8; border-left: 3px solid #e07872;">
+                            <div style="font-weight: 600; color: #e07872; margin-bottom: 8px;">${escapeHtml(category)}</div>
+                            <ul style="margin: 0; padding-left: 18px;">
+                                ${factorItems}
+                            </ul>
+                        </div>
+                    `;
+                })
+                .filter(Boolean)
+                .join('');
+
+            if (categoryRows) {
+                riskBreakdownHtml = `
+                    <div style="margin-bottom: 28px;">
+                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 8px; margin-bottom: 16px;">
+                            Your Risk Factors
+                        </h2>
+                        ${categoryRows}
+                    </div>
+                `;
+            }
+        }
+
+        // ── CANCER TYPE BREAKDOWN ──────
+        let cancerBreakdownHtml = '';
+        if (isGeneric) {
+            const sorted = Object.entries(filteredCancerScores)
+                .map(([type, info]) => {
+                    const score = typeof info === 'object' ? (info.score ?? info) : info;
+                    const level = typeof info === 'object' ? (info.riskLevel ?? '') : '';
+                    return { type, score, level };
+                })
+                .sort((a, b) => b.score - a.score);
+
+            if (sorted.length > 0) {
+                const cancerRows = sorted.map(({ type, score, level }) => {
+                    const displayName = escapeHtml(type.charAt(0).toUpperCase() + type.slice(1) + ' Cancer');
+                    const safeLevel = escapeHtml(level);
+                    return `
+                        <div style="margin-bottom: 16px; background: white; border-radius: 8px; padding: 14px 16px; border: 1px solid #e8e8e8;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="font-weight: 600; font-size: 14px; color: #333;">${displayName}</span>
+                            </div>
+                        </div>`;
+                }).join('');
+                cancerBreakdownHtml = `
+                    <div style="margin-bottom: 28px;">
+                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 8px; margin-bottom: 16px;">
+                            Possible Cancers at Risk
+                        </h2>
+                        ${cancerRows}
+                    </div>`;
+            } else {
+                cancerBreakdownHtml = `
+                    <div style="margin-bottom: 28px;">
+                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 8px; margin-bottom: 16px;">
+                            Possible Cancers at Risk
+                        </h2>
+                        <div style="background: white; border-radius: 8px; padding: 16px; text-align: center; color: #555; border: 1px solid #e8e8e8;">
+                            You have led a healthy lifestyle and are not at risk of any cancer!
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // ── RECOMMENDATIONS ────────────────
         let recommendationsHtml = '';
         if (recommendations && Array.isArray(recommendations) && recommendations.length > 0) {
-            recommendations.forEach(rec => {
+            const recItems = recommendations.map(rec => {
                 if (typeof rec === 'object' && rec !== null) {
-                    if (rec.title && Array.isArray(rec.actions)) {
-                        const safeTitle = escapeHtml(rec.title);
-                        const safeActions = rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${escapeHtml(a)}</li>`).join('');
-                        recommendationsHtml += `<li style="margin-bottom: 20px;"><strong style="color: #e07872;">${safeTitle}</strong><ul style="margin-top: 8px; padding-left: 20px;">${safeActions}</ul></li>`;
-                    } else if (rec.category && Array.isArray(rec.actions)) {
-                        const safeCategory = escapeHtml(rec.category);
-                        const safeActions = rec.actions.map(a => `<li style="margin: 6px 0; color: #555;">${escapeHtml(a)}</li>`).join('');
-                        recommendationsHtml += `<li style="margin-bottom: 20px;"><strong style="color: #e07872;">${safeCategory}</strong><ul style="margin-top: 8px; padding-left: 20px;">${safeActions}</ul></li>`;
-                    } else if (rec.text || rec.action) {
-                        recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${escapeHtml(rec.text || rec.action)}</li>`;
+                    const title = rec.title || rec.category || '';
+                    const actions = Array.isArray(rec.actions) ? rec.actions : [];
+                    if (title) {
+                        const safeTitle = escapeHtml(title);
+                        const actionItems = actions.map(a =>
+                            `<li style="margin: 6px 0; color: #555; font-size: 14px;">${escapeHtml(typeof a === 'object' ? (a.en || '') : a)}</li>`
+                        ).join('');
+                        return `
+                            <div style="background: white; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #e8e8e8; border-left: 3px solid #e07872;">
+                                <div style="font-weight: 600; color: #e07872; margin-bottom: 8px;">${safeTitle}</div>
+                                ${actionItems ? `<ul style="margin: 0; padding-left: 18px;">${actionItems}</ul>` : ''}
+                            </div>`;
                     }
                 } else if (typeof rec === 'string') {
-                    recommendationsHtml += `<li style="margin: 10px 0; color: #555;">${escapeHtml(rec)}</li>`;
+                    return `<div style="background: white; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; border: 1px solid #e8e8e8; color: #555; font-size: 14px;">${escapeHtml(rec)}</div>`;
                 }
-            });
+                return '';
+            }).filter(Boolean).join('');
+
+            if (recItems) {
+                recommendationsHtml = `
+                    <div style="margin-bottom: 28px;">
+                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 8px; margin-bottom: 16px;">
+                            What You Can Do
+                        </h2>
+                        ${recItems}
+                    </div>`;
+            }
         }
+
         if (!recommendationsHtml) {
-            recommendationsHtml = '<li style="color: #555;">Maintain a healthy lifestyle and regular check-ups</li>';
+            recommendationsHtml = `
+                <div style="margin-bottom: 28px;">
+                    <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 8px; margin-bottom: 16px;">
+                        What You Can Do
+                    </h2>
+                    <div style="background: white; border-radius: 8px; padding: 14px 16px; border: 1px solid #e8e8e8; border-left: 3px solid #e07872; color: #555; font-size: 14px;">
+                        Maintain a healthy lifestyle and schedule regular check-ups with your doctor.
+                    </div>
+                </div>`;
         }
 
         const htmlContent = `
         <!DOCTYPE html>
         <html>
-        <head><meta charset="UTF-8"></head>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
+        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background: #f4f4f4;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+
+                <!-- Header -->
                 <div style="background: linear-gradient(135deg, #e07872 0%, #c0504a 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-                    <h1 style="margin: 0; font-size: 22px;">Your Cancer Risk Assessment Results</h1>
-                    <p style="margin: 6px 0 0; font-size: 13px;">Singapore Cancer Society</p>
+                    <h1 style="margin: 0 0 6px; font-size: 22px;">Your Health Assessment Summary</h1>
+                    <p style="margin: 0; font-size: 13px; opacity: 0.9;">Singapore Cancer Society</p>
                 </div>
-                <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-                    ${!isGeneric ? `
-                    <div style="background: white; padding: 20px; margin-bottom: 24px; border-radius: 8px; border-left: 4px solid ${riskColor};">
-                        <p style="margin: 0 0 4px; color: #666; font-size: 13px;">Your Overall Risk Level</p>
-                        <div style="font-size: 26px; font-weight: bold; color: ${riskColor};">${riskLevel} RISK</div>
-                        <div style="text-align: center; margin-top: 12px;">
-                            <div style="font-size: 48px; font-weight: bold; color: ${riskColor};">${riskScore}%</div>
-                            <p style="margin: 4px 0 0; color: #888; font-size: 13px;">Overall Risk Score</p>
-                        </div>
-                    </div>` : ''}
 
-                    <div style="margin-bottom: 24px;">
-                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">📋 Your Information</h2>
-                        <ul style="padding-left: 20px;">
-                            <li><strong>Assessment Type:</strong> ${safe.assessmentType ? safe.assessmentType.charAt(0).toUpperCase() + safe.assessmentType.slice(1) : 'General'}</li>
-                            <li><strong>Age:</strong> ${safe.age || '-'}</li>
-                            <li><strong>Gender:</strong> ${safe.gender || '-'}</li>
-                            <li><strong>Ethnicity:</strong> ${safe.ethnicity || '-'}</li>
-                            <li><strong>Family History:</strong> ${safe.familyHistory || '-'}</li>
-                        </ul>
+                <!-- Body -->
+                <div style="background: #f9f9f9; padding: 28px; border-radius: 0 0 10px 10px;">
+
+                    <!-- Summary (matches results page summary text) -->
+                    <div style="background: white; border-radius: 8px; padding: 18px 20px; margin-bottom: 24px; border: 1px solid #e8e8e8;">
+                        <p style="margin: 0; font-size: 15px; color: #333; line-height: 1.6;">${summaryText}</p>
                     </div>
 
-                    ${isGeneric ? `
-                    <div style="margin-bottom: 24px;">
-                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">🎯 Possible Cancers at Risk</h2>
-                        <div style="background: white; padding: 16px; border-radius: 8px;">${cancerBreakdownHtml}</div>
-                    </div>` : categoryRisksHtml ? `
-                    <div style="margin-bottom: 24px;">
-                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">📊 Risk Factor Breakdown</h2>
-                        <ul style="padding-left: 20px;">${categoryRisksHtml}</ul>
-                    </div>` : ''}
+                    <!-- Risk factor breakdown (non-generic) OR Cancer type breakdown (generic) -->
+                    ${riskBreakdownHtml}
+                    ${cancerBreakdownHtml}
 
-                    <div style="margin-bottom: 24px;">
-                        <h2 style="font-size: 17px; color: #e07872; border-bottom: 2px solid #e07872; padding-bottom: 6px;">💡 What You Can Do</h2>
-                        <ul style="list-style-type: none; padding-left: 0;">${recommendationsHtml}</ul>
-                    </div>
+                    <!-- Recommendations -->
+                    ${recommendationsHtml}
 
-                    <div style="text-align: center; margin: 24px 0;">
+                    <!-- CTA Buttons -->
+                    <div style="margin-bottom: 24px;">
                         <a href="https://www.singaporecancersociety.org.sg/get-screened/book-your-screening-appointment-at-scs-clinic-bishan.html"
-                           style="display: inline-block; background: #e07872; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold;">
-                            📅 Book Your Screening Appointment
+                           style="display: block; background: #e07872; color: white; padding: 14px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px; font-size: 15px;">
+                            📅 Learn More About Available Screening Options!
+                        </a>
+                        <a href="https://book.health.gov.sg/healthiersg-screening"
+                           style="display: block; background: white; color: #e07872; padding: 14px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; border: 2px solid #e07872; font-size: 15px;">
+                            🏥 Book Your HealthierSG Screening
                         </a>
                     </div>
 
-                    <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 14px; border-radius: 6px; font-size: 13px;">
-                        <strong>⚠️ Important Disclaimer</strong><br>
-                        This assessment is for educational purposes only and is not medical advice. Please consult a healthcare professional for a comprehensive health assessment.
+                    <!-- Your Information -->
+                    <div style="background: white; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; border: 1px solid #e8e8e8;">
+                        <h3 style="margin: 0 0 12px; font-size: 15px; color: #555;">Your Information</h3>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <tr><td style="padding: 4px 0; color: #888; width: 45%;">Assessment Type</td><td style="color: #333; font-weight: 500;">${safe.assessmentType ? safe.assessmentType.charAt(0).toUpperCase() + safe.assessmentType.slice(1) : 'General'}</td></tr>
+                            <tr><td style="padding: 4px 0; color: #888;">Age</td><td style="color: #333; font-weight: 500;">${safe.age || '—'}</td></tr>
+                            <tr><td style="padding: 4px 0; color: #888;">Gender</td><td style="color: #333; font-weight: 500;">${safe.gender || '—'}</td></tr>
+                            <tr><td style="padding: 4px 0; color: #888;">Ethnicity</td><td style="color: #333; font-weight: 500;">${safe.ethnicity || '—'}</td></tr>
+                            <tr><td style="padding: 4px 0; color: #888;">Family History</td><td style="color: #333; font-weight: 500;">${safe.familyHistory || '—'}</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Disclaimer (matches results page disclaimer) -->
+                    <div style="background: #f5f5f5; border: 1px solid #ddd; padding: 14px 16px; border-radius: 6px; font-size: 12px; color: #777; line-height: 1.5;">
+                        <strong>Disclaimer:</strong> This assessment is for educational purposes only and is not medical advice.
+                        The result is based on your self-reported answers to common risk factors.
+                        Please consult a doctor for a personal health assessment.
                     </div>
                 </div>
-                <div style="text-align: center; color: #999; font-size: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee;">
-                    <p>Singapore Cancer Society &nbsp;|&nbsp; <a href="https://www.singaporecancersociety.org.sg" style="color: #e07872;">www.singaporecancersociety.org.sg</a></p>
+
+                <!-- Footer -->
+                <div style="text-align: center; color: #999; font-size: 12px; margin-top: 16px; padding-top: 16px;">
+                    <p style="margin: 0;">Singapore Cancer Society &nbsp;|&nbsp;
+                        <a href="https://www.singaporecancersociety.org.sg" style="color: #e07872; text-decoration: none;">www.singaporecancersociety.org.sg</a>
+                    </p>
                 </div>
             </div>
         </body>
@@ -216,7 +326,7 @@ class EmailService {
 
         return sendEmail({
             to,
-            subject: `Your ${isGeneric ? 'General' : assessmentType?.charAt(0).toUpperCase() + assessmentType?.slice(1) || ''} Cancer Risk Assessment Results`,
+            subject: `Your ${isGeneric ? 'General' : (assessmentType?.charAt(0).toUpperCase() + assessmentType?.slice(1) || '')} Cancer Risk Assessment Results`,
             html: htmlContent,
         });
     }
@@ -279,7 +389,7 @@ class EmailService {
                 },
                 body: JSON.stringify({
                     from: process.env.EMAIL_FROM,
-                    to: 'test@resend.dev', // Resend's built-in test address
+                    to: 'test@resend.dev',
                     subject: 'Connection test',
                     html: '<p>test</p>'
                 })

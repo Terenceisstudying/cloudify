@@ -326,20 +326,25 @@ export class UIController {
         // only render categories that have actionable items.
         const categories = Object.keys(categoryRisks).filter(c => (answerCounts[c] || 0) > 0);
         const html = categories.map((category, index) => {
-            const count = answerCounts[category];
+            // Deduplicate by questionText first
+            const dedupedFactors = [...new Map(
+                answers
+                    .filter(a => a.category === category && a.isRisk)
+                    .map(a => [a.questionText, a])
+            ).values()];
+            const count = dedupedFactors.length;
+            if (count === 0) return '';
 
             const translationKey = RISK_CATEGORY_KEYS[category];
             const displayLabel = translationKey
                 ? (this.t('results', translationKey) || category)
                 : category;
 
-            const factorItems = answers
-                .filter(a => a.category === category && a.isRisk)
+            const factorItems = dedupedFactors
                 .map(a => `<li>${escapeHtml(a.questionText)}</li>`)
                 .join('');
 
             const panelId = `risk-category-panel-${index}`;
-
             return `
                 <div class="accordion-item">
                     <button class="accordion-header" type="button" aria-expanded="false" aria-controls="${panelId}">
@@ -361,8 +366,13 @@ export class UIController {
         }).join('');
 
         this.elements.results.breakdownContainer.innerHTML = html;
-
         this._attachBreakdownAccordionListeners();
+
+        // Hide the entire risk breakdown section if there are no categories to show
+        const riskBreakdownSection = document.querySelector('.risk-breakdown');
+        if (riskBreakdownSection) {
+            riskBreakdownSection.style.display = categories.length > 0 ? '' : 'none';
+        }
     }
 
     _attachBreakdownAccordionListeners() {

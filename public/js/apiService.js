@@ -124,6 +124,23 @@ export class ApiService {
      */
     static async sendResults(email, assessmentData) {
         try {
+            let categoryRisks = assessmentData.categoryRisks || {};
+            const answers = assessmentData.answers || [];
+
+            if (answers.length > 0 && categoryRisks) {
+                const restructured = {};
+                for (const [category, value] of Object.entries(categoryRisks)) {
+                    const score = typeof value === 'object' ? (value.score ?? value) : value;
+                    const factors = [...new Set(
+                        answers
+                            .filter(a => a.category === category && a.isRisk)
+                            .map(a => a.questionText)
+                    )];
+                    restructured[category] = { ...value, factors };
+                }
+                categoryRisks = restructured;
+            }
+
             const response = await fetch(`${API_BASE_URL}/assessments/send-results`, {
                 method: 'POST',
                 headers: {
@@ -134,14 +151,13 @@ export class ApiService {
                     riskScore: assessmentData.riskScore,
                     riskLevel: assessmentData.riskLevel,
                     userData: assessmentData.userData,
-                    categoryRisks: assessmentData.categoryRisks,
+                    categoryRisks,
                     recommendations: assessmentData.recommendations,
                     assessmentType: assessmentData.assessmentType,
                     cancerTypeScores: assessmentData.cancerTypeScores
                 })
             });
             const result = await response.json();
-
             if (!result.success) {
                 throw new Error(result.error || 'Failed to send results');
             }

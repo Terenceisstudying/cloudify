@@ -76,9 +76,17 @@ const sendResultsSchema = z.object({
         .max(50)
         .regex(/^[a-zA-Z0-9_-]+$/)
         .optional(),
-    categoryRisks: z.record(z.string(), z.number()).optional(),
+    categoryRisks: z.record(z.string(), z.union([
+        z.number(),
+        z.object({
+            score: z.number().optional(),
+            factors: z.array(z.string()).optional()
+        }),
+        z.any()
+    ])).optional(),
     cancerTypeScores: z.record(z.string(), z.any()).nullable().optional(),
-    recommendations: z.array(z.any()).optional()
+    recommendations: z.array(z.any()).optional(),
+    answers: z.array(z.any()).optional(),
 });
 
 export function validateSendResults(req, res, next) {
