@@ -62,29 +62,41 @@ const KEY_DESCRIPTIONS = {
         exitModalLeave: { label: '"Leave" Button', hint: 'Button inside the exit modal that confirms exiting the quiz' }
     },
     results: {
-        resultsHeading: { label: 'Results Title', hint: 'Main heading on the results screen' },
-        riskFactorsHeading: { label: 'Risk Factors Title', hint: 'Heading above the risk factor list' },
-        recommendationsHeading: { label: 'Recommendations Title', hint: 'Heading above the recommendations' },
-        riskScore: { label: '"Risk Score" Label', hint: 'Label next to the percentage score' },
-        bookScreening: { label: 'Book Screening Button', hint: 'Call-to-action button for booking' },
-        bookHealthierSG: { label: 'HealthierSG Booking Button', hint: 'Call-to-action button for HealthierSG screening booking' },
-        contactLabel: { label: 'Email Prompt', hint: 'Text describing what the user will receive via email' },
-        emailPlaceholder: { label: 'Email Placeholder', hint: 'Placeholder inside the email input' },
-        submit: { label: '"Send Results" Button', hint: 'Button to submit email and results' },
-        playAgain: { label: '"Start New Quiz" Button', hint: 'Button to reset and start a fresh quiz (e.g. for the next participant)' },
-        returnHome: { label: '"Return to Home" Button', hint: 'Button on the results screen that returns the participant to the landing screen' },
-        disclaimer: { label: 'Disclaimer', hint: 'Legal disclaimer at the bottom (plain text only)' },
-        factorsIdentified: { label: '"Factors Identified" Label', hint: 'e.g. "3 factor(s) identified"' },
-        summaryLow: { label: 'Low Risk Summary', hint: 'Summary text for low-risk result. Use {cancer} as placeholder.' },
-        summaryMedium: { label: 'Medium Risk Summary', hint: 'Summary text for medium-risk result' },
-        summaryHigh: { label: 'High Risk Summary', hint: 'Summary text for high-risk result' },
-        highRiskCta: { label: 'High Risk Call-to-Action', hint: 'Prominent message shown for high-risk results' },
-        cancerBreakdownHeading: { label: 'Cancer Breakdown Title', hint: 'Heading for the per-cancer risk section' },
-        healthyLifestyle: { label: 'Healthy Lifestyle Message', hint: 'Shown in the cancer breakdown when no cancer type crosses the 30% risk threshold in a generic assessment' },
-        categoryDiet: { label: '"Diet & Nutrition" Category', hint: 'Risk breakdown category label shown on the results screen' },
-        categoryLifestyle: { label: '"Lifestyle" Category', hint: 'Risk breakdown category label shown on the results screen' },
-        categoryMedical: { label: '"Medical History" Category', hint: 'Risk breakdown category label shown on the results screen' },
-        categoryFamily: { label: '"Family & Genetics" Category', hint: 'Risk breakdown category label shown on the results screen' }
+        resultsHeading: { label: 'Results Title', hint: 'Main heading on the results screen and at the top of the emailed report' },
+        riskFactorsHeading: { label: 'Risk Factors Title', hint: 'Heading above the risk factor list. Shown on the results screen AND in the emailed report.' },
+        recommendationsHeading: { label: 'Recommendations Title', hint: 'Heading above the recommendations. Shown on the results screen AND in the emailed report.' },
+        riskScore: { label: '"Risk Score" Label', hint: 'Label next to the percentage score (results screen only)' },
+        bookScreening: { label: 'Book Screening Button', hint: 'Call-to-action button for booking. Shown on the results screen AND in the emailed report.' },
+        bookHealthierSG: { label: 'HealthierSG Booking Button', hint: 'Call-to-action button for HealthierSG screening booking. Shown on the results screen AND in the emailed report.' },
+        contactLabel: { label: 'Email Prompt', hint: 'Text describing what the user will receive via email (results screen only)' },
+        emailPlaceholder: { label: 'Email Placeholder', hint: 'Placeholder inside the email input (results screen only)' },
+        submit: { label: '"Send Results" Button', hint: 'Button to submit email and results (results screen only)' },
+        playAgain: { label: '"Start New Quiz" Button', hint: 'Button to reset and start a fresh quiz (e.g. for the next participant) — results screen only' },
+        returnHome: { label: '"Return to Home" Button', hint: 'Button on the results screen that returns the participant to the landing screen (results screen only)' },
+        disclaimer: { label: 'Disclaimer', hint: 'Legal disclaimer at the bottom (plain text only). Shown on the results screen AND in the emailed report.' },
+        factorsIdentified: { label: '"Factors Identified" Label', hint: 'e.g. "3 factor(s) identified" (results screen only)' },
+        summaryLow: { label: 'Low Risk Summary', hint: 'Summary text for low-risk result. Use {cancer} as placeholder. Shown on the results screen AND in the emailed report.' },
+        summaryMedium: { label: 'Medium Risk Summary', hint: 'Summary text for medium-risk result. Shown on the results screen AND in the emailed report.' },
+        summaryHigh: { label: 'High Risk Summary', hint: 'Summary text for high-risk result. Shown on the results screen AND in the emailed report.' },
+        highRiskCta: { label: 'High Risk Call-to-Action', hint: 'Prominent message shown for high-risk results (results screen only)' },
+        cancerBreakdownHeading: { label: 'Cancer Breakdown Title', hint: 'Heading for the per-cancer risk section. Shown on the results screen AND in the emailed report.' },
+        healthyLifestyle: { label: 'Healthy Lifestyle Message', hint: 'Shown in the cancer breakdown when no cancer type crosses the 30% risk threshold in a generic assessment. Shown on the results screen AND in the emailed report.' },
+        categoryDiet: { label: '"Diet & Nutrition" Category', hint: 'Risk breakdown category label. Shown on the results screen AND in the emailed report.' },
+        categoryLifestyle: { label: '"Lifestyle" Category', hint: 'Risk breakdown category label. Shown on the results screen AND in the emailed report.' },
+        categoryMedical: { label: '"Medical History" Category', hint: 'Risk breakdown category label. Shown on the results screen AND in the emailed report.' },
+        categoryFamily: { label: '"Family & Genetics" Category', hint: 'Risk breakdown category label. Shown on the results screen AND in the emailed report.' },
+        // ── Emailed report only ─────────────────────────────────────────────
+        emailSubject: { label: 'Email Subject (specific)', hint: 'Subject line of the emailed report for a specific-cancer quiz. Use {type} as placeholder for the cancer name (e.g. "Your {type} Cancer Risk Assessment Results").' },
+        emailSubjectGeneric: { label: 'Email Subject (generic)', hint: 'Subject line of the emailed report for a generic quiz (no {type} placeholder)' },
+        yourInformation: { label: 'Email: "Your Information" Heading', hint: 'Heading above the participant info table in the emailed report (shows age, gender, ethnicity, etc.)' },
+        assessmentTypeLabel: { label: 'Email: Assessment Type Row Label', hint: 'Row label in the emailed "Your Information" table — the value is the cancer type' },
+        ageLabel: { label: 'Email: Age Row Label', hint: 'Row label in the emailed "Your Information" table. Note: distinct from the onboarding screen\'s age question label.' },
+        genderLabel: { label: 'Email: Gender Row Label', hint: 'Row label in the emailed "Your Information" table' },
+        ethnicityLabel: { label: 'Email: Ethnicity Row Label', hint: 'Row label in the emailed "Your Information" table. Note: distinct from the onboarding screen\'s ethnicity question label.' },
+        familyHistoryLabel: { label: 'Email: Family History Row Label', hint: 'Row label in the emailed "Your Information" table' },
+        riskFactorFallback: { label: 'Email: Empty Risk Category Fallback', hint: 'Text shown inside a risk category in the emailed report when no specific factors were identified' },
+        recommendationsFallback: { label: 'Email: No Recommendations Fallback', hint: 'Text shown in the emailed report\'s recommendations section when no recommendations are available'
+        }
     },
     common: {
         loading: { label: 'Loading Text', hint: 'Shown while assessments are loading' },
@@ -348,6 +360,30 @@ export async function loadTranslations() {
     }
 }
 
+// Optional subsection map. When a screen group has enough keys to feel bloated,
+// list ordered subsections here to insert headings inside the <details>. Any
+// key not listed in a subsection falls into a trailing "Other" bucket so
+// nothing is ever hidden. Only applied when a group has an entry here.
+const KEY_SUBSECTIONS = {
+    results: [
+        { label: 'Results Screen — Main Display', keys: ['resultsHeading', 'riskScore', 'summaryLow', 'summaryMedium', 'summaryHigh', 'highRiskCta'] },
+        { label: 'Cancer Breakdown', keys: ['cancerBreakdownHeading', 'healthyLifestyle'] },
+        { label: 'Risk Factor Categories', keys: ['riskFactorsHeading', 'factorsIdentified', 'categoryDiet', 'categoryLifestyle', 'categoryMedical', 'categoryFamily'] },
+        { label: 'Recommendations', keys: ['recommendationsHeading'] },
+        { label: 'Action Buttons', keys: ['bookScreening', 'bookHealthierSG', 'submit', 'playAgain', 'returnHome'] },
+        { label: 'Email Form & Disclaimer', keys: ['contactLabel', 'emailPlaceholder', 'disclaimer'] },
+        { label: 'Emailed Report — Subject, Info Table & Fallbacks', keys: ['emailSubject', 'emailSubjectGeneric', 'yourInformation', 'assessmentTypeLabel', 'ageLabel', 'genderLabel', 'ethnicityLabel', 'familyHistoryLabel', 'riskFactorFallback', 'recommendationsFallback'] }
+    ]
+};
+
+function renderKeyFields(group, key, keys, descriptions) {
+    const desc = descriptions[key] || {};
+    const label = desc.label || key;
+    const hint = desc.hint || '';
+    const langs = keys[key] || { en: '', zh: '', ms: '', ta: '' };
+    return renderLangFields(`trans-${group}-${key}`, label, hint, langs);
+}
+
 function renderForm(container) {
     /* Two-column layout: form on left, sticky preview on right */
     let formHtml = '';
@@ -367,12 +403,31 @@ function renderForm(container) {
             <summary class="translations-section-header">${esc(groupLabel)}</summary>
             <div class="translations-section-body">`;
 
-        for (const key of allKeys) {
-            const desc = descriptions[key] || {};
-            const label = desc.label || key;
-            const hint = desc.hint || '';
-            const langs = keys[key] || { en: '', zh: '', ms: '', ta: '' };
-            formHtml += renderLangFields(`trans-${group}-${key}`, label, hint, langs);
+        const subsections = KEY_SUBSECTIONS[group];
+        if (subsections) {
+            const seen = new Set();
+            for (const sub of subsections) {
+                const subKeys = sub.keys.filter(k => allKeys.includes(k));
+                if (subKeys.length === 0) continue;
+                formHtml += `<h5 class="translations-subsection-heading">${esc(sub.label)}</h5>`;
+                for (const key of subKeys) {
+                    formHtml += renderKeyFields(group, key, keys, descriptions);
+                    seen.add(key);
+                }
+            }
+            // Any keys not assigned to a subsection — render under "Other" so
+            // nothing is ever dropped, even if KEY_SUBSECTIONS falls out of sync.
+            const orphans = allKeys.filter(k => !seen.has(k));
+            if (orphans.length > 0) {
+                formHtml += `<h5 class="translations-subsection-heading">Other</h5>`;
+                for (const key of orphans) {
+                    formHtml += renderKeyFields(group, key, keys, descriptions);
+                }
+            }
+        } else {
+            for (const key of allKeys) {
+                formHtml += renderKeyFields(group, key, keys, descriptions);
+            }
         }
         formHtml += `</div></details>`;
     }
